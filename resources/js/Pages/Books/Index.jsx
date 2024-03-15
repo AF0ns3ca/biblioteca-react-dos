@@ -10,7 +10,7 @@ export default function Index({ auth, books }) {
             <Head title="Books" />
 
             <div className='w-full mt-4 flex items-center justify-center'>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                     {books.map((book) => (
                         <Card book={book} key={book.id} />
                     ))}

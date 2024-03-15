@@ -209,6 +209,24 @@ class BookController extends Controller
     //     return redirect(route('books.index'))->with('success', 'Book is successfully deleted');
     // }
 
+    // public function destroy(string $id)
+    // {
+    //     // Encuentra el libro
+    //     $book = Book::findOrFail($id);
+
+    //     // Verifica si el libro tiene una foto y si no es "base.jpg"
+    //     if ($book->portada && $book->portada !== 'public/photos/base.jpg') {
+    //         // Si tiene una foto y no es "base.jpg", elimínala
+    //         Storage::delete($book->portada);
+    //     }
+
+    //     // Elimina el libro
+    //     $book->delete();
+
+    //     // Redirige con un mensaje de éxito
+    //     return redirect(route('books.index'))->with('success', 'Book is successfully deleted');
+    // }
+
     public function destroy(string $id)
     {
         // Encuentra el libro
@@ -222,8 +240,5 @@ class BookController extends Controller
 
         // Elimina el libro
         $book->delete();
-
-        // Redirige con un mensaje de éxito
-        return redirect(route('books.index'))->with('success', 'Book is successfully deleted');
     }
 }
