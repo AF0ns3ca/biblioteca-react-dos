@@ -121,7 +121,10 @@ class BookController extends Controller
     {
         //
         $book = Book::findOrFail($id);
-        return view('books.show', compact('book'));
+        // Devolver con inertia
+        return Inertia::render('Books/Show', [
+            'book' => $book
+        ]);
     }
 
     /**

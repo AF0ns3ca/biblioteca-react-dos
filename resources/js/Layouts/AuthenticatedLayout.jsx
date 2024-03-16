@@ -25,7 +25,7 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
-                        <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Inicio
                                 </NavLink>
@@ -35,13 +35,13 @@ export default function Authenticated({ user, header, children }) {
                                     Biblioteca
                                 </NavLink>
                             </div>
-                            <div className="ms-3 relative ">
+                            <div className="relative hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md bg-metal">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent leading-4 font-medium rounded-md bg-metal focus:outline-none transition ease-in-out duration-150 text-white text-md"
+                                                className="inline-flex items-center py-2 border border-transparent leading-4 font-medium rounded-md bg-metal focus:outline-none transition ease-in-out duration-150 text-white text-md"
                                             >
                                                 {user.name}
 

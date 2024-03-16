@@ -18,7 +18,9 @@ export default {
             colors: {
                 'metal': '#34495E',
             },
-
+            screens:{
+                'lgxl': '1500px',
+            }
         },
     },
 
