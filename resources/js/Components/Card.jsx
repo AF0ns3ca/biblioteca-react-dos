@@ -32,14 +32,32 @@ const Card = ({ book }) => {
                             </div>
                         )}
                     </div>
+                    <div className="hidden">
+                        <h2 className="titulo">
+                            {book.titulo}
+                        </h2>
+                        <p className="autor">
+                            {book.autor}
+                        </p>
+                        <p className="serie">
+                            {book.serie ? book.serie : "Standalone"} {book.num_serie ? `#${book.num_serie}` : ""}
+                        </p>
+                        <p>
+                            Estante: {book.estante} {book.balda} - Fila: {book.fila}
+                        </p>
+                        <p> 
+                            Añadido el {book.created_at}
+                        </p>
+                    </div>
                 </a>
                 <div className="w-full flex flex-row justify-center items-center gap-2">
-                    <button
+                    <a
+                        href={route('books.edit', book.id)}
                         className="w-full text-center py-2 bg-metal text-white rounded"
                         
                     >
                         Editar
-                    </button>
+                    </a>
                     <button
                         className="w-full text-center py-2 bg-red-600 text-white rounded cursor-pointer"
                         onClick={() => handleDelete(book.id)}

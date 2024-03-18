@@ -17,10 +17,10 @@ export default function Index({ auth, books }) {
         <AuthenticatedLayout user={auth.user}>
             <Head title="Books" />
             <>
-                <div id="table" className={`w-full ${view === 'table' ? 'flex' : 'hidden'} mt-4 items-center justify-center pb-3`}>
+                <div id="table" className={`w-full ${view === 'table' ? 'flex' : 'hidden'} table-books mt-4 items-center justify-center pb-3`}>
                     {/* Renderizar la tabla */}
                     <table className="w-[80%]">
-                    <thead className="w-full">
+                        <thead className="w-full">
                             <tr className="w-full">
                                 <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                                     Portada

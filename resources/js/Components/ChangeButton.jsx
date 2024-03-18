@@ -8,7 +8,6 @@ export default function ChangeButton({ setView, view }) {
 
     return (
         <div>
-            {/* Botón para cambiar entre vistas */}
             <button className='bg-metal text-white w-20 py-3 rounded-full' onClick={handleChangeView}>{view === 'cards' ? 'Table' : 'Cards'}</button>
         </div>
     );

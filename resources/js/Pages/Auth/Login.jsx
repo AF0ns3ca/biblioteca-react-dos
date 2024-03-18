@@ -85,11 +85,11 @@ export default function Login({ status, canResetPassword }) {
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-end gap-2 mt-4">
                     {canResetPassword && (
                         <Link
                             href={route("password.request")}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-metal"
                         >
                             Forgot your password?
                         </Link>
@@ -97,9 +97,9 @@ export default function Login({ status, canResetPassword }) {
 
                     <Link
                         href={route("register")}
-                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-metal"
                     >
-                        Don't have an account? Register
+                        Don't have an account?
                     </Link>
 
                     <PrimaryButton className="ms-4" disabled={processing}>
