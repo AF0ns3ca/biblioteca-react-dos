@@ -6,7 +6,9 @@ export default function Guest({ children }) {
         <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <Link href="/">
-                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                    {/* <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" /> */}
+                    <div className='bg-metal text-white text-3xl font-serif p-3 rounded'>Book<span className='font-bold text-blue-200'>Nest</span></div>
+
                 </Link>
             </div>
 
