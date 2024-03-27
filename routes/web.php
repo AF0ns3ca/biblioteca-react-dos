@@ -30,4 +30,6 @@ Route::resource('books', 'App\Http\Controllers\BookController');
 Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
 
 
+
+
 require __DIR__.'/auth.php';

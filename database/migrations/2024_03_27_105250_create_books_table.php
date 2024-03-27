@@ -17,10 +17,8 @@ return new class extends Migration
             $table->string('autor');
             $table->string('serie')->nullable();
             $table->integer('num_serie')->nullable();
+            $table->text('descripcion');
             $table->integer('paginas');
-            $table->integer('estante');
-            $table->string('balda');
-            $table->string('fila');
             $table->string('portada')->nullable();
             $table->timestamps();
         });

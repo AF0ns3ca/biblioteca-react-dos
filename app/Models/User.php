@@ -9,6 +9,13 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
+    // Relacion con librerias
+    public function libraries()
+    {
+        return $this->hasMany(Library::class);
+    }
+
     use HasFactory, Notifiable;
 
     /**
