@@ -17,7 +17,7 @@ export default function Authenticated({ user, header, children }) {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="bg-metal border-b border-gray-100">
+            <nav className=" w-full bg-metal border-b border-gray-100 top-0 fixed">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -57,10 +57,18 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
+                                    href={route("libraries.index")}
+                                    active={route().current("libraries.index")}
+                                >
+                                    Bibliotecas
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
                                     href={route("books.index")}
                                     active={route().current("books.index")}
                                 >
-                                    Biblioteca
+                                    Descubrir Libros
                                 </NavLink>
                             </div>
                             <div className="relative hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -207,7 +215,7 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className="mt-5">{children}</main>
         </div>
     );
 }

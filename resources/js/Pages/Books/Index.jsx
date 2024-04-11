@@ -6,18 +6,25 @@ import ChangeButton from "@/Components/ChangeButton";
 
 export default function Index({ auth, books }) {
     // Estado para controlar la vista actual
-    const [view, setView] = useState(() => localStorage.getItem('view') || 'cards');
+    const [view, setView] = useState(
+        () => localStorage.getItem("view") || "cards"
+    );
 
     // Efecto para guardar la vista en el localStorage cuando cambia
     useEffect(() => {
-        localStorage.setItem('view', view);
+        localStorage.setItem("view", view);
     }, [view]);
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Books" />
+            <Head title=" Discover Books" />
             <>
-                <div id="table" className={`w-full ${view === 'table' ? 'flex' : 'hidden'} table-books mt-4 items-center justify-center pb-3`}>
+                <div
+                    id="table"
+                    className={`w-full ${
+                        view === "table" ? "flex" : "hidden"
+                    } table-books mt-20 items-center justify-center pb-3`}
+                >
                     {/* Renderizar la tabla */}
                     <table className="w-[80%]">
                         <thead className="w-full">
@@ -34,12 +41,12 @@ export default function Index({ auth, books }) {
                                 <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                                     Serie
                                 </th>
-                                <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
+                                {/* <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                                     Ubicación
                                 </th>
                                 <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                                     Actions
-                                </th>
+                                </th> */}
                             </tr>
                         </thead>
                         <tbody className="w-full">
@@ -49,12 +56,26 @@ export default function Index({ auth, books }) {
                                         <div className="flex items-center">
                                             <div>
                                                 <div className="text-sm leading-5 font-medium text-gray-900">
-                                                    <div className="flex items-center">
-                                                        <img
-                                                            src={book.portada}
-                                                            alt={book.titulo}
-                                                            className="h-[120px] w-[80px]"
-                                                        />
+                                                    <div className="flex items-center p-1">
+                                                        {book.portada ? (
+                                                            <img
+                                                                src={
+                                                                    book.portada
+                                                                }
+                                                                alt={
+                                                                    book.titulo
+                                                                }
+                                                                className="w-[80px] h-[120px] rounded"
+                                                            />
+                                                        ) : (
+                                                            <div className="w-[80px] h-[120px] bg-gray-300 flex items-center justify-center text-center">
+                                                                <span className="font-bold text-gray-600">
+                                                                    {
+                                                                        book.titulo
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -71,36 +92,47 @@ export default function Index({ auth, books }) {
                                     </td>
                                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <div className="text-sm leading-5 text-gray-900">
-                                            {book.autor} 
+                                            {book.autor}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <div className="text-sm leading-5 text-gray-900">
                                             {/* Si tiene serie ponerla, si tiene numero ponerlo, sino standalone */}
-                                            {book.serie ? book.serie : "Standalone"} {book.num_serie ? `#${book.num_serie}` : ""}
+                                            {book.serie
+                                                ? book.serie
+                                                : "Standalone"}{" "}
+                                            {book.num_serie
+                                                ? `#${book.num_serie}`
+                                                : ""}
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                    {/* <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <div className="text-sm leading-5 text-gray-900">
-                                            Estante: {book.estante} {book.balda} - Fila: {book.fila}
+                                            Estante: {book.estante} {book.balda}{" "}
+                                            - Fila: {book.fila}
                                         </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+                                    </td> */}
+                                    {/* <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
                                         <a
                                             href={route("books.edit", book.id)}
                                             className="text-indigo-600 hover:text-indigo-900"
                                         >
                                             Edit
                                         </a>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <div id="cards" className={`w-full ${view === 'cards' ? 'flex' : 'hidden'} mt-4 items-center justify-center pb-3`}>
+                <div
+                    id="cards"
+                    className={`w-full ${
+                        view === "cards" ? "flex" : "hidden"
+                    } mt-4 items-center justify-center pb-3`}
+                >
                     {/* Renderizar las tarjetas */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
+                    <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
                         {books.map((book) => (
                             <Card book={book} key={book.id} />
                         ))}

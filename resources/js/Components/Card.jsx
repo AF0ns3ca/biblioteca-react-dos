@@ -13,13 +13,13 @@ const Card = ({ book }) => {
           });
         }
     };
-    
+
     return (
         <div className="card flex flex-col gap-3 items-center justify-center bg-gray-200 p-3 rounded min-w-[263px]">
             <div className="flex flex-col items-center justify-center gap-3">
                 <a href={route('books.show', book.id)} key={book.id} className='cursor-pointer'>
                     <div>
-                    
+
                         {book.portada ? (
                             <img
                                 src={book.portada}
@@ -27,8 +27,8 @@ const Card = ({ book }) => {
                                 className="w-[240px] h-[380px] rounded"
                             />
                         ) : (
-                            <div className="w-[240px] h-[380px] bg-gray-400">
-                                {book.titulo}
+                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center">
+                                <span className="text-2xl font-bold text-gray-600">{book.titulo}</span>
                             </div>
                         )}
                     </div>
@@ -45,7 +45,7 @@ const Card = ({ book }) => {
                         <p>
                             Estante: {book.estante} {book.balda} - Fila: {book.fila}
                         </p>
-                        <p> 
+                        <p>
                             Añadido el {book.created_at}
                         </p>
                     </div>
@@ -54,7 +54,7 @@ const Card = ({ book }) => {
                     <a
                         href={route('books.edit', book.id)}
                         className="w-full text-center py-2 bg-metal text-white rounded"
-                        
+
                     >
                         Editar
                     </a>

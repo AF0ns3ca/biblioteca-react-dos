@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Library;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class LibraryController extends Controller
 {
@@ -12,7 +13,12 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        //
+        //Devolver a vista con todas las bibliotecas que tengan el mismo id que el usuario logueado con inertia
+        return Inertia::render('Libraries/Index', [
+            'libraries' => Library::where('user_id', auth()->id())->get()
+        ]);
+
+
     }
 
     /**
@@ -34,9 +40,16 @@ class LibraryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Library $library)
+    public function show(String $id)
     {
         //
+        $librarie = Libraries::findOrFail($id);
+        // Devolver con inertia
+        return Inertia::render('Libraries/Show', [
+            'librarie' => $librarie
+
+        ]);
+
     }
 
     /**

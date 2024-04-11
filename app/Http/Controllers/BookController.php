@@ -17,7 +17,9 @@ class BookController extends Controller
     public function index()
     {
         return Inertia::render('Books/Index', [
+            // devolver los libros con las libraries donde estan
             'books' => Book::all()
+
         ]);
     }
 

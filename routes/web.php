@@ -29,6 +29,7 @@ Route::resource('books', 'App\Http\Controllers\BookController');
 // ruta a destroy con id
 Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
 
+Route::resource('libraries', 'App\Http\Controllers\LibraryController');
 
 
 
