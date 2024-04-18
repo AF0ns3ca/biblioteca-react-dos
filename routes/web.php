@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LibraryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +31,9 @@ Route::resource('books', 'App\Http\Controllers\BookController');
 Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
 
 Route::resource('libraries', 'App\Http\Controllers\LibraryController');
+
+Route::post('/libraries', [LibraryController::class, 'store'])->name('libraries.store');
+
 
 
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Library;
+use App\Models\Book;
+use App\Models\BookToLibrary;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,7 +28,8 @@ class LibraryController extends Controller
      */
     public function create()
     {
-        //
+        //redirige a la pagina de creacion de libraries con inertia
+        return Inertia::render('Libraries/Create');
     }
 
     /**
@@ -34,7 +37,30 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // el usuario es el usuario logueado
+
+try{
+
+    $user = auth()->user();
+        $request['user_id'] = $user->id;
+
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'tipo' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        Library::create($validatedData);
+
+
+        // enviamos al metodo index
+        return redirect()->route('libraries.index');
+
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+
     }
 
     /**
@@ -42,12 +68,10 @@ class LibraryController extends Controller
      */
     public function show(String $id)
     {
-        //
-        $librarie = Libraries::findOrFail($id);
-        // Devolver con inertia
+        //mandar a la vista de show con inertia la biblioteca con el id que se pasa por parametro y los libros que tiene
         return Inertia::render('Libraries/Show', [
-            'librarie' => $librarie
-
+            'library' => Library::find($id),
+            'books' => BookToLibrary::where('library_id', $id)->get()
         ]);
 
     }

@@ -10,10 +10,10 @@ class Book extends Model
 
     // Relacion con tabla pivote
     public function libraries()
-    {
-        return $this->belongsToMany(Library::class);
-    }
-    
+{
+    return $this->belongsToMany(Library::class, 'book_to_libraries');
+}
+
     protected $fillable = [
         'titulo',
         'autor',

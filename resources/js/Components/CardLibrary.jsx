@@ -15,7 +15,7 @@ const CardLibrary = ({ librarie }) => {
     };
 
     return (
-        <div className="card flex flex-col gap-3 items-center justify-center bg-gray-200 p-3 rounded min-w-[263px]">
+        <div className="card flex flex-col gap-3 items-center justify-center bg-gray-200 p-3 rounded min-w-[263px] hover:bg-slate-300">
             <div className="flex flex-col items-center justify-center gap-3">
                 <a href={route('libraries.show', librarie.id)} key={librarie.id} className='cursor-pointer'>
                     <div>
