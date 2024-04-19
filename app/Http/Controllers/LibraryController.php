@@ -68,12 +68,18 @@ try{
      */
     public function show(String $id)
     {
+
+        // Quiero obtener los libros con todos sus datos que estén en la biblioteca con el id que se pasa por parametro
+        $books = Book::join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
+            ->where('book_to_libraries.library_id', $id)
+            ->get();
+            
+
         //mandar a la vista de show con inertia la biblioteca con el id que se pasa por parametro y los libros que tiene
         return Inertia::render('Libraries/Show', [
             'library' => Library::find($id),
-            'books' => BookToLibrary::where('library_id', $id)->get()
+            'books' => $books
         ]);
-
     }
 
     /**
@@ -95,8 +101,18 @@ try{
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Library $library)
+    public function destroy(String $id)
     {
-        //
+        // Encuentra el libro
+        $library = Library::findOrFail($id);
+
+        // Verifica si el libro tiene una foto y si no es "base.jpg"
+        // if ($book->portada && $book->portada !== 'public/photos/base.jpg') {
+        //     // Si tiene una foto y no es "base.jpg", elimínala
+        //     Storage::delete($book->portada);
+        // }
+
+        // Elimina el libro
+        $library->delete();
     }
 }

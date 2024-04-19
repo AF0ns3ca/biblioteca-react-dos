@@ -3,8 +3,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import ChangeButton from "@/Components/ChangeButton";
+import Inertia from "@inertiajs/inertia";
 
-export default function Index({ auth, books }) {
+export default function Index({ auth, books, libraries }) {
     // Estado para controlar la vista actual
     const [view, setView] = useState(
         () => localStorage.getItem("view") || "cards"
@@ -15,6 +16,17 @@ export default function Index({ auth, books }) {
         localStorage.setItem("view", view);
     }, [view]);
 
+    // const handleBookLibrary = (bookId, libraryId) => {
+    //     console.log(bookId, libraryId); // Verifica si estos valores son correctos
+        
+    //     Inertia.post('/booktolibrary', { bookId: book.id, libraryId }, {
+    //         onSuccess: () => {
+    //             window.location.reload();
+    //         },
+    //     });
+    // };
+    
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title=" Discover Books" />
@@ -23,7 +35,7 @@ export default function Index({ auth, books }) {
                     id="table"
                     className={`w-full ${
                         view === "table" ? "flex" : "hidden"
-                    } table-books mt-20 items-center justify-center pb-3`}
+                    } table-books pt-20 items-center justify-center pb-3`}
                 >
                     {/* Renderizar la tabla */}
                     <table className="w-[80%]">
@@ -43,10 +55,10 @@ export default function Index({ auth, books }) {
                                 </th>
                                 {/* <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                                     Ubicación
-                                </th>
+                                </th> */}
                                 <th className="px-6 py-3 bg-metal text-left text-xs leading-4 font-medium text-white uppercase tracking-wider">
                                     Actions
-                                </th> */}
+                                </th>
                             </tr>
                         </thead>
                         <tbody className="w-full">
@@ -106,12 +118,31 @@ export default function Index({ auth, books }) {
                                                 : ""}
                                         </div>
                                     </td>
-                                    {/* <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                    <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <div className="text-sm leading-5 text-gray-900">
-                                            Estante: {book.estante} {book.balda}{" "}
-                                            - Fila: {book.fila}
+                                            {/* Añadimos un select con las bibliotecas */}
+                                            <select
+                                                name="library_id"
+                                                id="library_id"
+                                                className="form-select rounded-lg w-full"
+                                            >
+                                                <option value="">
+                                                    Añadir a
+                                                </option>
+                                                {libraries.map((library) => (
+                                                    <option
+                                                        key={library.id}
+                                                        value={library.id}
+                                                        onChange={(e) =>
+                                                            handleBookLibrary(book.id, e.target.value)
+                                                        }
+                                                    >
+                                                        {library.nombre}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
-                                    </td> */}
+                                    </td>
                                     {/* <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
                                         <a
                                             href={route("books.edit", book.id)}
@@ -134,7 +165,7 @@ export default function Index({ auth, books }) {
                     {/* Renderizar las tarjetas */}
                     <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
                         {books.map((book) => (
-                            <Card book={book} key={book.id} />
+                            <Card book={book} libraries={libraries} key={book.id} />
                         ))}
                     </div>
                 </div>

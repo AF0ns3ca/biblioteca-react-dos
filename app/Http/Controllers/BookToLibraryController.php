@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BookToLibrary;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BookToLibraryController extends Controller
 {
@@ -28,7 +29,13 @@ class BookToLibraryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validatedData = $request->validate([
+            'book_id' => 'required',
+            'library_id' => 'required'
+        ]);
+
+        BookToLibrary::create($validatedData);
     }
 
     /**

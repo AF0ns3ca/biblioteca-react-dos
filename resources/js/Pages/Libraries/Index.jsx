@@ -21,9 +21,9 @@ export default function Index({ auth, libraries }) {
                         {libraries.map((librarie) => (
 
                             // Se importa el componente CardLibrary haciendolo un enlace a la ruta show
-                            <a href={route('libraries.show', librarie.id)} key={librarie.id} className='cursor-pointer'>
+                            // <a href={route('libraries.show', librarie.id)} key={librarie.id} className='cursor-pointer'>
                                 <CardLibrary librarie={librarie} />
-                            </a>
+                            // </a>
 
 
                         ))}

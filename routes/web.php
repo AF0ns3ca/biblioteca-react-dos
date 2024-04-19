@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\BookToLibraryController;
+use App\Models\BookToLibrary;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +35,12 @@ Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('
 Route::resource('libraries', 'App\Http\Controllers\LibraryController');
 
 Route::post('/libraries', [LibraryController::class, 'store'])->name('libraries.store');
+Route::get('/libraries/{id}', 'App\Http\Controllers\LibraryController@destroy')->name('libraries.destroy');
+
+// Ruta a Book_To_Library metodo store
+
+Route::post('/booktolibrary', [BookToLibraryController::class, 'store'])->name('booktolibrary.store');
+
 
 
 

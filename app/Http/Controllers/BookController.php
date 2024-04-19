@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Book;
+use App\Models\Library;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -17,8 +18,10 @@ class BookController extends Controller
     public function index()
     {
         return Inertia::render('Books/Index', [
-            // devolver los libros con las libraries donde estan
-            'books' => Book::all()
+            // devolver los libros y la lista de bibliotecas
+            'books' => Book::all(),
+            // Mandamos todas las bibliotecas que tenga el usuario logueado
+            'libraries' => Library::where('user_id', auth()->id())->get()
 
         ]);
     }
