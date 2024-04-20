@@ -3,7 +3,7 @@ import AddButton from "@/Components/addButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 
-export default function Index({ auth, libraries }) {
+export default function Index({ auth, librariesWithBookCount }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -18,11 +18,11 @@ export default function Index({ auth, libraries }) {
             <div className="w-full h-full flex justify-center items-center">
                 <div className="h-full flex py-4 px-14">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
-                        {libraries.map((librarie) => (
+                        {librariesWithBookCount.map((library) => (
 
                             // Se importa el componente CardLibrary haciendolo un enlace a la ruta show
                             // <a href={route('libraries.show', librarie.id)} key={librarie.id} className='cursor-pointer'>
-                                <CardLibrary key={librarie.id} librarie={librarie} />
+                                <CardLibrary key={library.id} library={library} />
                             // </a>
 
 

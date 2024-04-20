@@ -16,9 +16,17 @@ class LibraryController extends Controller
     public function index()
     {
         //Devolver a vista con todas las bibliotecas que tengan el mismo id que el usuario logueado con inertia
-        return Inertia::render('Libraries/Index', [
-            'libraries' => Library::where('user_id', auth()->id())->get()
-        ]);
+        // return Inertia::render('Libraries/Index', [
+        //     'libraries' => Library::where('user_id', auth()->id())->get()
+        // ]);
+
+        $librariesWithBookCount = Library::where('user_id', auth()->id())
+        ->withCount('books') // Contar el número de libros para cada biblioteca
+        ->get();
+
+    return Inertia::render('Libraries/Index', [
+        'librariesWithBookCount' => $librariesWithBookCount
+    ]);
 
 
     }
