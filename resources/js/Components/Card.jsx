@@ -66,7 +66,7 @@ const Card = ({ book, libraries }) => {
                 {/* Botón "Añadir a" */}
                 <div className="w-full flex flex-row justify-center items-center gap-2">
                     <button
-                        className="w-full text-center py-2 bg-metal text-white rounded"
+                        className="w-full text-center py-2 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
                         onClick={() => setShowModal(true)}
                     >
                         Añadir a ...

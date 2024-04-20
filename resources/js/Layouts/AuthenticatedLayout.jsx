@@ -15,6 +15,12 @@ export default function Authenticated({ user, header, children }) {
     const url = usePage().url;
     console.log(url);
 
+    function checkUrl(url) {
+        // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
+        return url === '/books' || /^\/libraries\/\d+$/.test(url);
+    }
+    
+
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className=" w-full bg-metal border-b border-gray-100 top-0 fixed">
@@ -35,13 +41,14 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            {url === "/books" && (
+                            {/* {url === ("/books" || "/libraries/[id]") && ( */}
+                            {checkUrl(url) && (
                                 <div className="hidden sm:flex sm:items-center sm:ms-6">
                                     <input
                                         type="text"
                                         placeholder="Buscar libros..."
                                         id="searchInput"
-                                        className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700"
+                                        className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700 focus:ring-metaldark"
                                     />
                                     <SearchComponent />
                                 </div>
