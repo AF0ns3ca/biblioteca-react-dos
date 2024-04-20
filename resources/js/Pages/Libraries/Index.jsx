@@ -22,7 +22,7 @@ export default function Index({ auth, libraries }) {
 
                             // Se importa el componente CardLibrary haciendolo un enlace a la ruta show
                             // <a href={route('libraries.show', librarie.id)} key={librarie.id} className='cursor-pointer'>
-                                <CardLibrary librarie={librarie} />
+                                <CardLibrary key={librarie.id} librarie={librarie} />
                             // </a>
 
 

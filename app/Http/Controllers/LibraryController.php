@@ -69,16 +69,32 @@ try{
     public function show(String $id)
     {
 
-        // Quiero obtener los libros con todos sus datos que estén en la biblioteca con el id que se pasa por parametro
-        $books = Book::join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
+        
+        // $books = Book::join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
+        //     ->where('book_to_libraries.library_id', $id)
+        //     ->get();
+
+        // $books = Book::select('books.*') // Seleccionar todos los campos de la tabla books
+        //     ->join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
+        //     ->where('book_to_libraries.library_id', $id)
+        //     ->get();
+
+        // Quiero obtener los libros con todos sus datos y su library id que estén en la biblioteca con el id que se pasa por parametro
+        $books = Book::select('books.*') // Seleccionar todos los campos de la tabla books
+            ->join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
             ->where('book_to_libraries.library_id', $id)
             ->get();
+
+        // quiero obtener la biblioteca con el id que se pasa por parametro
+        $currentLibrary = Library::find($id); 
             
 
         //mandar a la vista de show con inertia la biblioteca con el id que se pasa por parametro y los libros que tiene
         return Inertia::render('Libraries/Show', [
-            'library' => Library::find($id),
-            'books' => $books
+            // 'library' => Library::find($id),
+            'books' => $books,
+            'libraries' => Library::where('user_id', auth()->id())->get(),
+            'currentLibrary' => $currentLibrary
         ]);
     }
 

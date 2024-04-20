@@ -35,11 +35,17 @@ Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('
 Route::resource('libraries', 'App\Http\Controllers\LibraryController');
 
 Route::post('/libraries', [LibraryController::class, 'store'])->name('libraries.store');
-Route::get('/libraries/{id}', 'App\Http\Controllers\LibraryController@destroy')->name('libraries.destroy');
+Route::delete('/libraries/{id}', 'App\Http\Controllers\LibraryController@destroy')->name('libraries.destroy');
 
 // Ruta a Book_To_Library metodo store
 
 Route::post('/booktolibrary', [BookToLibraryController::class, 'store'])->name('booktolibrary.store');
+
+// Ruta a Book_To_Library metodo destroy con los parametros bookid y libraryod
+
+Route::delete('/booktolibrary/{book_id}/{library_id}', 'App\Http\Controllers\BookToLibraryController@destroy')->name('booktolibrary.destroy');
+
+
 
 
 

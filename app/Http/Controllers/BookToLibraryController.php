@@ -65,8 +65,8 @@ class BookToLibraryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BookToLibrary $bookToLibrary)
+    public function destroy($bookId, $libraryId)
     {
-        //
+        BookToLibrary::where('book_id', $bookId)->where('library_id', $libraryId)->delete();
     }
 }

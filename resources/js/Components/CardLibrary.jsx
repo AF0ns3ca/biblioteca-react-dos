@@ -3,7 +3,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 const CardLibrary = ({ librarie }) => {
     const handleDelete = (id) => {
-        if (confirm("¿Estás seguro de que deseas eliminar este libro?")) {
+        if (confirm(`¿Estás seguro de que deseas eliminar la biblioteca ${librarie.nombre}?`)) {
             Inertia.delete(route("libraries.destroy", { id }), {
                 onSuccess: () => {
                     window.location.reload();
