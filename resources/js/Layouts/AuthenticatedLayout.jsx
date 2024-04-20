@@ -169,7 +169,15 @@ export default function Authenticated({ user, header, children }) {
                             href={route("dashboard")}
                             active={route().current("dashboard")}
                         >
-                            Dashboard
+                            Inicio
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink
+                            href={route("libraries.index")}
+                            active={route().current("libraries.index")}
+                        >
+                            Bibliotecas
                         </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-3 space-y-1">
@@ -177,16 +185,16 @@ export default function Authenticated({ user, header, children }) {
                             href={route("books.index")}
                             active={route().current("books.index")}
                         >
-                            Books
+                            Descubrir Libros
                         </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">
+                            <div className="font-medium text-base text-white">
                                 {user.name}
                             </div>
-                            <div className="font-medium text-sm text-gray-500">
+                            <div className="font-medium text-sm text-gray-100">
                                 {user.email}
                             </div>
                         </div>
