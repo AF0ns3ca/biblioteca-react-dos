@@ -17,8 +17,10 @@ export default function Index({ auth, book }) {
                                 className="rounded"
                             />
                         ) : (
-                            <div className="w-[240px] h-[380px] bg-gray-400">
-                                {book.titulo}
+                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center">
+                                <span className="text-2xl font-bold text-gray-600">
+                                    {book.titulo}
+                                </span>
                             </div>
                         )}
                     </div>

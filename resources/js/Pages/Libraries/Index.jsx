@@ -1,5 +1,5 @@
 import CardLibrary from "@/Components/CardLibrary";
-import AddButton from "@/Components/addButton";
+import AddButton from "@/Components/AddButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 

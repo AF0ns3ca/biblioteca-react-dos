@@ -1,52 +1,47 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { useForm, Head } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import CardInLibrary from "@/Components/CardInLibrary";
+import CardLibrary from "@/Components/CardLibrary"; // Asegúrate de que esto está correctamente importado
 
-export default function Show({ auth, libraries, books, currentLibrary }) {
+export default function Show({ auth, libraries, books, currentLibrary, librariesWithBookCount }) {
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title=" Discover Books" />
+            <Head title="Discover Books" />
                 
-                <div
-                    className="w-full h-full flex justify-center items-center"
-                >
-                    {/* Renderizar las tarjetas */}
-                    <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
+            <div className="flex w-full h-full justify-center items-start pt-20 px-10">
+                {/* Panel Izquierdo para Detalles de la Biblioteca - Ocupará 35% del ancho */}
+                <div className="w-1/3 p-4">
+                    <div className="bg-white shadow rounded p-4">
+                        <h2 className="text-xl font-semibold mb-2">{currentLibrary.nombre}</h2>
+                        <p>Tipo: {currentLibrary.tipo}</p>
+                        <p>Total libros: {books.length}</p>
+                    </div>
+                    <div>
+                        {/* mostrar el resto de bibliotecas que no sea la que esta viendose */}
+                        <h3 className="text-lg font-semibold mt-4">Otras Bibliotecas</h3>
+                        <div className="space-y-4 mt-2">
+                            {librariesWithBookCount.filter(lib => lib.id !== currentLibrary.id).map((library) => (
+                                <CardLibrary key={library.id} library={library} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Panel Derecho para Mostrar Libros - Ocupará 65% del ancho */}
+                <div className="w-full p-4">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                         {books.map((book) => (
-                            // Se pasa el id de la biblioteca a la que pertenece el libro
                             <CardInLibrary
                                 key={book.id}
                                 book={book}
                                 libraries={libraries}
                                 currentLibrary={currentLibrary}
                             />
-
                         ))}
                     </div>
                 </div>
+            </div>
         </AuthenticatedLayout>
     );
 }
-
-// export default function Index({ auth, libraries, books }) {
-//     return (
-//         <AuthenticatedLayout user={auth.user}>
-//             <Head title="Discover Books" />
-//             <div className="w-full h-full flex justify-center items-center">
-//                 <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
-//                     {books.map((book) => {
-//                         console.log("libraryId:", book.libraryId); // Agrega esta línea para imprimir libraryId
-//                         return (
-//                             <CardInLibrary
-//                                 key={book.id}
-//                                 book={book}
-//                                 libraryId={book.libraryId}
-//                             />
-//                         );
-//                     })}
-//                 </div>
-//             </div>
-//         </AuthenticatedLayout>
-//     );
-// }
