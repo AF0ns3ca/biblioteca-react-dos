@@ -1,41 +1,39 @@
-import React, { useEffect, useState } from "react";
+// Index.js
+
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import ChangeButton from "@/Components/ChangeButton";
-import Inertia from "@inertiajs/inertia";
+import AlphabetNav from '@/Components/AlphabetNav';  // Asegúrate de usar la ruta correcta
 
 export default function Index({ auth, books, libraries }) {
-    // Estado para controlar la vista actual
-    const [view, setView] = useState(
-        () => localStorage.getItem("view") || "cards"
-    );
+    const [view, setView] = useState(() => localStorage.getItem("view") || "cards");
+    const [selectedLetter, setSelectedLetter] = useState({ letter: '', field: '' });
 
-    // Efecto para guardar la vista en el localStorage cuando cambia
     useEffect(() => {
         localStorage.setItem("view", view);
     }, [view]);
 
-    // const handleBookLibrary = (bookId, libraryId) => {
-    //     console.log(bookId, libraryId); // Verifica si estos valores son correctos
-        
-    //     Inertia.post('/booktolibrary', { bookId: book.id, libraryId }, {
-    //         onSuccess: () => {
-    //             window.location.reload();
-    //         },
-    //     });
-    // };
     
+
+    const filteredBooks = selectedLetter.letter
+    ? selectedLetter.letter === 'special'
+        ? books.filter((book) => !/^[A-Z]/i.test((book[selectedLetter.field] || '').trim()))
+        : books.filter((book) => (book[selectedLetter.field] || '').trim().toUpperCase().startsWith(selectedLetter.letter))
+    : books;
+
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title=" Discover Books" />
+            <Head title="Discover Books" />
+            <AlphabetNav selectedLetter={selectedLetter} setSelectedLetter={setSelectedLetter} />
             <>
                 <div
                     id="table"
                     className={`w-full ${
                         view === "table" ? "flex" : "hidden"
-                    } table-books pt-20 items-center justify-center pb-3`}
+                    } table-books pt-32 items-center justify-center pb-3`}
                 >
                     {/* Renderizar la tabla */}
                     <table className="w-[80%]">
@@ -62,7 +60,7 @@ export default function Index({ auth, books, libraries }) {
                             </tr>
                         </thead>
                         <tbody className="w-full">
-                            {books.map((book) => (
+                            {filteredBooks.map((book) => (
                                 <tr key={book.id}>
                                     <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                         <div className="flex items-center">
@@ -160,11 +158,11 @@ export default function Index({ auth, books, libraries }) {
                     id="cards"
                     className={`w-full ${
                         view === "cards" ? "flex" : "hidden"
-                    } mt-4 items-center justify-center pb-3`}
+                    } pt-32 items-center justify-center pb-3`}
                 >
                     {/* Renderizar las tarjetas */}
-                    <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
-                        {books.map((book) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                        {filteredBooks.map((book) => (
                             <Card book={book} libraries={libraries} key={book.id} />
                         ))}
                     </div>

@@ -18,8 +18,8 @@ class BookController extends Controller
     public function index()
     {
         return Inertia::render('Books/Index', [
-            // devolver los libros y la lista de bibliotecas
-            'books' => Book::all(),
+            // devolver los libros ordenados por titulo
+            'books' => Book::orderBy('titulo')->get(),
             // Mandamos todas las bibliotecas que tenga el usuario logueado
             'libraries' => Library::where('user_id', auth()->id())->get()
 

@@ -1,5 +1,7 @@
 import React from "react";
 import { Inertia } from "@inertiajs/inertia";
+import PhysicalLibraryIcon from "@/Components/PhysicalLibraryIcon";
+import DigitalLibraryIcon from "@/Components/DigitalLibraryIcon";
 
 const CardLibrary = ({ library }) => {
     const handleDelete = (id) => {
@@ -13,29 +15,35 @@ const CardLibrary = ({ library }) => {
     };
 
     return (
-        <div className="card flex flex-col gap-3 items-center justify-center bg-gray-200 p-3 rounded min-w-[263px] hover:bg-slate-300">
-            <div className="flex flex-col items-center justify-center gap-3">
+        <div className="card flex flex-row items-center justify-between bg-gray-200 p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
+            {/* Columna izquierda para el tipo de biblioteca */}
+            <div className="flex flex-col items-start justify-center gap-1 p-2">
+                {/* Si es tipo fisica se pone la PhysicalLibraryicon, sino la DigitalLibraryIcon */}
+                {library.tipo === "Fisica" ? (
+                    <PhysicalLibraryIcon />
+                ) : (
+                    <DigitalLibraryIcon />
+                )}
+            </div>
+            {/* Columna derecha para el nombre, conteo de libros y botón de eliminar */}
+            <div className="flex-1 flex flex-col items-start justify-center p-2">
                 <a
                     href={route("libraries.show", library.id)}
                     key={library.id}
                     className="cursor-pointer"
                 >
-                    <div className="w-full flex flex-col items-center justify-center">
-                        {/* Mostrar el nombre de la biblioteca */}
-                        <h1 className="text-xl font-bold">{library.nombre}</h1>
-                        {/* Mostrar el número de libros, si es igual a 0 poner vacio, sino poner el numero */}
-                        <p className="text-gray-600">
-                            {library.books_count == 0 ? "Vacía" : library.books_count + " libros"}
-                        </p>
-                    </div>
+                    <h1 className="text-xl font-bold">{library.nombre}</h1>
+                    <p className="text-gray-600">
+                        {library.books_count === 0 ? "Vacía" : `${library.books_count} libros`}
+                    </p>
                 </a>
             </div>
-            <div>
+            <div className="p-2">
                 <button
                     onClick={() => handleDelete(library.id)}
                     className="bg-red-500 text-white rounded px-2 py-1"
                 >
-                    Eliminar
+                    <span className="text-xl">✕</span> {/* Uso de Unicode 'X' para el botón */}
                 </button>
             </div>
         </div>

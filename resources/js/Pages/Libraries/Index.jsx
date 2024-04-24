@@ -18,6 +18,7 @@ export default function Index({ auth, librariesWithBookCount }) {
             <div className="w-full h-full flex justify-center items-center">
                 <div className="h-full flex py-4 px-14">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-5 gap-10">
+                    {/* <div className="w-full flex flex-col gap-3 items-start"> */}
                         {librariesWithBookCount.map((library) => (
 
                             // Se importa el componente CardLibrary haciendolo un enlace a la ruta show
