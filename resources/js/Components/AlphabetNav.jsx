@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 function AlphabetNav({ selectedLetter, setSelectedLetter }) {
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     const [searchField, setSearchField] = useState("titulo"); // Estado para controlar el campo de búsqueda
@@ -36,7 +37,7 @@ function AlphabetNav({ selectedLetter, setSelectedLetter }) {
                                 : "bg-gray-200"
                         }`}
                     >
-                        # / 0-9
+                        #
                     </button>
                     {alphabet.map((letter) => (
                         <button

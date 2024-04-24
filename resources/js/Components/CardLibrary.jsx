@@ -18,32 +18,29 @@ const CardLibrary = ({ library }) => {
         <div className="card flex flex-row items-center justify-between bg-gray-200 p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
             {/* Columna izquierda para el tipo de biblioteca */}
             <div className="flex flex-col items-start justify-center gap-1 p-2">
-                {/* Si es tipo fisica se pone la PhysicalLibraryicon, sino la DigitalLibraryIcon */}
-                {library.tipo === "Fisica" ? (
-                    <PhysicalLibraryIcon />
-                ) : (
-                    <DigitalLibraryIcon />
-                )}
+                {library.tipo === "Fisica" ? <PhysicalLibraryIcon /> : <DigitalLibraryIcon />}
             </div>
             {/* Columna derecha para el nombre, conteo de libros y botón de eliminar */}
             <div className="flex-1 flex flex-col items-start justify-center p-2">
-                <a
-                    href={route("libraries.show", library.id)}
-                    key={library.id}
-                    className="cursor-pointer"
-                >
-                    <h1 className="text-xl font-bold">{library.nombre}</h1>
-                    <p className="text-gray-600">
-                        {library.books_count === 0 ? "Vacía" : `${library.books_count} libros`}
-                    </p>
-                </a>
+                {/* Condiciona el enlace al método show basado en el conteo de libros */}
+                {library.books_count > 0 ? (
+                    <a href={route("libraries.show", library.id)} className="cursor-pointer">
+                        <h1 className="text-xl font-bold">{library.nombre}</h1>
+                        <p className="text-gray-600">{library.books_count} libros</p>
+                    </a>
+                ) : (
+                    <>
+                        <h1 className="text-xl font-bold">{library.nombre}</h1>
+                        <p className="text-gray-600">Vacía</p>
+                    </>
+                )}
             </div>
             <div className="p-2">
                 <button
                     onClick={() => handleDelete(library.id)}
                     className="bg-red-500 text-white rounded px-2 py-1"
                 >
-                    <span className="text-xl">✕</span> {/* Uso de Unicode 'X' para el botón */}
+                    <span className="text-xl">✕</span> {/* Unicode 'X' para el botón */}
                 </button>
             </div>
         </div>
