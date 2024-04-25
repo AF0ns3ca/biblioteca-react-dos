@@ -28,7 +28,7 @@ const Card = ({ book, libraries }) => {
     };
 
     return (
-        <div className="card flex flex-col gap-3 items-center justify-center bg-gray-200 p-3 rounded min-w-[263px]">
+        <div className="card flex flex-col gap-3 items-center justify-cente p-3 rounded min-w-[263px]">
             <div className="flex flex-col items-center justify-center gap-3">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
@@ -45,7 +45,7 @@ const Card = ({ book, libraries }) => {
                                 className="w-[240px] h-[380px] rounded"
                             />
                         ) : (
-                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center">
+                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
                                 <span className="text-2xl font-bold text-gray-600">
                                     {book.titulo}
                                 </span>
@@ -66,7 +66,7 @@ const Card = ({ book, libraries }) => {
                 {/* Botón "Añadir a" */}
                 <div className="w-full flex flex-row justify-center items-center gap-2">
                     <button
-                        className="w-full text-center py-2 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
+                        className="w-[50%] text-center py-2 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
                         onClick={() => setShowModal(true)}
                     >
                         Añadir a ...
