@@ -8,7 +8,7 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Discover Books" />
-                
+
             <div className="flex w-full h-full justify-center items-start pt-20 px-10">
                 {/* Panel Izquierdo para Detalles de la Biblioteca - Ocupará 35% del ancho */}
                 <div className="w-1/3 p-4">
@@ -30,7 +30,7 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
 
                 {/* Panel Derecho para Mostrar Libros - Ocupará 65% del ancho */}
                 <div className="w-full p-4">
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-4 gap-10">
                         {books.map((book) => (
                             <CardInLibrary
                                 key={book.id}
