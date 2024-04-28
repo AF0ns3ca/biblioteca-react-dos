@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
+import CardLibrary from "./CardLibrary";
 
 const Card = ({ book, libraries }) => {
     const [showModal, setShowModal] = useState(false);
@@ -27,9 +28,19 @@ const Card = ({ book, libraries }) => {
         );
     };
 
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (event.target.id === "modal-backdrop") {
+            closeModal();
+        }
+    };
+
     return (
         <div className="card flex flex-col gap-3 items-center justify-cente p-3 rounded min-w-[263px]">
-            <div className="flex flex-col items-center justify-center gap-3">
+            <div className="flex flex-col items-center justify-center gap-5">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
                 <a
@@ -74,39 +85,22 @@ const Card = ({ book, libraries }) => {
                 </div>
                 {/* Ventana modal para seleccionar biblioteca */}
                 {showModal && (
-                    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                        <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
-                            <div>
-                                <h2 className="text-xl font-semibold mb-4">
-                                    Selecciona una biblioteca
-                                </h2>
-                                <div className="grid gap-4">
-                                    {/* Lista de bibliotecas */}
-                                    {libraries.map((library) => (
-                                        <button
-                                            key={library.id}
-                                            className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded"
-                                            onClick={() =>
-                                                handleAddToLibrary(library.id)
-                                            }
-                                        >
-                                            {library.nombre}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            {/* Botón para cerrar la ventana modal */}
-                            <div className="w-full flex flex-col items-center">
+                <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
+                    <div className="relative h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
+                        <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
+                        <div className="grid gap-4">
+                            {libraries.map((library) => (
                                 <button
-                                    className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
-                                    onClick={() => setShowModal(false)}
+                                    key={library.id}
+                                    onClick={() => handleAddToLibrary(library.id)}
                                 >
-                                    Cerrar
+                                    <CardLibrary key={library.id} library={library} />
                                 </button>
-                            </div>
+                            ))}
                         </div>
                     </div>
-                )}
+                </div>
+            )}
             </div>
         </div>
     );

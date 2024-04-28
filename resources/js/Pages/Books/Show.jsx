@@ -36,6 +36,13 @@ export default function Index({ auth, book }) {
                         ) : (
                             <p className="text-lg">Libro único</p>
                         )}
+                        {/* Boton para volver a la pagina anterior a la que se estuviese */}
+                        <a
+                            href={route("books.index")}
+                            className="btn btn-primary"
+                        >
+                            Volver
+                        </a>
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@ export default function Index({ auth, books, libraries }) {
         localStorage.setItem("view", view);
     }, [view]);
 
-    
+
 
     const filteredBooks = selectedLetter.letter
     ? selectedLetter.letter === 'special'
@@ -33,7 +33,7 @@ export default function Index({ auth, books, libraries }) {
                     id="table"
                     className={`w-full ${
                         view === "table" ? "flex" : "hidden"
-                    } table-books pt-32 items-center justify-center pb-3`}
+                    } table-books pt-32 items-center justify-center pb-3 bg-white`}
                 >
                     {/* Renderizar la tabla */}
                     <table className="w-[80%]">
@@ -158,10 +158,10 @@ export default function Index({ auth, books, libraries }) {
                     id="cards"
                     className={`w-full ${
                         view === "cards" ? "flex" : "hidden"
-                    } pt-32 items-center justify-center pb-3`}
+                    } pt-32 items-center justify-center pb-3 bg-white`}
                 >
                     {/* Renderizar las tarjetas */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
                         {filteredBooks.map((book) => (
                             <Card book={book} libraries={libraries} key={book.id} />
                         ))}

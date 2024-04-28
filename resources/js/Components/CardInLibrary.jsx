@@ -13,7 +13,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary  }) => {
             });
         }
     };
-     
+
 
     const handleAddToLibrary = (libraryId) => {
         // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
