@@ -31,8 +31,8 @@ const CardInLibrary = ({ book, libraries, currentLibrary  }) => {
     };
 
     return (
-        <div className="card flex flex-col gap-3 items-center justify-center bg-gray-200 p-3 rounded min-w-[263px]">
-            <div className="flex flex-col items-center justify-center gap-3">
+        <div className="card flex flex-col gap-3 items-center justify-cente p-3 rounded min-w-[263px]">
+            <div className="flex flex-col items-center justify-center gap-5">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
                 <a
@@ -48,7 +48,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary  }) => {
                                 className="w-[240px] h-[380px] rounded"
                             />
                         ) : (
-                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center">
+                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
                                 <span className="text-2xl font-bold text-gray-600">
                                     {book.titulo}
                                 </span>
@@ -70,14 +70,14 @@ const CardInLibrary = ({ book, libraries, currentLibrary  }) => {
                 <div className="w-full flex flex-row justify-center items-center gap-2">
                     <div className="w-full flex flex-row gap-2">
                         <button
-                            className="w-[50%] text-center py-2 bg-metal text-white rounded"
+                            className="w-[50%] text-center py-2 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
                             onClick={() => setShowModal(true)}
                         >
                             Añadir a ...
                         </button>
                         <button
                             onClick={() => handleDelete(book.id, currentLibrary.id)}
-                            className="w-[50%] bg-red-500 text-white rounded px-2 py-1"
+                            className="w-[50%] text-center py-2 bg-red-500 text-white rounded px-2"
                         >
                             Eliminar
                         </button>

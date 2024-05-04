@@ -77,7 +77,7 @@ try{
     public function show(String $id)
     {
 
-        
+
         // $books = Book::join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
         //     ->where('book_to_libraries.library_id', $id)
         //     ->get();
@@ -94,12 +94,12 @@ try{
             ->get();
 
         // quiero obtener la biblioteca con el id que se pasa por parametro
-        $currentLibrary = Library::find($id); 
+        $currentLibrary = Library::find($id);
 
         $librariesWithBookCount = Library::where('user_id', auth()->id())
         ->withCount('books') // Contar el número de libros para cada biblioteca
         ->get();
-            
+
 
         //mandar a la vista de show con inertia la biblioteca con el id que se pasa por parametro y los libros que tiene
         return Inertia::render('Libraries/Show', [
@@ -107,9 +107,9 @@ try{
             'books' => $books,
             'libraries' => Library::where('user_id', auth()->id())->get(),
             'currentLibrary' => $currentLibrary,
-            'librariesWithBookCount' => $librariesWithBookCount         
-       
-       
+            'librariesWithBookCount' => $librariesWithBookCount
+
+
         ]);
     }
 

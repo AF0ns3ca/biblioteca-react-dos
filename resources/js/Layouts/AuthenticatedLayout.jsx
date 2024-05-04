@@ -19,10 +19,10 @@ export default function Authenticated({ user, header, children }) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
         return url === '/books' || /^\/libraries\/\d+$/.test(url);
     }
-    
+
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-white">
             <nav className=" w-full bg-metal border-b border-gray-100 top-0 fixed">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">

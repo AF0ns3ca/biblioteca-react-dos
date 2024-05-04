@@ -1,11 +1,16 @@
 import React from 'react';
-// boton que redirija al metodo create del controlador
 
-export default function AddButton() {
+// Acepta props onClick
+export default function AddButton({ onClick }) {
+    // Prevent default behavior and execute provided function
+    const handleClick = (e) => {
+        e.preventDefault();  // Previene la navegación estándar del enlace
+        onClick();           // Ejecuta la función pasada a través de props
+    };
+
     return (
-        <a href={route('libraries.create')} className="bg-metal text-white px-4 py-4 rounded-full">
+        <button onClick={handleClick} className="bg-metal text-white px-4 py-4 rounded-full">
             Añadir Biblioteca
-        </a>
+        </button>
     );
 };
-
