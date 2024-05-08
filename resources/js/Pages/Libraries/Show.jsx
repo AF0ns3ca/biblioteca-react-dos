@@ -29,8 +29,8 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
                 </div>
 
                 {/* Panel Derecho para Mostrar Libros - Ocupará 65% del ancho */}
-                <div className="w-full p-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-4 gap-10">
+                <div className="w-full p-10 pl-20">
+                    <div className="w-full flex flex-col gap-10">
                         {books.map((book) => (
                             <CardInLibrary
                                 key={book.id}

@@ -86,7 +86,7 @@ const Card = ({ book, libraries }) => {
                 {/* Ventana modal para seleccionar biblioteca */}
                 {showModal && (
                 <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
-                    <div className="relative h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
+                    <div className="relative max-h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
                         <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
                         <div className="grid gap-4">
                             {libraries.map((library) => (

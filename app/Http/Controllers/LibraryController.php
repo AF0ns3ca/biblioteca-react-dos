@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\BookToLibrary;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Rate;
 
 class LibraryController extends Controller
 {
@@ -87,11 +88,20 @@ class LibraryController extends Controller
         //     ->where('book_to_libraries.library_id', $id)
         //     ->get();
 
-        // Quiero obtener los libros con todos sus datos y su library id que estén en la biblioteca con el id que se pasa por parametro
-        $books = Book::select('books.*') // Seleccionar todos los campos de la tabla books
-            ->join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
+        // Quiero obtener los libros con todos sus datos, su rate (que sea del usuario que esta logeado) y su library id que estén en la biblioteca con el id que se pasa por parametro
+        $books = Book::select('books.*', 'rate.rate as rate', 'book_to_libraries.library_id as library
+        ')
+            ->leftJoin('rate', function ($join) {
+                $join->on('books.id', '=', 'rate.book_id')
+                    ->where('rate.user_id', auth()->id());
+            })
+            ->leftJoin('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
             ->where('book_to_libraries.library_id', $id)
             ->get();
+
+
+        
+        
 
         // obtener la biblioteca con el id que se pasa por parametro
         $currentLibrary = Library::find($id);
@@ -107,9 +117,7 @@ class LibraryController extends Controller
             'books' => $books,
             'libraries' => Library::where('user_id', auth()->id())->get(),
             'currentLibrary' => $currentLibrary,
-            'librariesWithBookCount' => $librariesWithBookCount
-
-
+            'librariesWithBookCount' => $librariesWithBookCount,
         ]);
     }
 

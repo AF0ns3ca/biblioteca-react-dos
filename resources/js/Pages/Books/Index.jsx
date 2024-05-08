@@ -27,14 +27,14 @@ export default function Index({ auth, books, libraries }) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Discover Books" />
-            <AlphabetNav selectedLetter={selectedLetter} setSelectedLetter={setSelectedLetter} />
+            {/* <AlphabetNav selectedLetter={selectedLetter} setSelectedLetter={setSelectedLetter} /> */}
             <>
 
                 <div
                     id="cards"
                     className={`w-full ${
                         view === "cards" ? "flex" : "hidden"
-                    } pt-32 items-center justify-center pb-3 bg-white`}
+                    } pt-24 items-center justify-center pb-3 bg-white`}
                 >
                     {/* Renderizar las tarjetas */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">

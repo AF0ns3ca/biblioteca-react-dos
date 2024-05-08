@@ -49,6 +49,11 @@ Route::post('/booktolibrary', [BookToLibraryController::class, 'store'])->name('
 
 Route::delete('/booktolibrary/{book_id}/{library_id}', 'App\Http\Controllers\BookToLibraryController@destroy')->name('booktolibrary.destroy');
 
+//Ruta a metodo Rate store
+Route::post('/rate/store', 'App\Http\Controllers\RateController@store')->name('rate.store');
+Route::put('/rate/update', 'App\Http\Controllers\RateController@update')->name('rate.update');
+Route::delete('/rate/destroy/{id}', 'App\Http\Controllers\RateController@destroy')->name('rate.destroy');
+
 
 
 

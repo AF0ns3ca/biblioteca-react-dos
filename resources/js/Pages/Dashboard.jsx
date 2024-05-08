@@ -46,16 +46,16 @@ export default function Index({ auth }) {
                                     onClick={handleImageClick}
                                 />
                             </div>
-                            <div className="w-full p-10 my-10 text-xl rounded-lg bg-metallight text-white font-serif flex flex-row justify-between">
-                                <div className="flex flex-col justify-center">
+                            <div className="w-full p-10 my-10 text-xl rounded-lg bg-yellow-600 text-white font-serif flex flex-row justify-between">
+                                <div className="flex flex-col justify-center p-2">
                                     <h1 className="text-4xl">
                                         Bienvenido a Book
                                         <span className="font-bold text-blue-200">
                                             Nest
                                         </span>
-                                        ,
-                                        <span className="capitalize">
-                                            {" "}
+                                        , {" "}
+                                        <span className="capitalize inline-block">
+                                            
                                             {auth.user.name}
                                         </span>
                                         !
@@ -80,7 +80,7 @@ export default function Index({ auth }) {
                                         </li>
                                     </ul>
                                 </div>
-                                <div>
+                                <div className="pl-4">
                                     <img
                                         src="/images/libraries.jpg"
                                         alt=""
@@ -94,11 +94,11 @@ export default function Index({ auth }) {
                                     Autores del momento
                                 </h1>
                                 <div className="w-full flex flex-row justify-start gap-6 text-center">
-                                    <div className="bg-metallight rounded p-3 text-white">
+                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/sanderson.jpg"
                                             alt=""
-                                            className="w-[300px] h-[400px] rounded cursor-pointer"
+                                            className="w-[300px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Brandon Sanderson`
@@ -109,11 +109,11 @@ export default function Index({ auth }) {
                                             Brandon Sanderson
                                         </p>
                                     </div>
-                                    <div className="bg-metallight rounded p-3 text-white">
+                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/rebecca.jpg"
                                             alt=""
-                                            className="w-[300px] h-[400px] rounded cursor-pointer"
+                                            className="w-[300px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Rebecca Yarros`
@@ -124,11 +124,11 @@ export default function Index({ auth }) {
                                             Rebecca Yarros
                                         </p>
                                     </div>
-                                    <div className="bg-metallight rounded p-3 text-white">
+                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/sally.jpg"
                                             alt=""
-                                            className="w-[300px] h-[400px] rounded cursor-pointer"
+                                            className="w-[300px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Sally Rooney`
@@ -139,11 +139,11 @@ export default function Index({ auth }) {
                                             Sally Rooney
                                         </p>
                                     </div>
-                                    <div className="bg-metallight rounded p-3 text-white">
+                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/king.jpg"
                                             alt=""
-                                            className="w-[300px] h-[400px] rounded cursor-pointer"
+                                            className="w-[300px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Stephen King`
