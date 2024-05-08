@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\BookToLibraryController;
 use App\Models\BookToLibrary;
@@ -28,6 +29,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('books', 'App\Http\Controllers\BookController');
+// En routes/web.php
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+
 
 // ruta a destroy con id
 Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');

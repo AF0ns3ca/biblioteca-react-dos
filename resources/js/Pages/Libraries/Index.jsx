@@ -60,7 +60,7 @@ export default function Index({ auth, librariesWithBookCount }) {
                                 <input
                                     id="nombre"
                                     type="text"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-metallight leading-tight focus:outline-none focus:shadow-outline"
                                     value={nombre}
                                     onChange={(e) => setNombre(e.target.value)}
                                 />
@@ -93,13 +93,13 @@ export default function Index({ auth, librariesWithBookCount }) {
                                     onClick={() => setShowModal(false)}
                                     className="bg-red-500 text-white rounded px-4 py-2"
                                 >
-                                    X
+                                    Cancelar
                                 </button>
                             </div>
                         </form>
-                        {/* <button onClick={() => setShowModal(false)} className="absolute top-0 right-0 p-4">
+                        <button onClick={() => setShowModal(false)} className="absolute top-0 right-0 p-4">
                             X
-                        </button> */}
+                        </button>
                     </div>
                 </div>
             )}

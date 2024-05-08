@@ -21,12 +21,12 @@ class LibraryController extends Controller
         // ]);
 
         $librariesWithBookCount = Library::where('user_id', auth()->id())
-        ->withCount('books') // Contar el número de libros para cada biblioteca
-        ->get();
+            ->withCount('books') // Contar el número de libros para cada biblioteca
+            ->get();
 
-    return Inertia::render('Libraries/Index', [
-        'librariesWithBookCount' => $librariesWithBookCount
-    ]);
+        return Inertia::render('Libraries/Index', [
+            'librariesWithBookCount' => $librariesWithBookCount
+        ]);
 
 
     }
@@ -48,33 +48,33 @@ class LibraryController extends Controller
 
         // el usuario es el usuario logueado
 
-try{
+        try {
 
-    $user = auth()->user();
-        $request['user_id'] = $user->id;
+            $user = auth()->user();
+            $request['user_id'] = $user->id;
 
-        $validatedData = $request->validate([
-            'nombre' => 'required',
-            'tipo' => 'required',
-            'user_id' => 'required'
-        ]);
+            $validatedData = $request->validate([
+                'nombre' => 'required',
+                'tipo' => 'required',
+                'user_id' => 'required'
+            ]);
 
-        Library::create($validatedData);
+            Library::create($validatedData);
 
 
-        // enviamos al metodo index
-        return redirect()->route('libraries.index');
+            // enviamos al metodo index
+            return redirect()->route('libraries.index');
 
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(String $id)
+    public function show(string $id)
     {
 
 
@@ -93,12 +93,12 @@ try{
             ->where('book_to_libraries.library_id', $id)
             ->get();
 
-        // quiero obtener la biblioteca con el id que se pasa por parametro
+        // obtener la biblioteca con el id que se pasa por parametro
         $currentLibrary = Library::find($id);
 
         $librariesWithBookCount = Library::where('user_id', auth()->id())
-        ->withCount('books') // Contar el número de libros para cada biblioteca
-        ->get();
+            ->withCount('books') // Contar el número de libros para cada biblioteca
+            ->get();
 
 
         //mandar a la vista de show con inertia la biblioteca con el id que se pasa por parametro y los libros que tiene
@@ -132,7 +132,7 @@ try{
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(String $id)
+    public function destroy(string $id)
     {
         // Encuentra el libro
         $library = Library::findOrFail($id);

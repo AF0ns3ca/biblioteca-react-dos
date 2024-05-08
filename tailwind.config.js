@@ -19,6 +19,10 @@ export default {
                 'metal': '#34495E',
                 'metaldark': '#2C3E50',
                 'metallight': '#5D6D7E',
+                'turquesa': '#1ABC9C',
+                'turquesadark': '#16A085',
+                'turquesalight': '#48C9B0',
+                'honey': '#F1C40F',
             },
             screens:{
                 'lgxl': '1500px',

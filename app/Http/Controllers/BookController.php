@@ -15,11 +15,21 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $autor = $request->query('autor');
+
+        if ($autor) {
+            $books = Book::where('autor', 'like', "%{$autor}%")->get();
+        } else {
+            $books = Book::all();
+        }
+
+
         return Inertia::render('Books/Index', [
             // devolver los libros ordenados por titulo
-            'books' => Book::orderBy('titulo')->get(),
+            'books' => $books,
             // Mandamos todas las bibliotecas que tenga el usuario logueado
             'libraries' => Library::where('user_id', auth()->id())->get()
 
