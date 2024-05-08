@@ -1,11 +1,11 @@
 // Index.js
-
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import ChangeButton from "@/Components/ChangeButton";
 import AlphabetNav from '@/Components/AlphabetNav';  // Asegúrate de usar la ruta correcta
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Index({ auth, books, libraries }) {
     const [view, setView] = useState(() => localStorage.getItem("view") || "cards");

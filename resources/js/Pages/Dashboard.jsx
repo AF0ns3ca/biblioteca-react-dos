@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import BookNest from "@/Components/BookNest";
 import { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
+import { Head } from "@inertiajs/react";
 
 export default function Index({ auth }) {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -33,6 +34,7 @@ export default function Index({ auth }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
+            <Head title="Inicio" />
             <div className="py-20">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div>
@@ -155,6 +157,17 @@ export default function Index({ auth }) {
                                         </p>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="flex flex-row items-center gap-10 text-2xl font-serif p-10 mb-10 mt-24">
+                                <p className="text-justify">
+                                "Los libros son puertas a mundos inexplorados, puertas que nos ofrecen escapar a otros mundos, son conocimiento y aventura al alcance de nuestras manos. Cada página que pasamos alimenta nuestro espíritu, amplía nuestros horizontes y fortalece nuestra comprensión del mundo y de nosotros mismos. Son herramientas poderosas que moldean mentes, construyen puentes entre culturas y generaciones, y despiertan nuestra creatividad más profunda. Abre un libro y descubre no solo historias, sino también partes de ti mismo en cada personaje y trama. ¡Explora, aprende y crece con cada lectura!"
+                                </p>
+                                {/* Slider Image */}
+                                <img
+                                    src="/images/magic.png"
+                                    alt="Book Image"
+                                    className="h-96 rounded-lg"
+                                />
                             </div>
                         </div>
                     </div>

@@ -13,7 +13,7 @@ class RateController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'rate' => 'required|numeric|min:1|max:5', // Asegúrate de validar como número
+            'rate' => 'required|numeric|min:1', // Asegúrate de validar como número
             'book_id' => 'required|exists:books,id',
         ]);
 
@@ -41,7 +41,7 @@ class RateController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'rate' => 'required|numeric|min:1|max:5',
+            'rate' => 'required|numeric|min:1',
             'book_id' => 'required|exists:books,id',
         ]);
 

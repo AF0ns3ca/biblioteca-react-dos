@@ -23,7 +23,8 @@ class BookController extends Controller
         if ($autor) {
             $books = Book::where('autor', 'like', "%{$autor}%")->get();
         } else {
-            $books = Book::all();
+            // Obtener todos los libros ordenados por titulo
+            $books = Book::orderBy('titulo')->get();
         }
 
 

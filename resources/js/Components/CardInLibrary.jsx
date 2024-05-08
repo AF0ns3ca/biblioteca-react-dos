@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Rating } from "@mui/material";
-import RatingSize from "./RatingSize";
 import BasicRating from "./BasicRating";
 
 const CardInLibrary = ({ book, libraries, currentLibrary }) => {
@@ -43,18 +42,18 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
     };
 
     return (
-        <div className="card w-full flex flex-col gap-5 p-5 rounded min-w-[263px] border-b-2">
+        <div className="card w-full max-h-[250px] flex flex-col pb-5 rounded min-w-[263px] border-b-2">
 
-            <div className="w-full flex flex-row items-center justify-start gap-10">
+            <div className="w-full max-h-[250px] flex flex-row items-center justify-start">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
-                <div className="w-full flex flex-row gap-20">
+                <div className="w-full flex flex-row gap-10">
                     <a
                         href={route("books.show", book.id)}
                         key={book.id}
                         className="cursor-pointer"
                     >
-                        <div className="w-[210px] h-[320px]">
+                        <div className="w-[140px] h-[215px]">
                             {book.portada ? (
                                 <img
                                     src={book.portada}
@@ -62,7 +61,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
                                     className="w-full h-full rounded"
                                 />
                             ) : (
-                                <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
+                                <div className="w-[140px] h-[215px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
                                     <span className="text-2xl font-bold text-gray-600">
                                         {book.titulo}
                                     </span>
@@ -71,10 +70,10 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
                         </div>
                     </a>
 
-                    <div className="w-full flex flex-col justify-between">
-                        <div className=" flex flex-col gap-3">
-                            <h2 className="titulo text-3xl font-serif">{book.titulo}</h2>
-                            <p className="autor text-xl">
+                    <div className="w-full max-h-[250px] flex flex-col justify-between">
+                        <div className=" flex flex-col gap-2">
+                            <h2 className="titulo text-2xl font-serif">{book.titulo}</h2>
+                            <p className="autor text-l">
                                 by{" "}
                                 <span className="text-metal cursor-pointer underline"
                                     onClick={() =>
@@ -86,7 +85,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
                                     {book.autor}
                                 </span>
                             </p>
-                            <p className="serie text-xl">
+                            <p className="serie text-l">
                                 {book.serie ? book.serie : "Standalone"}{" "}
                                 {book.numero ? `#${book.num_serie}` : ""}
                             </p>
@@ -94,10 +93,10 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
                         </div>
 
                         {/* Botón "Añadir a" */}
-                        <div className="w-full flex flex-row justify-center items-center gap-2">
-                            <div className="w-full flex flex-row gap-2">
+                        <div className="w-full max-h-[250px] flex flex-row items-center gap-2">
+                            <div className="w-full flex flex-row items-end justify-end gap-2">
                                 <button
-                                    className="w-[50%] text-center py-2 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
+                                    className="w-[150px] text-center py-1 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
                                     onClick={() => setShowModal(true)}
                                 >
                                     Añadir a ...
@@ -106,7 +105,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
                                     onClick={() =>
                                         handleDelete(book.id, currentLibrary.id)
                                     }
-                                    className="w-[50%] text-center py-2 bg-red-500 text-white rounded px-2"
+                                    className="w-[150px] text-center py-1 bg-red-500 text-white rounded px-2"
                                 >
                                     Eliminar
                                 </button>

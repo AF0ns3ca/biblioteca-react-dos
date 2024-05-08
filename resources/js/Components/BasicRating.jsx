@@ -65,7 +65,8 @@ export default function BasicRating({ book, initialRating }) {
                 defaultValue={0}
                 value={value}
                 precision={0.5}
-                size="large"
+                // max={10}
+                // size="large"
                 onChange={handleRatingChange}
             />
         </Box>
