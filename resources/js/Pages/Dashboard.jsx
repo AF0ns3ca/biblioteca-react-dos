@@ -95,12 +95,12 @@ export default function Index({ auth }) {
                                 <h1 className="text-5xl text-center font-serif pb-5">
                                     Autores del momento
                                 </h1>
-                                <div className="w-full flex flex-row justify-start gap-6 text-center">
-                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
+                                <div className="w-full flex flex-row justify-start gap-3 text-center">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/sanderson.jpg"
                                             alt=""
-                                            className="w-[300px] h-[380px] rounded cursor-pointer"
+                                            className="w-[340px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Brandon Sanderson`
@@ -111,11 +111,11 @@ export default function Index({ auth }) {
                                             Brandon Sanderson
                                         </p>
                                     </div>
-                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/rebecca.jpg"
                                             alt=""
-                                            className="w-[300px] h-[380px] rounded cursor-pointer"
+                                            className="w-[340px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Rebecca Yarros`
@@ -126,11 +126,11 @@ export default function Index({ auth }) {
                                             Rebecca Yarros
                                         </p>
                                     </div>
-                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/sally.jpg"
                                             alt=""
-                                            className="w-[300px] h-[380px] rounded cursor-pointer"
+                                            className="w-[340px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Sally Rooney`
@@ -141,11 +141,11 @@ export default function Index({ auth }) {
                                             Sally Rooney
                                         </p>
                                     </div>
-                                    <div className="bg-metaldark rounded p-3 text-white hover:bg-metal">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
                                         <img
                                             src="/images/authors/king.jpg"
                                             alt=""
-                                            className="w-[300px] h-[380px] rounded cursor-pointer"
+                                            className="w-[340px] h-[380px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Stephen King`
