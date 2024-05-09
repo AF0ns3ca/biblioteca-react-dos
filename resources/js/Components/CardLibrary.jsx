@@ -15,7 +15,7 @@ const CardLibrary = ({ library }) => {
     };
 
     return (
-        <div className="flex flex-row items-center justify-between bg-white shadow border p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
+        <div className="w-full flex flex-row items-center justify-between bg-white shadow border p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
             {/* Columna izquierda para el tipo de biblioteca */}
             <div className="flex flex-col items-start justify-center gap-1 p-2">
                 {library.tipo === "Fisica" ? <PhysicalLibraryIcon /> : <DigitalLibraryIcon />}

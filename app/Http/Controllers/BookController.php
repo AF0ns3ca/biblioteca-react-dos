@@ -135,11 +135,20 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-        //
         $book = Book::findOrFail($id);
+
+        $autor = $book->autor;
+        $booksAuthor = Book::where('autor', 'like', "%{$autor}%")->get();
+
+        $serie = $book->serie;
+        $booksSerie = Book::where('serie', 'like', "%{$serie}%")->get();
+
         // Devolver con inertia
         return Inertia::render('Books/Show', [
-            'book' => $book
+            'book' => $book,
+            'booksAuthor' => $booksAuthor,
+            'bookSerie' => $booksSerie,
+            'libraries' => Library::where('user_id', auth()->id())->get(),
         ]);
     }
 

@@ -34,8 +34,9 @@ export default function Index({ auth, librariesWithBookCount }) {
         >
             <Head title="Bibliotecas" />
             <div className="w-full h-full flex justify-center items-center">
-                <div className="h-full flex py-4 px-14">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lgxl:grid-cols-4 gap-10">
+                <div className="w-[70%] h-full flex py-4 px-14">
+                    {/* Cambiar a grid cols y cambiar los width para volver atras, poner boton para cambiar la vista de cuadrícula a alargado */}
+                    <div className="w-full grid grid-rows-1 sm:grid-rows-2 md:grid-rows-3 lg:grid-rows-4 lgxl:grid-rows-4 gap-10">
                         {librariesWithBookCount.map((library) => (
                             <CardLibrary key={library.id} library={library} />
                         ))}

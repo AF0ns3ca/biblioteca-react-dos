@@ -98,25 +98,25 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </div>
                                 <div className="w-[50%] h-full flex flex-col justify-center items-center gap-5 bg-metaldark text-white">
                                     <div className="relative w-full h-full flex flex-col items-center justify-center gap-5 p-5 font-serif">
-                                            <p className="w-full text-xl">
-                                                <span className="italic">
-                                                    "¿Podrías decirme, por
-                                                    favor, qué camino debo
-                                                    seguir para salir de aquí?"
-                                                </span>
-                                                - preguntó Alicia.
-                                            </p>
-                                            <p className="w-full text-xl">
-                                                <span className="italic">
-                                                    "Esto depende en gran parte
-                                                    del sitio al que quieras
-                                                    llegar"
-                                                </span>
-                                                - dijo el Gato de Cheshire.
-                                            </p>
-                                            <p className="absolute bottom-5 right-5 font-serif">
-                                                Alicia en el País de las Maravillas - Lewis Carroll
-                                            </p>
+                                        <p className="w-full text-xl lg:text-l md:text-sm">
+                                            <span className="italic">
+                                                "¿Podrías decirme, por favor,
+                                                qué camino debo seguir para
+                                                salir de aquí?"
+                                            </span>
+                                            - preguntó Alicia.
+                                        </p>
+                                        <p className="w-full text-xl md:text-sm">
+                                            <span className="italic">
+                                                "Esto depende en gran parte del
+                                                sitio al que quieras llegar"
+                                            </span>
+                                            - dijo el Gato de Cheshire.
+                                        </p>
+                                        <p className="absolute bottom-5 right-5 font-serif md: text-sm">
+                                            Alicia en el País de las Maravillas
+                                            - Lewis Carroll
+                                        </p>
                                     </div>
                                 </div>
                             </div>

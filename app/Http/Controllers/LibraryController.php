@@ -100,8 +100,11 @@ class LibraryController extends Controller
             ->get();
 
 
-        
-        
+
+
+
+
+
 
         // obtener la biblioteca con el id que se pasa por parametro
         $currentLibrary = Library::find($id);
