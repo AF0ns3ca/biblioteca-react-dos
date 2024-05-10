@@ -6,7 +6,7 @@ const UsersIndex = ({ auth, users }) => {
     // mostrar por consola los datos que se reciben de cada usuario con for each
 
     users.forEach((user) => {
-        console.log(user.name, user.email, user.role);
+        console.log(user.name, user.email, user.roles);
     });
 
     return (

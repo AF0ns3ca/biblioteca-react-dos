@@ -18,10 +18,20 @@ class AdminController extends Controller
     public function users()
     {
         // Coge todos los usuarios con su relacion con role_user y roles para mostrar el nombre del rol
-        $users = User::with('roles')->get();
+        $users = User::with('roles')->get()->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->roles->pluck('role')->join(', ') // Une los nombres de roles con comas
+            ];
+        });
+
         return Inertia::render('Admin/Users', [
             'users' => $users
         ]);
     }
 
 }
+
+

@@ -11,7 +11,7 @@ export default function Index({ auth, book, booksAuthor, bookSeries, libraries }
             <div className="w-full flex flex-1 items-center justify-center">
                 <div className="w-[70%] h-full flex flex-col items-center justify-center gap-6">
                     <div className="w-[70%] h-screen flex flex-row items-center justify-center gap-6">
-                        <div className="w-[30%] h-[70%] flex items-center justify-center">
+                        <div className="w-[30%] flex items-center justify-center">
                             {book.portada ? (
                                 <img
                                     src={book.portada}
@@ -46,9 +46,9 @@ export default function Index({ auth, book, booksAuthor, bookSeries, libraries }
                             </a>
                         </div>
                     </div>
-                    <div>
+                    <div className="w-full">
                         <h2 className="text-2xl">Libros del mismo autor</h2>
-                        <div className="flex flex-row">
+                        <div className="w-full flex flex-row overflow-x-scroll">
                             {booksAuthor.map((book) => (
                                 <Card
                                     book={book}
