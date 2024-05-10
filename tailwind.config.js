@@ -23,6 +23,12 @@ export default {
                 'turquesadark': '#16A085',
                 'turquesalight': '#48C9B0',
                 'honey': '#F1C40F',
+                'premium' : '#602F6B',
+                'premiumdark' : '#512E5F',
+                'premiumlight' : '#76448A',
+                'imperial' : '#EFB810',
+                'imperialdark' : '#E0A70C',
+                'imperiallight' : '#F4D03F',
             },
             screens:{
                 'lgxl': '1500px',

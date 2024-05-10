@@ -20,4 +20,18 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
+    })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append: [
+            \App\Http\Middleware\HandleInertiaRequests::class,
+            \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+        ]);
+    
+        // Ajustar la definición de alias para middleware
+        $middleware->alias([
+            'check.role' => \App\Http\Middleware\CheckRole::class,
+        ]);
     })->create();
+    
+
+    
