@@ -67,7 +67,9 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
-    Route::get('/admin/books', [AdminController::class, 'index'])->name('admin.books');
+    Route::delete('/admin/users/{id}', [AdminController::class, 'userDestroy'])->name('admin.userDestroy');
+    Route::get('/admin/books', [AdminController::class, 'books'])->name('admin.books');
+
 });
 
 

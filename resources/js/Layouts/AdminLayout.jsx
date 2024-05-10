@@ -17,7 +17,7 @@ export default function Admin({ user, header, children }) {
 
     function checkUrl(url) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
-        return url === '/books' || /^\/libraries\/\d+$/.test(url);
+        return url === '/admin/books';
     }
 
 
@@ -173,26 +173,26 @@ export default function Admin({ user, header, children }) {
                 >
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
+                            href={route("admin.index")}
+                            active={route().current("admin.index")}
                         >
                             Inicio
                         </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("libraries.index")}
-                            active={route().current("libraries.index")}
+                            href={route("admin.users")}
+                            active={route().current("admin.users")}
                         >
-                            Bibliotecas
+                            Usuarios
                         </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("books.index")}
-                            active={route().current("books.index")}
+                            href={route("admin.books")}
+                            active={route().current("admin.books")}
                         >
-                            Descubrir Libros
+                            Gestionar Libros
                         </ResponsiveNavLink>
                     </div>
 

@@ -20,10 +20,21 @@ export default function Authenticated({ user, header, children }) {
         return url === '/books' || /^\/libraries\/\d+$/.test(url);
     }
 
+    let bgColor = "bg-white"; // Valor por defecto
+    let textColor = "text-gray-800"; // Valor por defecto
+
+
+    bgColor = "bg-metal";
+    textColor = "text-blue-200";
+
+    // Se pone el color de fondo en "metal" si el usuario es user y "imperial" si es premmium_user
+    // const bgColor = user.roles.includes("user") ? "bg-metal" : "bg-premium";
+    // const textColor = user.roles === "user" ? "text-blue-200" : "text-purple-200";
+
 
     return (
         <div className="min-h-screen bg-white">
-            <nav className=" w-full bg-metal border-b border-gray-100 top-0 fixed">
+            <nav className={`w-full ${bgColor} border-b border-gray-100 top-0 fixed`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -32,7 +43,7 @@ export default function Authenticated({ user, header, children }) {
                                     {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" /> */}
                                     <div className="text-white text-3xl font-serif">
                                         Book
-                                        <span className="font-bold text-blue-200">
+                                        <span className={`font-bold ${textColor}`}>
                                             Nest
                                         </span>
                                     </div>
@@ -81,10 +92,10 @@ export default function Authenticated({ user, header, children }) {
                             <div className="relative hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <Dropdown>
                                     <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md bg-metal">
+                                        <span className={`inline-flex rounded-md ${bgColor}`}>
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center py-2 border border-transparent leading-4 font-medium rounded-md bg-metal focus:outline-none transition ease-in-out duration-150 text-white text-md"
+                                                className={`inline-flex items-center py-2 border border-transparent leading-4 font-medium rounded-md ${bgColor} focus:outline-none transition ease-in-out duration-150 text-white text-md`}
                                             >
                                                 {user.name}
 

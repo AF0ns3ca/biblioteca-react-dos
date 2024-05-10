@@ -43,7 +43,7 @@ export default function Index({ auth, librariesWithBookCount }) {
                     </div>
                 </div>
                 <div className="fixed bottom-10 right-10 rounded-full">
-                    <AddButton onClick={() => setShowModal(true)} />
+                    <AddButton color={"bg-metal"} onClick={() => setShowModal(true)} />
                 </div>
             </div>
 
