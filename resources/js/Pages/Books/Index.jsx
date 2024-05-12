@@ -7,7 +7,7 @@ import ChangeButton from "@/Components/ChangeButton";
 import AlphabetNav from '@/Components/AlphabetNav';  // Asegúrate de usar la ruta correcta
 import { Inertia } from "@inertiajs/inertia";
 
-export default function Index({ auth, books, libraries }) {
+export default function Index({ auth, books, librariesWithBookCount }) {
     const [view, setView] = useState(() => localStorage.getItem("view") || "cards");
     const [selectedLetter, setSelectedLetter] = useState({ letter: '', field: '' });
 
@@ -39,7 +39,7 @@ export default function Index({ auth, books, libraries }) {
                     {/* Renderizar las tarjetas */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
                         {filteredBooks.map((book) => (
-                            <Card book={book} libraries={libraries} key={book.id} />
+                            <Card book={book} libraries={librariesWithBookCount} key={book.id} />
                         ))}
                     </div>
                 </div>

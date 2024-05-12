@@ -6,14 +6,42 @@ import { Inertia } from "@inertiajs/inertia";
 import CardLibrary from "@/Components/CardLibrary";
 import AddButton from "@/Components/AddButton";
 
-export default function Index({ auth, librariesWithBookCount }) {
+export default function Index({ auth, librariesWithBookCount, role }) {
     const [showModal, setShowModal] = useState(false);
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState("Fisica");
 
+    console.log(role);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post("/libraries", { nombre, tipo });
+        // enviar la informacion con Inertia y en caso de error, recibir un json convertirlo a string y mostrarlo en un alert
+        Inertia.post(
+            "/libraries",
+            { nombre, tipo },
+            {
+                preserveScroll: true,
+                onSuccess: (response) => {
+                    // Si la petición tiene éxito, puedes procesar los datos aquí
+                    console.log("Respuesta del servidor:", response);
+
+                    // Por ejemplo, actualizar el estado de tu aplicación
+                    setNombre("");
+                    setTipo("Fisica");
+                },
+                onError: (errors) => {
+                    // Si la petición falla, puedes mostrar los errores en un alert
+                    if (
+                        errors.error === "No puedes tener más de 5 bibliotecas."
+                    ) {
+                        alert(errors.error);
+                    } else {
+                        alert(Object.values(errors).flat().join("\n"));
+                    }
+                },
+            }
+        );
+
         setShowModal(false); // Cierra la modal después de enviar los datos
     };
 
@@ -42,13 +70,22 @@ export default function Index({ auth, librariesWithBookCount }) {
                         ))}
                     </div>
                 </div>
-                <div className="fixed bottom-10 right-10 rounded-full">
-                    <AddButton color={"bg-metal"} onClick={() => setShowModal(true)} />
-                </div>
+                {(librariesWithBookCount.length < 5 && role == "user") && (
+                    <div className="fixed bottom-10 right-10 rounded-full">
+                        <AddButton
+                            color={"bg-metal"}
+                            onClick={() => setShowModal(true)}
+                        />
+                    </div>
+                )}
             </div>
 
             {showModal && (
-                <div id="modal-background" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"  onClick={handleCloseModal}>
+                <div
+                    id="modal-background"
+                    className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
+                    onClick={handleCloseModal}
+                >
                     <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg">
                         <form onSubmit={handleSubmit} className="w-full">
                             <div className="mb-4">
@@ -98,7 +135,10 @@ export default function Index({ auth, librariesWithBookCount }) {
                                 </button>
                             </div>
                         </form>
-                        <button onClick={() => setShowModal(false)} className="absolute top-0 right-0 p-4">
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className="absolute top-0 right-0 p-4"
+                        >
                             X
                         </button>
                     </div>

@@ -16,6 +16,8 @@ class LibraryController extends Controller
      */
     public function index()
     {
+
+        $user = auth()->user();
         //Devolver a vista con todas las bibliotecas que tengan el mismo id que el usuario logueado con inertia
         // return Inertia::render('Libraries/Index', [
         //     'libraries' => Library::where('user_id', auth()->id())->get()
@@ -26,7 +28,8 @@ class LibraryController extends Controller
             ->get();
 
         return Inertia::render('Libraries/Index', [
-            'librariesWithBookCount' => $librariesWithBookCount
+            'librariesWithBookCount' => $librariesWithBookCount,
+            "role" => $user->roles()->pluck('role')->first()
         ]);
 
 
@@ -45,32 +48,33 @@ class LibraryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
+    try {
+        $user = auth()->user();
 
-        // el usuario es el usuario logueado
-
-        try {
-
-            $user = auth()->user();
-            $request['user_id'] = $user->id;
-
-            $validatedData = $request->validate([
-                'nombre' => 'required',
-                'tipo' => 'required',
-                'user_id' => 'required'
-            ]);
-
-            Library::create($validatedData);
-
-
-            // enviamos al metodo index
-            return redirect()->route('libraries.index');
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        // Verificar el tipo de usuario y su límite de bibliotecas
+        if ($user->roles->pluck('role')->join(', ') === 'user' && $user->libraries()->count() >= 5) {
+            // retornar con mensaje de error e inertia render para mostrar el mensaje y no recargar la pagina
+            
+            return to_route(('libraries.index'));
         }
 
+        $request->merge(['user_id' => $user->id]);
+
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'tipo' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        Library::create($validatedData);
+
+        return to_route(('libraries.index'));
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
 
     /**
      * Display the specified resource.
@@ -156,5 +160,8 @@ class LibraryController extends Controller
 
         // Elimina el libro
         $library->delete();
+
+        return to_route('libraries.index');
+
     }
 }

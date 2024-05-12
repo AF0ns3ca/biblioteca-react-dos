@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
 
 
     // ruta a destroy con id
-    Route::get('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
+
 
     Route::resource('libraries', 'App\Http\Controllers\LibraryController');
 
@@ -69,6 +69,9 @@ Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
     Route::delete('/admin/users/{id}', [AdminController::class, 'userDestroy'])->name('admin.userDestroy');
     Route::get('/admin/books', [AdminController::class, 'books'])->name('admin.books');
+    Route::post('/store/books', [BookController::class, 'store'])->name('books.store');
+    Route::delete('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
+
 
 });
 

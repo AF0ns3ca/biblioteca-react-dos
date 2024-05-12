@@ -27,12 +27,16 @@ class BookController extends Controller
             $books = Book::orderBy('titulo')->get();
         }
 
+        $librariesWithBookCount = Library::where('user_id', auth()->id())
+            ->withCount('books') // Contar el número de libros para cada biblioteca
+            ->get();
+
 
         return Inertia::render('Books/Index', [
             // devolver los libros ordenados por titulo
             'books' => $books,
-            // Mandamos todas las bibliotecas que tenga el usuario logueado
-            'libraries' => Library::where('user_id', auth()->id())->get()
+            // Mandamos el conteo de libros por biblioteca
+            'librariesWithBookCount' => $librariesWithBookCount,
 
         ]);
     }
@@ -98,10 +102,8 @@ class BookController extends Controller
             'autor' => 'required|max:255',
             'serie' => 'max:255|nullable',
             'num_serie' => 'numeric|nullable',
+            'descripcion' => 'nullable',
             'paginas' => 'required|numeric',
-            'estante' => 'required|numeric',
-            'balda' => 'required|max:255',
-            'fila' => 'required|max:255'
 
         ]);
 
@@ -127,7 +129,7 @@ class BookController extends Controller
 
 
         Book::create($validatedData);
-        return redirect(route('books.index'))->with('success', 'Book is successfully saved');
+        return redirect(route('admin.books'))->with('success', 'Book is successfully saved');
     }
 
     /**
@@ -268,5 +270,7 @@ class BookController extends Controller
 
         // Elimina el libro
         $book->delete();
+
+        return to_route('admin.books');
     }
 }

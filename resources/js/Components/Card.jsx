@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
-import CardLibrary from "./CardLibrary";
+import CardLibraryModal from "./CardLibraryModal";
 
 const Card = ({ book, libraries }) => {
     const [showModal, setShowModal] = useState(false);
@@ -94,7 +94,7 @@ const Card = ({ book, libraries }) => {
                                     key={library.id}
                                     onClick={() => handleAddToLibrary(library.id)}
                                 >
-                                    <CardLibrary key={library.id} library={library} />
+                                    <CardLibraryModal key={library.id} library={library} />
                                 </button>
                             ))}
                         </div>
