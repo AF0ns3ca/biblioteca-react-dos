@@ -70,6 +70,7 @@ Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     Route::delete('/admin/users/{id}', [AdminController::class, 'userDestroy'])->name('admin.userDestroy');
     Route::get('/admin/books', [AdminController::class, 'books'])->name('admin.books');
     Route::post('/store/books', [BookController::class, 'store'])->name('books.store');
+    Route::put('/update/books/{id}', [BookController::class, 'update'])->name('books.update');
     Route::delete('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
 
 
