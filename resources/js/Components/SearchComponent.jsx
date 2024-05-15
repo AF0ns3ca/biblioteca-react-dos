@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 export default function SearchComponent() {
     useEffect(() => {
         const handleSearch = () => {
             const searchInput = document.getElementById("searchInput");
             const books = document.querySelectorAll(".card");
-            const tableRows = document.querySelectorAll(".table-books table tbody tr");
+            const tableRows = document.querySelectorAll(
+                ".table-books table tbody tr"
+            );
 
             const searchTerm = searchInput.value.toLowerCase();
 
             // Verificar si el campo de búsqueda está vacío
             if (searchTerm === "") {
                 // Restablecer la visibilidad de todos los libros y filas de la tabla
-                books.forEach(book => {
+                books.forEach((book) => {
                     book.style.display = ""; // Mostrar todos los libros
                 });
-                tableRows.forEach(row => {
+                tableRows.forEach((row) => {
                     row.style.display = ""; // Mostrar todas las filas
                 });
             } else {
@@ -25,9 +27,15 @@ export default function SearchComponent() {
                     const authorElement = book.querySelector(".autor");
                     const serieElement = book.querySelector(".serie");
 
-                    const title = titleElement ? titleElement.textContent.toLowerCase() : "";
-                    const author = authorElement ? authorElement.textContent.toLowerCase() : "";
-                    const serie = serieElement ? serieElement.textContent.toLowerCase() : "";
+                    const title = titleElement
+                        ? titleElement.textContent.toLowerCase()
+                        : "";
+                    const author = authorElement
+                        ? authorElement.textContent.toLowerCase()
+                        : "";
+                    const serie = serieElement
+                        ? serieElement.textContent.toLowerCase()
+                        : "";
 
                     if (
                         title.includes(searchTerm) ||
@@ -65,5 +73,12 @@ export default function SearchComponent() {
         };
     }, []);
 
-    return null;
+    return (
+        <input
+            type="text"
+            placeholder="Buscar libros..."
+            id="searchInput"
+            className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700 focus:ring-metaldark"
+        />
+    );
 }

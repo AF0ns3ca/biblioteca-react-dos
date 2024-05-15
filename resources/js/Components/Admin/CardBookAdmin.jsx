@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import InputLabel from "@/Components/InputLabel";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import { red, grey } from '@mui/material/colors';
 
 const CardBookAdmin = ({ book }) => {
     const [showModal, setShowModal] = useState(false);
@@ -32,11 +35,11 @@ const CardBookAdmin = ({ book }) => {
         url_portada: book.url_portada ? book.url_portada : "",
     };
 
-    const { data, setData, put } = useForm({ ...initialValues });
+    const { data, setData, patch } = useForm({ ...initialValues });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(`/update/books/${book.id}`, data, {
+        patch(`/update/books/${book.id}`, data, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
@@ -92,15 +95,15 @@ const CardBookAdmin = ({ book }) => {
                     <div className="w-full flex flex-row justify-center items-center gap-2">
                         <button
                             onClick={() => setShowModal(true)}
-                            className="w-full bg-black hover:bg-gray-900 text-white font-bold py-2 px-4 rounded"
+                            className="w-full border-2 border-black text-white font-bold py-2 px-4 rounded"
                         >
-                            Editar
+                            <EditIcon sx={{color: "#000"}}/>
                         </button>
                         <button
                             onClick={handleDeleteBook}
-                            className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            className="w-full border-2 border-red-500 text-white font-bold py-2 px-4 rounded"
                         >
-                            Eliminar
+                            <DeleteForeverIcon sx={{color: red[500]}}/>
                         </button>
                     </div>
                 </div>
@@ -169,9 +172,9 @@ const CardBookAdmin = ({ book }) => {
                                     htmlFor="descripcion"
                                     value="Descripcion"
                                 />
-                                <input
+
+                                <textarea
                                     id="descripcion"
-                                    type="text"
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-metallight leading-tight focus:outline-none focus:shadow-outline"
                                     value={data.descripcion}
                                     onChange={(e) =>

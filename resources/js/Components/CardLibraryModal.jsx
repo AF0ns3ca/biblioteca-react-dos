@@ -3,13 +3,13 @@ import { Inertia } from "@inertiajs/inertia";
 import PhysicalLibraryIcon from "@/Components/PhysicalLibraryIcon";
 import DigitalLibraryIcon from "@/Components/DigitalLibraryIcon";
 
+
 const CardLibraryModal = ({ library }) => {
     const [hasBook, setHasBook] = useState(false); // Estado para almacenar si la biblioteca tiene el libro
+    const [scrollPosition, setScrollPosition] = useState(0); // Estado para almacenar la posición de desplazamiento
 
     useEffect(() => {
         // Verifica si la biblioteca tiene el libro
-        // Aquí deberías tener una lógica para verificar si el libro está presente en la biblioteca
-        // Puedes ajustar esto según cómo se almacenen los libros en las bibliotecas
         const hasBookInLibrary = () => {
             // Aquí debes implementar la lógica para verificar si el libro está presente en la biblioteca
             // Esto podría involucrar una llamada a la API o una consulta a la base de datos
@@ -18,10 +18,20 @@ const CardLibraryModal = ({ library }) => {
         };
 
         hasBookInLibrary();
+
+        // Almacenar la posición de desplazamiento cuando se monta el componente
+        setScrollPosition(window.scrollY);
+
+        // Restaurar la posición de desplazamiento al volver a la página
+        window.scrollTo(0, scrollPosition);
     }, []);
 
     const handleDelete = (id) => {
-        if (confirm(`¿Estás seguro de que deseas eliminar la biblioteca ${library.nombre}?`)) {
+        if (
+            confirm(
+                `¿Estás seguro de que deseas eliminar la biblioteca ${library.nombre}?`
+            )
+        ) {
             Inertia.delete(route("libraries.destroy", { id }), {
                 onSuccess: () => {
                     window.location.reload();
@@ -34,14 +44,27 @@ const CardLibraryModal = ({ library }) => {
         <div className="w-full flex flex-row items-center justify-between bg-white shadow border p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
             {/* Columna izquierda para el tipo de biblioteca */}
             <div className="flex flex-col items-start justify-center gap-1 p-2">
-                {library.tipo === "Fisica" ? <PhysicalLibraryIcon /> : <DigitalLibraryIcon />}
+                {library.tipo === "Fisica" ? (
+                    <PhysicalLibraryIcon />
+                ) : (
+                    <DigitalLibraryIcon />
+                )}
             </div>
             {/* Columna derecha para el nombre, conteo de libros y botón de eliminar */}
             <div className="flex-1 flex flex-col items-start justify-center p-2">
-                <a href={route("libraries.show", library.id)} className="cursor-pointer flex flex-col items-start">
-                    <h1 className="text-xl font-bold">{library.nombre}</h1>
-                    <p className="text-gray-600">{library.books_count} libros</p>
-                </a>
+                {library.books_count > 0 ? (
+                    <>
+                        <h1 className="text-xl font-bold">{library.nombre}</h1>
+                        <p className="text-gray-600">
+                            {library.books_count} libros
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="text-xl font-bold">{library.nombre}</h1>
+                        <p className="text-gray-600">Vacía</p>
+                    </>
+                )}
             </div>
             {/* Indicador visual si la biblioteca tiene el libro */}
             {/* <div className="p-2">

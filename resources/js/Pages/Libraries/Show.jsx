@@ -37,6 +37,7 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
                                 book={book}
                                 libraries={libraries}
                                 currentLibrary={currentLibrary}
+                                auth={auth}
                             />
                         ))}
                     </div>

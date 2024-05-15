@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model
 {
 
+    // Relacion con tabla readings
+    public function readings()
+    {
+        return $this->hasMany(Reading::class);
+    }
+
     // Relacion con tabla pivote
     public function libraries()
 {

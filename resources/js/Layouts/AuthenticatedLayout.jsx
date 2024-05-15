@@ -9,6 +9,7 @@ import SearchComponent from "@/Components/SearchComponent";
 
 
 export default function Authenticated({ user, header, children }) {
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -20,16 +21,18 @@ export default function Authenticated({ user, header, children }) {
         return url === '/books' || /^\/libraries\/\d+$/.test(url);
     }
 
-    let bgColor = "bg-white"; // Valor por defecto
-    let textColor = "text-gray-800"; // Valor por defecto
+   
+
+    // let bgColor = "bg-white"; // Valor por defecto
+    // let textColor = "text-gray-800"; // Valor por defecto
 
 
-    bgColor = "bg-metal";
-    textColor = "text-blue-200";
+    // bgColor = "bg-metal";
+    // textColor = "text-blue-200";
 
-    // Se pone el color de fondo en "metal" si el usuario es user y "imperial" si es premmium_user
-    // const bgColor = user.roles.includes("user") ? "bg-metal" : "bg-premium";
-    // const textColor = user.roles === "user" ? "text-blue-200" : "text-purple-200";
+    //Se pone el color de fondo en "metal" si el usuario es user y "imperial" si es premmium_user
+    const bgColor = (user.role =="user") ? "bg-metal" : "bg-premium";
+    const textColor = (user.role =="user") ? "text-blue-200" : "text-purple-200";
 
 
     return (
@@ -47,6 +50,13 @@ export default function Authenticated({ user, header, children }) {
                                             Nest
                                         </span>
                                     </div>
+                                    {/* <img
+                                        src="/images/logo/logo.svg"
+                                        alt="BookNest"
+                                        width={150}
+                                        height={50}
+
+                                    /> */}
                                 </Link>
                             </div>
                         </div>
@@ -55,12 +65,6 @@ export default function Authenticated({ user, header, children }) {
                             {/* {url === ("/books" || "/libraries/[id]") && ( */}
                             {checkUrl(url) && (
                                 <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                    <input
-                                        type="text"
-                                        placeholder="Buscar libros..."
-                                        id="searchInput"
-                                        className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700 focus:ring-metaldark"
-                                    />
                                     <SearchComponent />
                                 </div>
                             )}
@@ -71,6 +75,14 @@ export default function Authenticated({ user, header, children }) {
                                     active={route().current("dashboard")}
                                 >
                                     Inicio
+                                </NavLink>
+                            </div>
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink
+                                    href={route("readings.index")}
+                                    active={route().current("readings.index")}
+                                >
+                                    Mis Lecturas
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -188,6 +200,14 @@ export default function Authenticated({ user, header, children }) {
                             active={route().current("dashboard")}
                         >
                             Inicio
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink
+                            href={route("readings.index")}
+                            active={route().current("readings.index")}
+                        >
+                            Mis Lecturas
                         </ResponsiveNavLink>
                     </div>
                     <div className="pt-2 pb-3 space-y-1">

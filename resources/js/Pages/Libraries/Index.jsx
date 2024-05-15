@@ -5,13 +5,15 @@ import { Head } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import CardLibrary from "@/Components/CardLibrary";
 import AddButton from "@/Components/AddButton";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
+import Alert from "@mui/material/Alert";
+import CheckIcon from "@mui/icons-material/Check";
 
 export default function Index({ auth, librariesWithBookCount, role }) {
     const [showModal, setShowModal] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState("Fisica");
-
-    console.log(role);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -51,9 +53,20 @@ export default function Index({ auth, librariesWithBookCount, role }) {
         }
     };
 
+    const handleCreateLibrary = () => {
+        setShowAlert(true);
+    };
+
+    const handleCloseLibrary = (e) => {
+        setShowAlert(false);
+    };
+
+    const bgColor = auth.user.role == "user" ? "bg-metal" : "bg-premium";
+
     return (
         <AuthenticatedLayout
             user={auth.user}
+            role={role}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight mt-16">
                     Bibliotecas de {auth.user.name}
@@ -70,12 +83,42 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                         ))}
                     </div>
                 </div>
-                {(librariesWithBookCount.length < 5 && role == "user") && (
+                {(librariesWithBookCount.length < 5 &&
+                    auth.user.role == "user") ||
+                auth.user.role == "premium_user" ? (
                     <div className="fixed bottom-10 right-10 rounded-full">
                         <AddButton
-                            color={"bg-metal"}
+                            color={bgColor}
                             onClick={() => setShowModal(true)}
                         />
+                    </div>
+                ) : (
+                    <div>
+                        <div
+                            className={`fixed bottom-10 right-10 rounded-full ${bgColor} p-4 text-white`}
+                            onClick={handleCreateLibrary}
+                        >
+                            <WorkspacePremiumIcon />
+                        </div>
+                        {showAlert && (
+                            <div
+                                id="modal-alert"
+                                className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
+                            >
+                                <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg flex flex-col gap-5 font-serif text-lg">
+                                    <p>
+                                        Has llegado al límite de bibliotecas. Para crear más bibliotecas, actualiza a una cuenta premium.
+                                    </p>
+                                    <button>
+                                        <CheckIcon 
+                                            sx={{ fill: "#10B981", fontSize: "35px" }}
+                                            onClick={handleCloseLibrary}
+                                            className="text-center rounded-full border-2 border-green-600 m-3"
+                                        />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Library;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 use App\Models\BookToLibrary;
 use Illuminate\Http\Request;
@@ -17,7 +18,8 @@ class LibraryController extends Controller
     public function index()
     {
 
-        $user = auth()->user();
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
         //Devolver a vista con todas las bibliotecas que tengan el mismo id que el usuario logueado con inertia
         // return Inertia::render('Libraries/Index', [
         //     'libraries' => Library::where('user_id', auth()->id())->get()
@@ -28,6 +30,9 @@ class LibraryController extends Controller
             ->get();
 
         return Inertia::render('Libraries/Index', [
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
             'librariesWithBookCount' => $librariesWithBookCount,
             "role" => $user->roles()->pluck('role')->first()
         ]);
@@ -92,6 +97,9 @@ class LibraryController extends Controller
         //     ->where('book_to_libraries.library_id', $id)
         //     ->get();
 
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
+
         // Quiero obtener los libros con todos sus datos, su rate (que sea del usuario que esta logeado) y su library id que estén en la biblioteca con el id que se pasa por parametro
         $books = Book::select('books.*', 'rate.rate as rate', 'book_to_libraries.library_id as library
         ')
@@ -102,13 +110,6 @@ class LibraryController extends Controller
             ->leftJoin('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
             ->where('book_to_libraries.library_id', $id)
             ->get();
-
-
-
-
-
-
-
 
         // obtener la biblioteca con el id que se pasa por parametro
         $currentLibrary = Library::find($id);
@@ -125,6 +126,9 @@ class LibraryController extends Controller
             'libraries' => Library::where('user_id', auth()->id())->get(),
             'currentLibrary' => $currentLibrary,
             'librariesWithBookCount' => $librariesWithBookCount,
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
         ]);
     }
 

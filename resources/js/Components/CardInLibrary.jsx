@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Rating } from "@mui/material";
 import BasicRating from "./BasicRating";
+import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-const CardInLibrary = ({ book, libraries, currentLibrary }) => {
+const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleDelete = (bookId, libraryId) => {
@@ -41,9 +43,10 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
         );
     };
 
+    const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+
     return (
         <div className="card w-full max-h-[250px] flex flex-col pb-5 rounded min-w-[263px] border-b-2">
-
             <div className="w-full max-h-[250px] flex flex-row items-center justify-start">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
@@ -72,10 +75,13 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
 
                     <div className="w-full max-h-[250px] flex flex-col justify-between">
                         <div className=" flex flex-col gap-2">
-                            <h2 className="titulo text-2xl font-serif">{book.titulo}</h2>
+                            <h2 className="titulo text-2xl font-serif">
+                                {book.titulo}
+                            </h2>
                             <p className="autor text-l">
                                 by{" "}
-                                <span className="text-metal cursor-pointer underline"
+                                <span
+                                    className="text-metal cursor-pointer underline"
                                     onClick={() =>
                                         Inertia.visit(
                                             `/books?autor=${book.autor}`
@@ -86,28 +92,33 @@ const CardInLibrary = ({ book, libraries, currentLibrary }) => {
                                 </span>
                             </p>
                             <p className="serie text-l">
-                                {book.serie ? book.serie : "Standalone"}{" "}
-                                {book.numero ? `#${book.num_serie}` : ""}
+                                {book.serie ? book.serie : "Libro Único"}{" "}
+                                {book.num_serie ? `#${book.num_serie}` : ""}
                             </p>
-                            <BasicRating book={book} initialRating={book.rate} />
+                            <BasicRating
+                                book={book}
+                                initialRating={book.rate}
+                            />
                         </div>
 
                         {/* Botón "Añadir a" */}
                         <div className="w-full max-h-[250px] flex flex-row items-center gap-2">
-                            <div className="w-full flex flex-row items-end justify-end gap-2">
+                            <div className="w-full flex flex-row items-end justify-end gap-5">
                                 <button
-                                    className="w-[150px] text-center py-1 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
+                                    className=" text-center transition duration-300 ease-in-out"
                                     onClick={() => setShowModal(true)}
                                 >
-                                    Añadir a ...
+                                    <LibraryAddOutlinedIcon
+                                        sx={{ fill: bgColor, fontSize: "35px" }}
+                                    />
                                 </button>
                                 <button
                                     onClick={() =>
                                         handleDelete(book.id, currentLibrary.id)
                                     }
-                                    className="w-[150px] text-center py-1 bg-red-500 text-white rounded px-2"
+                                    className="text-center rounded"
                                 >
-                                    Eliminar
+                                    <DeleteOutlineOutlinedIcon sx={{ fill: "#EF4444", fontSize: "35px" }}/>
                                 </button>
                             </div>
                         </div>

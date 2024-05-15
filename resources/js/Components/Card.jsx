@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import CardLibraryModal from "./CardLibraryModal";
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
+import { styled } from '@mui/system';
 
-const Card = ({ book, libraries }) => {
+const Card = ({ book, libraries, auth, isShown }) => {
     const [showModal, setShowModal] = useState(false);
 
     // const handleAddToLibrary = (libraryId) => {
@@ -38,9 +42,12 @@ const Card = ({ book, libraries }) => {
         }
     };
 
+    const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+
     return (
-        <div className="card flex flex-col gap-3 items-center justify-cente p-3 rounded min-w-[263px]">
-            <div className="flex flex-col items-center justify-center gap-5">
+        <div className={`card flex flex-col gap-3 items-center justify-center p-3 rounded min-w-[263px] ${!isShown ? 'hidden' : ''}`}>
+
+            <div className="flex flex-col items-center justify-center">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
                 <a
@@ -75,12 +82,16 @@ const Card = ({ book, libraries }) => {
                 </div>
 
                 {/* Botón "Añadir a" */}
-                <div className="w-full flex flex-row justify-center items-center gap-2">
+                <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
+                    <button>
+                        <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }}/>
+                    </button>
                     <button
-                        className="w-[50%] text-center py-2 bg-metal text-white rounded hover:bg-metaldark transition duration-300 ease-in-out"
+                        className=" text-center py-2 transition duration-300 ease-in-out"
                         onClick={() => setShowModal(true)}
                     >
-                        Añadir a ...
+                        <LibraryAddOutlinedIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
+                        
                     </button>
                 </div>
                 {/* Ventana modal para seleccionar biblioteca */}

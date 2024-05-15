@@ -6,7 +6,7 @@ export default function ResponsiveNavLink({ active = false, className = '', chil
             {...props}
             className={`w-full flex items-start ps-3 pe-4 py-2 border-l-4 text-white ${
                 active
-                    ? 'border-blue-200 text-metal bg-indigo-50 focus:text-metal focus:bg-indigo-100 focus:border-metal'
+                    ? ''
                     : 'border-transparent text-gray-600 hover:text-metal hover:bg-gray-50 hover:border-gray-300 focus:text-metal focus:bg-gray-50 focus:border-metal'
             } text-base font-medium focus:outline-none transition duration-150 ease-in-out ${className}`}
         >

@@ -5,6 +5,9 @@ import { Inertia } from "@inertiajs/inertia";
 import { Head } from "@inertiajs/react";
 
 export default function Index({ auth }) {
+
+    console.log(auth);
+
     const [currentSlide, setCurrentSlide] = useState(0);
     const images = [
         "/images/banner.jpg",

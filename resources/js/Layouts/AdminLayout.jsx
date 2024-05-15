@@ -44,12 +44,6 @@ export default function Admin({ user, header, children }) {
                             {/* {url === ("/books" || "/libraries/[id]") && ( */}
                             {checkUrl(url) && (
                                 <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                    <input
-                                        type="text"
-                                        placeholder="Buscar libros..."
-                                        id="searchInput"
-                                        className="px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700 focus:ring-blackdark"
-                                    />
                                     <SearchComponent />
                                 </div>
                             )}

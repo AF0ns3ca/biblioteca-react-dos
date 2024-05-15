@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Book;
 use App\Models\Library;
@@ -17,6 +18,9 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
+
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
 
         $autor = $request->query('autor');
 
@@ -33,6 +37,9 @@ class BookController extends Controller
 
 
         return Inertia::render('Books/Index', [
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
             // devolver los libros ordenados por titulo
             'books' => $books,
             // Mandamos el conteo de libros por biblioteca
@@ -137,6 +144,10 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
+
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
+
         $book = Book::findOrFail($id);
 
         $autor = $book->autor;
@@ -151,6 +162,9 @@ class BookController extends Controller
             'booksAuthor' => $booksAuthor,
             'bookSerie' => $booksSerie,
             'libraries' => Library::where('user_id', auth()->id())->get(),
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
         ]);
     }
 

@@ -29,6 +29,7 @@ export default {
                 'imperial' : '#EFB810',
                 'imperialdark' : '#E0A70C',
                 'imperiallight' : '#F4D03F',
+                'yellowback' : '#EBB720',
             },
             screens:{
                 'lgxl': '1500px',

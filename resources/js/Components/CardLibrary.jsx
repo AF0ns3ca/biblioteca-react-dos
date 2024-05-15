@@ -2,6 +2,7 @@ import React from "react";
 import { Inertia } from "@inertiajs/inertia";
 import PhysicalLibraryIcon from "@/Components/PhysicalLibraryIcon";
 import DigitalLibraryIcon from "@/Components/DigitalLibraryIcon";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CardLibrary = ({ library }) => {
     const handleDelete = (id) => {
@@ -24,7 +25,7 @@ const CardLibrary = ({ library }) => {
             <div className="flex-1 flex flex-col items-start justify-center p-2">
                 {/* Condiciona el enlace al método show basado en el conteo de libros */}
                 {library.books_count > 0 ? (
-                    <a href={route("libraries.show", library.id)} className="cursor-pointer flex flex-col items-start">
+                    <a href={route("libraries.show", library.id)} className="w-[50%] cursor-pointer flex flex-col items-start">
                         <h1 className="text-xl font-bold">{library.nombre}</h1>
                         <p className="text-gray-600">{library.books_count} libros</p>
                     </a>
@@ -38,9 +39,9 @@ const CardLibrary = ({ library }) => {
             <div className="p-2">
                 <button
                     onClick={() => handleDelete(library.id)}
-                    className="bg-red-500 text-white rounded px-2 py-1"
+                    className="bg-red-500 text-white rounded p-2"
                 >
-                    <span className="text-xl">✕</span> {/* Unicode 'X' para el botón */}
+                    <DeleteIcon />
                 </button>
             </div>
         </div>

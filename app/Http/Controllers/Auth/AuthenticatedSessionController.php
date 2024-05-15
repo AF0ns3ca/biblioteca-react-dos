@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return $this->redirectBasedOnRole();
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -50,14 +50,14 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
     }
 
-    protected function redirectBasedOnRole()
-    {
-        $user = Auth::user();
+    // protected function redirectBasedOnRole()
+    // {
+    //     $user = Auth::user();
 
-        if ($user->roles->pluck('role')->contains('admin')) {
-            return redirect()->route('admin.index');
-        }
+    //     if ($user->roles->pluck('role')->contains('admin')) {
+    //         return redirect()->route('admin.index');
+    //     }
 
-        return redirect()->route('dashboard');
-    }
+    //     return redirect()->route('dashboard');
+    // }
 }

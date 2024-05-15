@@ -6,6 +6,7 @@ use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\BookToLibraryController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReadingController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,11 +28,22 @@ Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
+        // Obtén el usuario autenticado
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
+        // Verifica el rol del usuario
+        if ($user->roles->pluck('role')->contains('admin')) {
+            return redirect()->route('admin.index');
+        }
 
-Route::middleware('auth')->group(function () {
+        // Renderiza la vista del dashboard y pasa los datos del usuario y su rol
+        return Inertia::render('Dashboard', [
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ]
+        ]);
+    })->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -63,6 +75,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/rate/update', 'App\Http\Controllers\RateController@update')->name('rate.update');
     Route::delete('/rate/destroy/{id}', 'App\Http\Controllers\RateController@destroy')->name('rate.destroy');
 
+    Route::get('/reading', [ReadingController::class, 'index'])->name('readings.index');
+
 });
 
 Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
@@ -70,7 +84,7 @@ Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     Route::delete('/admin/users/{id}', [AdminController::class, 'userDestroy'])->name('admin.userDestroy');
     Route::get('/admin/books', [AdminController::class, 'books'])->name('admin.books');
     Route::post('/store/books', [BookController::class, 'store'])->name('books.store');
-    Route::put('/update/books/{id}', [BookController::class, 'update'])->name('books.update');
+    Route::patch('/update/books/{id}', [BookController::class, 'update'])->name('books.update');
     Route::delete('/books/{id}', 'App\Http\Controllers\BookController@destroy')->name('books.destroy');
 
 

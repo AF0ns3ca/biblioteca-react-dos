@@ -36,11 +36,49 @@ export default function Books({ auth, books, libraries }) {
     };
 
     const handleCloseModal = (e) => {
-        if (e.target.id === "crear") { // Verifica si se hizo clic en el fondo modal
+        if (e.target.id === "crear") {
+            // Verifica si se hizo clic en el fondo modal
             setShowModal(false); // Cierra la modal
+            data.titulo = ""; // Limpia el campo titulo
+            data.autor = ""; // Limpia el campo autor
+            data.serie = ""; // Limpia el campo serie
+            data.num_serie = ""; // Limpia el campo num_serie
+            data.descripcion = ""; // Limpia el campo descripcion
+            data.paginas = ""; // Limpia el campo paginas
+            data.portada = ""; // Limpia el campo portada
+            data.url_portada = ""; // Limpia el campo url_portada
         }
     };
-    
+
+    // const orderBy = (field) => {
+    //     switch (field) {
+    //         case "titulo":
+    //             booksOrdered.sort((a, b) => a.titulo.localeCompare(b.titulo));
+    //             break;
+    //         case "autor":
+    //             booksOrdered.sort((a, b) => a.autor.localeCompare(b.autor));
+    //             break;
+    //         case "serie":
+    //             if (a.serie === null) {
+    //                 return 1;
+    //             } else if (b.serie === null) {
+    //                 return -1;
+    //             }
+    //             // Se ordena por serie y por numero de serie dentro de la serie
+    //             booksOrdered.sort(
+    //                 a.serie.localeCompare(b.serie) || a.num_serie - b.num_serie
+    //             );
+
+    //             break;
+    //         case "num_serie":
+    //             booksOrdered.sort((a, b) => a.num_serie - b.num_serie);
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // };
+
+    // const booksOrdered = books.sort((a, b) => a.titulo.localeCompare(b.titulo));
 
     return (
         <AdminLayout user={auth.user}>
@@ -51,9 +89,8 @@ export default function Books({ auth, books, libraries }) {
                     id="cards"
                     className={`w-full ${
                         view === "cards" ? "flex" : "hidden"
-                    } pt-24 items-center justify-center pb-3 bg-white`}
+                    } pt-24 flex-col items-center justify-center pb-3 bg-white`}
                 >
-                    {/* Renderizar las tarjetas */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
                         {books.map((book) => (
                             <CardBookAdmin
@@ -137,9 +174,8 @@ export default function Books({ auth, books, libraries }) {
                                         htmlFor="descripcion"
                                         value="Descripcion"
                                     />
-                                    <input
+                                    <textarea
                                         id="descripcion"
-                                        type="text"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-metallight leading-tight focus:outline-none focus:shadow-outline"
                                         value={data.descripcion}
                                         onChange={(e) =>
@@ -221,7 +257,6 @@ export default function Books({ auth, books, libraries }) {
                             </button>
                         </div>
                     </div>
-                    
                 )}
             </>
         </AdminLayout>
