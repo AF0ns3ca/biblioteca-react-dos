@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Book;
 use App\Models\Library;
+use App\Models\Rate;
 use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -111,6 +113,7 @@ class BookController extends Controller
             'num_serie' => 'numeric|nullable',
             'descripcion' => 'nullable',
             'paginas' => 'required|numeric',
+            'portada' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
 
@@ -148,6 +151,7 @@ class BookController extends Controller
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
+        // Encuentra el libro
         $book = Book::findOrFail($id);
 
         $autor = $book->autor;
@@ -155,6 +159,9 @@ class BookController extends Controller
 
         $serie = $book->serie;
         $booksSerie = Book::where('serie', 'like', "%{$serie}%")->get();
+
+        // pasr a la vista el rate que tiene el book_id que corresponde con el libro
+        $rate = Rate::where('book_id', $id)->first();
 
         // Devolver con inertia
         return Inertia::render('Books/Show', [
@@ -165,6 +172,7 @@ class BookController extends Controller
             'auth' => [
                 'user' => array_merge($user->toArray(), ['role' => $userRole]),
             ],
+            'rate' => $rate
         ]);
     }
 

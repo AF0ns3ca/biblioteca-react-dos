@@ -19,10 +19,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user');
     }
 
-
-
-
-    // Relacion con librerias
+    // Relacion con librerias 
     public function libraries()
     {
         return $this->hasMany(Library::class);

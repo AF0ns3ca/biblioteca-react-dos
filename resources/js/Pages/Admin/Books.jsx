@@ -114,7 +114,7 @@ export default function Books({ auth, books, libraries }) {
                         onClick={handleCloseModal}
                     >
                         <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg">
-                            <form onSubmit={handleSubmit} className="w-full">
+                            <form onSubmit={handleSubmit} encType="multipart/form-data" className="w-full">
                                 <div className="mb-4">
                                     <InputLabel
                                         htmlFor="titulo"

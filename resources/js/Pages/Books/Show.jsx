@@ -1,8 +1,9 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm, Head } from "@inertiajs/react";
-import Card from "@/Components/Card";
+import BasicRating from "@/Components/BasicRating";
 import { Inertia } from "@inertiajs/inertia";
+import CardShow from "@/Components/CardShow";
 
 export default function Index({
     auth,
@@ -10,14 +11,19 @@ export default function Index({
     booksAuthor,
     bookSeries,
     libraries,
+    rate,
 }) {
+
+    console.log(book);
+    console.log(rate);
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title={book.titulo} />
 
             <div className="w-full h-full flex flex-1 items-center justify-center">
                 <div className="w-full h-full flex flex-col items-center justify-center gap-6">
-                    <div className="w-[80%] h-screen flex flex-row items-center justify-center gap-6">
+                    <div className="w-[80%] flex flex-row items-center justify-center gap-6 mt-20 mb-10">
                         <div className="w-[30%] flex items-center justify-center">
                             {book.portada ? (
                                 <img
@@ -39,7 +45,7 @@ export default function Index({
                                 <p className="text-lg">
                                     by{" "}
                                     <span
-                                        className="text-metal cursor-pointer underline"
+                                        className="text-metal cursor-pointer underline italic"
                                         onClick={() =>
                                             Inertia.visit(
                                                 `/books?autor=${book.autor}`
@@ -65,6 +71,9 @@ export default function Index({
                                 <p className="text-lg">{book.descripcion}</p>
                             </div>
                             <div>
+                                <BasicRating book={book} initialRating={rate} />
+                            </div>
+                            <div>
                                 <a
                                     href={route("books.index")}
                                     className="btn btn-primary"
@@ -78,7 +87,7 @@ export default function Index({
                         <h2 className="text-2xl">Libros del mismo autor</h2>
                         <div className="w-full flex flex-row overflow-x-scroll m-5">
                             {booksAuthor.map((book) => (
-                                <Card
+                                <CardShow
                                     book={book}
                                     libraries={libraries}
                                     key={book.id}

@@ -81,7 +81,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
                             <p className="autor text-l">
                                 by{" "}
                                 <span
-                                    className="text-metal cursor-pointer underline"
+                                    className="text-metal cursor-pointer underline italic"
                                     onClick={() =>
                                         Inertia.visit(
                                             `/books?autor=${book.autor}`
