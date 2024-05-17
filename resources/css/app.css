@@ -38,7 +38,19 @@
     background: #555;  /* color cuando el mouse está sobre el thumb */
 }
 
-  
+.fade-in {
+    opacity: 1;
+    transition: opacity 5s ease-in-out; /* Duración más larga */
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out; /* Duración más larga */
+}
+
+.z-infinity {
+    z-index: 9999;
+  }
 
 
 

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
-import Stack from '@mui/material/Stack';
 
 export default function BasicRating({ book, initialRating }) {
-    const [value, setValue] = useState(initialRating || 0);
+    // Asegúrate de que initialRating sea un número
+    const initialRatingNumber = parseFloat(initialRating) || 0;
+    const [value, setValue] = useState(initialRatingNumber);
 
-    const handleRatingChange = (event, newValue) => {
+    const handleRatingChange = async (event, newValue) => {
         console.log(
             "Al libro " + book.titulo + " le diste " + newValue + " estrellas"
         );
@@ -15,7 +16,7 @@ export default function BasicRating({ book, initialRating }) {
 
         if (newValue === null) {
             // Llamar al endpoint para eliminar la calificación
-            Inertia.delete(`/rate/destroy/${book.id}`, {
+            await Inertia.delete(`/rate/destroy/${book.id}`, {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: () => {
@@ -23,14 +24,14 @@ export default function BasicRating({ book, initialRating }) {
                     console.log("Rating removed successfully");
                 },
             });
-        } else if (newValue != null) {
+        } else {
             // Lógica para crear o actualizar la calificación
             const endpoint =
-                initialRating === null ? "/rate/store" : "/rate/update";
+                initialRating === null ? "/rate/store" : `/rate/update/${book.id}`;
             const data = { rate: newValue, book_id: book.id };
 
             if (initialRating === null) {
-                Inertia.post(endpoint, data, {
+                await Inertia.post(endpoint, data, {
                     preserveScroll: true,
                     preserveState: true,
                     onSuccess: () => {
@@ -39,7 +40,7 @@ export default function BasicRating({ book, initialRating }) {
                     },
                 });
             } else {
-                Inertia.put(endpoint, data, {
+                await Inertia.put(endpoint, data, {
                     preserveScroll: true,
                     preserveState: true,
                     onSuccess: () => {
@@ -49,24 +50,19 @@ export default function BasicRating({ book, initialRating }) {
                 });
             }
         }
-
-        // Efecto para actualizar la calificación si los props cambian
-        useEffect(() => {
-            if (props.rate) {
-                setRate(props.rate);
-            }
-        }, [props.rate]);
     };
+
+    // Efecto para actualizar la calificación si el initialRating cambia
+    useEffect(() => {
+        setValue(parseFloat(initialRating) || 0);
+    }, [initialRating]);
 
     return (
         <Box sx={{ "& > legend": { mt: 2 } }}>
             <Rating
                 name="half-rating"
-                defaultValue={0}
                 value={value}
                 precision={0.5}
-                // max={10}
-                // size="large"
                 onChange={handleRatingChange}
             />
         </Box>

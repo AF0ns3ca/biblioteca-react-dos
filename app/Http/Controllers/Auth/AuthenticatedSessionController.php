@@ -27,13 +27,14 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        // return redirect()->route('dashboard');
+        return $this->redirectBasedOnRole();
     }
 
     /**
@@ -60,4 +61,21 @@ class AuthenticatedSessionController extends Controller
 
     //     return redirect()->route('dashboard');
     // }
+
+    protected function redirectBasedOnRole()
+    {
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
+        // Verifica el rol del usuario
+        if ($user->roles->pluck('role')->contains('admin')) {
+            return redirect()->route('admin.index');
+        }
+
+        // Renderiza la vista del dashboard y pasa los datos del usuario y su rol
+        return Inertia::render('Dashboard', [
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ]
+        ]);
+    }
 }

@@ -26,20 +26,6 @@ const CardLibraryModal = ({ library }) => {
         window.scrollTo(0, scrollPosition);
     }, []);
 
-    const handleDelete = (id) => {
-        if (
-            confirm(
-                `¿Estás seguro de que deseas eliminar la biblioteca ${library.nombre}?`
-            )
-        ) {
-            Inertia.delete(route("libraries.destroy", { id }), {
-                onSuccess: () => {
-                    window.location.reload();
-                },
-            });
-        }
-    };
-
     return (
         <div className="w-full flex flex-row items-center justify-between bg-white shadow border p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
             {/* Columna izquierda para el tipo de biblioteca */}

@@ -13,7 +13,7 @@ const DigitalLibraryIcon = () => {
                 color="#000"
                 overflow="visible"
                 fill="#fff"
-                paint-order="fill markers stroke"
+                paintOrder="fill markers stroke"
                 transform="translate(82.451891,91.864724) matrix(0.26458333,0,0,0.26458333,-193.59641,-2037.6213)"
             />
             <path

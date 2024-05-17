@@ -29,9 +29,9 @@ export default function Books({ auth, books, libraries }) {
 
     const { data, errors, setData, post } = useForm(initialValues);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        post("/store/books", data);
+        await post("/store/books", data);
         setShowModal(false);
     };
 

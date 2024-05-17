@@ -9,6 +9,7 @@ use App\Models\Book;
 use App\Models\Library;
 use App\Models\Rate;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Reading;
 
 
 
@@ -36,6 +37,32 @@ class BookController extends Controller
         $librariesWithBookCount = Library::where('user_id', auth()->id())
             ->withCount('books') // Contar el número de libros para cada biblioteca
             ->get();
+
+        // Añadir a cada libro su status
+        $books->map(function ($book) {
+            $reading = Reading::where('book_id', $book->id)
+                ->where('user_id', auth()->id())
+                ->latest()
+                ->first();
+
+            // Determinar el estado del libro
+            if ($reading && $reading->end_date) {
+                $status = 'leido';
+            } elseif ($reading && $reading->start_date) {
+                $status = 'leyendo';
+            } elseif ($reading && $reading->want_to_read) {
+                $status = 'quiero_leer';
+            } else {
+                // Si no hay registro de lectura, establecer el estado predeterminado
+                $status = '';
+            }
+
+            $book->status = $status;
+
+            $book->status = $status;
+
+            return $book;
+        });
 
 
         return Inertia::render('Books/Index', [
@@ -151,8 +178,17 @@ class BookController extends Controller
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
+        $books = Book::select('books.*', 'rate.rate as rate', 'book_to_libraries.library_id as library')
+            ->leftJoin('rate', function ($join) {
+                $join->on('books.id', '=', 'rate.book_id')
+                    ->where('rate.user_id', auth()->id());
+            })
+            ->leftJoin('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
+            ->where('books.id', $id) // Agregamos la condición para obtener el libro específico
+            ->get();
+
         // Encuentra el libro
-        $book = Book::findOrFail($id);
+        $book = $books->first();
 
         $autor = $book->autor;
         $booksAuthor = Book::where('autor', 'like', "%{$autor}%")->get();
@@ -160,8 +196,24 @@ class BookController extends Controller
         $serie = $book->serie;
         $booksSerie = Book::where('serie', 'like', "%{$serie}%")->get();
 
-        // pasr a la vista el rate que tiene el book_id que corresponde con el libro
-        $rate = Rate::where('book_id', $id)->first();
+        $reading = Reading::where('book_id', $book->id)
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->first();
+
+        // Determinar el estado del libro
+        if ($reading && $reading->end_date) {
+            $status = 'leido';
+        } elseif ($reading && $reading->start_date) {
+            $status = 'leyendo';
+        } elseif ($reading && $reading->want_to_read) {
+            $status = 'quiero_leer';
+        } else {
+            // Si no hay registro de lectura, establecer el estado predeterminado
+            $status = 'quiero_leer';
+        }
+
+        $book->status = $status;
 
         // Devolver con inertia
         return Inertia::render('Books/Show', [
@@ -172,7 +224,6 @@ class BookController extends Controller
             'auth' => [
                 'user' => array_merge($user->toArray(), ['role' => $userRole]),
             ],
-            'rate' => $rate
         ]);
     }
 

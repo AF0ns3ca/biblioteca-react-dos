@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Rate;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
@@ -67,6 +69,19 @@ class AdminController extends Controller
         $book->delete();
 
         return redirect()->route('admin.books');
+    }
+
+    public function userView()
+    {
+
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
+
+        return Inertia::render('Dashboard', [
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
+        ]);
     }
 
 }

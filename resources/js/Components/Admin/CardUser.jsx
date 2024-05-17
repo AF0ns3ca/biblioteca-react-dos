@@ -2,9 +2,9 @@ import React from "react";
 import { Inertia } from "@inertiajs/inertia";
 
 const CardUser = ({ user }) => {
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (confirm(`Are you sure you want to delete ${user.name}?`)) {
-            Inertia.delete(route("admin.userDestroy", user.id), {
+            await Inertia.delete(route("admin.userDestroy", user.id), {
                 onSuccess: () => {
                     alert("User deleted successfully.");
                 },

@@ -17,12 +17,12 @@ const CardShow = ({ book, libraries, auth }) => {
     //     Inertia.post('/booktolibrary', {book_id: book.id, library_id: libraryId});
     // };
 
-    const handleAddToLibrary = (libraryId) => {
+    const handleAddToLibrary = async (libraryId) => {
         // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
         console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
         setShowModal(false); // Cierra la ventana modal después de añadir el libro
 
-        Inertia.post(
+        await Inertia.post(
             "/booktolibrary",
             { book_id: book.id, library_id: libraryId },
             {

@@ -51,41 +51,34 @@ export default function Index({ auth }) {
                                     onClick={handleImageClick}
                                 />
                             </div>
-                            <div className="w-full p-10 my-10 text-xl rounded-lg bg-yellow-600 text-white font-serif flex flex-row justify-between">
-                                <div className="flex flex-col justify-center p-2">
-                                    <h1 className="text-4xl">
+                            <div className="w-full p-10 my-10 text-xl rounded-lg bg-yellow-600 text-white font-serif flex flex-col sm:flex-row justify-between">
+                                <div className="flex flex-col justify-center p-2 sm:w-2/3">
+                                    <h1 className="text-4xl mb-5">
                                         Bienvenido a Book
                                         <span className="font-bold text-blue-200">
                                             Nest
                                         </span>
                                         , {" "}
                                         <span className="capitalize inline-block">
-                                            
                                             {auth.user.name}
                                         </span>
                                         !
                                     </h1>
 
-                                    <p className="pt-5">
+                                    <p className="mb-5">
                                         Book
                                         <span className="font-bold text-blue-200">
                                             Nest
                                         </span>{" "}
-                                        es la red social independiente para los
-                                        amantes de los libros.
+                                        es la red social independiente para los amantes de los libros.
                                     </p>
-                                    <ul className="px-10 list-disc">
-                                        <li>
-                                            Descubre libros de todas las épocas
-                                        </li>
+                                    <ul className="px-5 list-disc mb-5">
+                                        <li>Descubre libros de todas las épocas</li>
                                         <li>Crea tus propias bibliotecas</li>
-                                        <li>
-                                            Conecta con lectores de todas las
-                                            partes del mundo
-                                        </li>
+                                        <li>Conecta con lectores de todas las partes del mundo</li>
                                     </ul>
                                 </div>
-                                <div className="pl-4">
+                                <div className="pl-4 sm:w-1/3">
                                     <img
                                         src="/images/libraries.jpg"
                                         alt=""
@@ -98,12 +91,12 @@ export default function Index({ auth }) {
                                 <h1 className="text-5xl text-center font-serif pb-5">
                                     Autores del momento
                                 </h1>
-                                <div className="w-full flex flex-row justify-start gap-3 text-center">
-                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
+                                <div className="w-full flex flex-col sm:flex-row justify-center gap-3 text-center">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                         <img
                                             src="/images/authors/sanderson.jpg"
                                             alt=""
-                                            className="w-[340px] h-[380px] rounded cursor-pointer"
+                                            className="w-full rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Brandon Sanderson`
@@ -114,11 +107,11 @@ export default function Index({ auth }) {
                                             Brandon Sanderson
                                         </p>
                                     </div>
-                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                         <img
                                             src="/images/authors/rebecca.jpg"
                                             alt=""
-                                            className="w-[340px] h-[380px] rounded cursor-pointer"
+                                            className="w-full rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Rebecca Yarros`
@@ -129,11 +122,11 @@ export default function Index({ auth }) {
                                             Rebecca Yarros
                                         </p>
                                     </div>
-                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                         <img
                                             src="/images/authors/sally.jpg"
                                             alt=""
-                                            className="w-[340px] h-[380px] rounded cursor-pointer"
+                                            className="w-full rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Sally Rooney`
@@ -144,11 +137,11 @@ export default function Index({ auth }) {
                                             Sally Rooney
                                         </p>
                                     </div>
-                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal">
+                                    <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                         <img
                                             src="/images/authors/king.jpg"
                                             alt=""
-                                            className="w-[340px] h-[380px] rounded cursor-pointer"
+                                            className="w-full rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Stephen King`
@@ -161,15 +154,15 @@ export default function Index({ auth }) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-row items-center gap-10 text-2xl font-serif p-10 mb-10 mt-24">
-                                <p className="text-justify">
-                                "Los libros son puertas a mundos inexplorados, puertas que nos ofrecen escapar a otros mundos, son conocimiento y aventura al alcance de nuestras manos. Cada página que pasamos alimenta nuestro espíritu, amplía nuestros horizontes y fortalece nuestra comprensión del mundo y de nosotros mismos. Son herramientas poderosas que moldean mentes, construyen puentes entre culturas y generaciones, y despiertan nuestra creatividad más profunda. Abre un libro y descubre no solo historias, sino también partes de ti mismo en cada personaje y trama. ¡Explora, aprende y crece con cada lectura!"
+                            <div className="flex flex-col sm:flex-row items-center gap-10 text-2xl font-serif p-10 mb-10 mt-24">
+                                <p className="text-justify sm:w-3/4">
+                                    "Los libros son puertas a mundos inexplorados, puertas que nos ofrecen escapar a otros mundos, son conocimiento y aventura al alcance de nuestras manos. Cada página que pasamos alimenta nuestro espíritu, amplía nuestros horizontes y fortalece nuestra comprensión del mundo y de nosotros mismos. Son herramientas poderosas que moldean mentes, construyen puentes entre culturas y generaciones, y despiertan nuestra creatividad más profunda. Abre un libro y descubre no solo historias, sino también partes de ti mismo en cada personaje y trama. ¡Explora, aprende y crece con cada lectura!"
                                 </p>
                                 {/* Slider Image */}
                                 <img
                                     src="/images/magic.png"
                                     alt="Book Image"
-                                    className="h-96 rounded-lg"
+                                    className="w-full h-96 rounded-lg sm:w-1/4"
                                 />
                             </div>
                         </div>

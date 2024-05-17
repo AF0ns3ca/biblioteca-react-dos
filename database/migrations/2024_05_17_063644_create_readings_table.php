@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('readings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
-            $table->boolean('want_to_read');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->boolean('want_to_read')->default(false);
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

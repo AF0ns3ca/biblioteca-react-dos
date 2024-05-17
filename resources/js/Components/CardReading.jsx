@@ -4,48 +4,26 @@ import { Rating } from "@mui/material";
 import BasicRating from "./BasicRating";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import BookStatusSelector from "./BookStatusSelector";
 
-const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
+const CardReading = ({ book, auth }) => {
+    console.log(book);
+
     const [showModal, setShowModal] = useState(false);
 
-    const handleDelete = async (bookId, libraryId) => {
-        if (
-            confirm(
-                `¿Está seguro de que desea eliminar el libro '${book.titulo}' de la biblioteca '${currentLibrary.nombre}'?`
-            )
-        ) {
-            await Inertia.delete(
-                route("booktolibrary.destroy", {
-                    book_id: bookId,
-                    library_id: libraryId,
-                }),
-                {
-                    onSuccess: () => {
-                        window.location.reload();
-                    },
-                }
-            );
-        }
-    };
-
     const handleAddToLibrary = async (libraryId) => {
-        try {
-            // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-            console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-            setShowModal(false); // Cierra la ventana modal después de añadir el libro
+        // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
+        console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
+        setShowModal(false); // Cierra la ventana modal después de añadir el libro
 
-            await Inertia.post(
-                "/booktolibrary",
-                { book_id: book.id, library_id: libraryId },
-                {
-                    preserveScroll: true,
-                    preserveState: true,
-                }
-            );
-        } catch (error) {
-            // Manejo de errores
-            console.error("Error al añadir el libro a la biblioteca:", error);
-        }
+        await Inertia.post(
+            "/booktolibrary",
+            { book_id: book.id, library_id: libraryId },
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
+        );
     };
 
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
@@ -107,7 +85,14 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
                         </div>
 
                         {/* Botón "Añadir a" */}
-                        <div className="w-full max-h-[250px] flex flex-row items-center gap-2">
+                        <div className="w-full max-h-[250px] flex flex-row items-center justify-between gap-2">
+                            <div className="w-full flex flex-row items-start justify-start">
+                                <BookStatusSelector
+                                    initialStatus={book.status}
+                                    book={book}
+                                    auth={auth}
+                                />
+                            </div>
                             <div className="w-full flex flex-row items-end justify-end gap-5">
                                 <button
                                     className=" text-center transition duration-300 ease-in-out"
@@ -115,19 +100,6 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
                                 >
                                     <LibraryAddOutlinedIcon
                                         sx={{ fill: bgColor, fontSize: "35px" }}
-                                    />
-                                </button>
-                                <button
-                                    onClick={() =>
-                                        handleDelete(book.id, currentLibrary.id)
-                                    }
-                                    className="text-center rounded"
-                                >
-                                    <DeleteOutlineOutlinedIcon
-                                        sx={{
-                                            fill: "#EF4444",
-                                            fontSize: "35px",
-                                        }}
                                     />
                                 </button>
                             </div>
@@ -174,4 +146,4 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
     );
 };
 
-export default CardInLibrary;
+export default CardReading;

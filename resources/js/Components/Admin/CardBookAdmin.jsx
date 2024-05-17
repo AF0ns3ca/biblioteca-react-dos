@@ -18,9 +18,9 @@ const CardBookAdmin = ({ book }) => {
 
 
 
-    const handleDeleteBook = () => {
+    const handleDeleteBook = async () => {
         if (confirm("¿Estás seguro de que deseas eliminar este libro?")) {
-            Inertia.delete(route("books.destroy", book.id));
+            await Inertia.delete(route("books.destroy", book.id));
         }
     };
 
@@ -37,9 +37,9 @@ const CardBookAdmin = ({ book }) => {
 
     const { data, setData, patch } = useForm({ ...initialValues });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        patch(`/update/books/${book.id}`, data, {
+        await patch(`/update/books/${book.id}`, data, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {

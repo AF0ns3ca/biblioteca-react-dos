@@ -5,9 +5,9 @@ import DigitalLibraryIcon from "@/Components/DigitalLibraryIcon";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CardLibrary = ({ library }) => {
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (confirm(`¿Estás seguro de que deseas eliminar la biblioteca ${library.nombre}?`)) {
-            Inertia.delete(route("libraries.destroy", { id }), {
+            await Inertia.delete(route("libraries.destroy", { id }), {
                 onSuccess: () => {
                     window.location.reload();
                 },

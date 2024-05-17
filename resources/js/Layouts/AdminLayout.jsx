@@ -6,7 +6,7 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
 import SearchComponent from "@/Components/SearchComponent";
-
+import SupervisedUserCircleOutlinedIcon from "@mui/icons-material/SupervisedUserCircleOutlined";
 
 export default function Admin({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -17,16 +17,15 @@ export default function Admin({ user, header, children }) {
 
     function checkUrl(url) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
-        return url === '/admin/books';
+        return url === "/admin/books";
     }
-
 
     return (
         <div className="min-h-screen bg-white">
-            <nav className=" w-full bg-black border-b border-gray-100 top-0 fixed">
+            <nav className=" w-full bg-black border-b border-gray-100 top-0 fixed z-infinity">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex">
+                        <div className="flex flex-row items-center justify-center gap-5">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/admin">
                                     {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" /> */}
@@ -37,6 +36,16 @@ export default function Admin({ user, header, children }) {
                                         </span>
                                     </div>
                                 </Link>
+                            </div>
+                            <div>
+                                <button
+                                    onClick={() => {
+                                        window.location.href = "/admin_user_view";
+                                    }}
+                                    className="flex items-center gap-2 text-white"
+                                >
+                                    <SupervisedUserCircleOutlinedIcon fontSize="large" />
+                                </button>
                             </div>
                         </div>
 

@@ -13,7 +13,7 @@ const PhysicalLibraryIcon = () => {
                 color="#000"
                 overflow="visible"
                 fill="#fff"
-                paint-order="fill markers stroke"
+                paintOrder="fill markers stroke"
                 transform="translate(-27.541256,-142.20923) matrix(0.26458333,0,0,0.26458333,-592.80286,-734.02877)"
             />
             <path

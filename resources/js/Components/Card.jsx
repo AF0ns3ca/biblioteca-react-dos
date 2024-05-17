@@ -7,6 +7,7 @@ import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import { styled } from '@mui/system';
 
 const Card = ({ book, libraries, auth, isShown }) => {
+
     const [showModal, setShowModal] = useState(false);
 
     // const handleAddToLibrary = (libraryId) => {
@@ -17,19 +18,27 @@ const Card = ({ book, libraries, auth, isShown }) => {
     //     Inertia.post('/booktolibrary', {book_id: book.id, library_id: libraryId});
     // };
 
-    const handleAddToLibrary = (libraryId) => {
-        // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-        console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-        setShowModal(false); // Cierra la ventana modal después de añadir el libro
-
-        Inertia.post(
-            "/booktolibrary",
-            { book_id: book.id, library_id: libraryId },
-            {
-                preserveScroll: true,
-                preserveState: true,
-            }
-        );
+    const handleAddToLibrary = async (libraryId) => {
+        try {
+            // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
+            console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
+            
+            // Realizar la solicitud POST a Inertia.js
+            await Inertia.post(
+                "/booktolibrary",
+                { book_id: book.id, library_id: libraryId },
+                {
+                    preserveScroll: true,
+                    preserveState: true,
+                }
+            );
+    
+            // Cierra la ventana modal después de añadir el libro exitosamente
+            setShowModal(false);
+        } catch (error) {
+            // Manejo de errores
+            console.error("Error al añadir el libro a la biblioteca:", error);
+        }
     };
 
     const closeModal = () => {
@@ -41,6 +50,23 @@ const Card = ({ book, libraries, auth, isShown }) => {
             closeModal();
         }
     };
+
+    const handleAddToWantToRead = async () => {
+        try {
+            // Marcar el libro como "Quiero Leer"
+            await Inertia.post('/update-reading-status', {
+                book_id: book.id,
+                status: 'quiero_leer',
+                want_to_read: true,
+                start_date: null,
+                end_date: null,
+            });
+        } catch (error) {
+            // Manejo de errores
+            console.error("Error al actualizar el estado de lectura:", error);
+        }
+    };
+    
 
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
@@ -83,11 +109,11 @@ const Card = ({ book, libraries, auth, isShown }) => {
 
                 {/* Botón "Añadir a" */}
                 <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
-                    <button>
+                    <button onClick={handleAddToWantToRead}>
                         <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }}/>
                     </button>
                     <button
-                        className=" text-center py-2 transition duration-300 ease-in-out"
+                        className="text-center py-2 transition duration-300 ease-in-out"
                         onClick={() => setShowModal(true)}
                     >
                         <LibraryAddOutlinedIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>

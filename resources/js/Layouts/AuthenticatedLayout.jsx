@@ -6,10 +6,10 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
 import SearchComponent from "@/Components/SearchComponent";
-
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import SupervisedUserCircleOutlinedIcon from "@mui/icons-material/SupervisedUserCircleOutlined";
 
 export default function Authenticated({ user, header, children }) {
-
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -18,35 +18,35 @@ export default function Authenticated({ user, header, children }) {
 
     function checkUrl(url) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
-        return url === '/books' || /^\/libraries\/\d+$/.test(url);
+        return url === "/books" || /^\/libraries\/\d+$/.test(url);
     }
-
-   
 
     // let bgColor = "bg-white"; // Valor por defecto
     // let textColor = "text-gray-800"; // Valor por defecto
-
 
     // bgColor = "bg-metal";
     // textColor = "text-blue-200";
 
     //Se pone el color de fondo en "metal" si el usuario es user y "imperial" si es premmium_user
-    const bgColor = (user.role =="user") ? "bg-metal" : "bg-premium";
-    const textColor = (user.role =="user") ? "text-blue-200" : "text-purple-200";
-
+    const bgColor = user.role == "user" ? "bg-metal" : "bg-premium";
+    const textColor = user.role == "user" ? "text-blue-200" : "text-purple-200";
 
     return (
         <div className="min-h-screen bg-white">
-            <nav className={`w-full ${bgColor} border-b border-gray-100 top-0 fixed`}>
+            <nav
+                className={`w-full ${bgColor} border-b border-gray-100 top-0 fixed z-infinity`}
+            >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex">
+                        <div className="flex flex-row items-center justify-center gap-5">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/dashboard">
                                     {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" /> */}
                                     <div className="text-white text-3xl font-serif">
                                         Book
-                                        <span className={`font-bold ${textColor}`}>
+                                        <span
+                                            className={`font-bold ${textColor}`}
+                                        >
                                             Nest
                                         </span>
                                     </div>
@@ -58,6 +58,18 @@ export default function Authenticated({ user, header, children }) {
 
                                     /> */}
                                 </Link>
+                            </div>
+                            <div>
+                                {user.role === "admin" && (
+                                    <Link
+                                        href="/admin"
+                                        className="text-white text-lg"
+                                    >
+                                        <AdminPanelSettingsOutlinedIcon
+                                            sx={{ fontSize: 40 }}
+                                        />
+                                    </Link>
+                                )}
                             </div>
                         </div>
 
@@ -104,7 +116,9 @@ export default function Authenticated({ user, header, children }) {
                             <div className="relative hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <Dropdown>
                                     <Dropdown.Trigger>
-                                        <span className={`inline-flex rounded-md ${bgColor}`}>
+                                        <span
+                                            className={`inline-flex rounded-md ${bgColor}`}
+                                        >
                                             <button
                                                 type="button"
                                                 className={`inline-flex items-center py-2 border border-transparent leading-4 font-medium rounded-md ${bgColor} focus:outline-none transition ease-in-out duration-150 text-white text-md`}

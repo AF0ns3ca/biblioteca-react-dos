@@ -14,7 +14,7 @@ class Reading extends Model
         return $this->belongsTo(Book::class);
     }
 
-    protected $fillable = ['book_id', 'want_to_read', 'start_date', 'end_date'];
+    protected $fillable = ['book_id', 'user_id', 'want_to_read', 'start_date', 'end_date'];
 
     use HasFactory;
 }
