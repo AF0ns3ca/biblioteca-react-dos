@@ -21,9 +21,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
-    Route::get('/admin', function () {
-        return Inertia::render('Admin/Index');
-    })->name('admin.index');
+    Route::get('/admin', [AdminController::class, "index"])->name('admin.index');
     
     Route::get('/dashboard', function () {
         // Obtén el usuario autenticado

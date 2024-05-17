@@ -17,6 +17,27 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function index()
+    {
+        // devolver el total de libros en la base de datos
+        $booksCount = Book::all()->count();
+        // devolver el total de bibliotecas en la base de datos
+        $librariesCount = Library::all()->count();
+        // devolver el total de usuarios en la base de datos
+        $usersCount = User::all()->count();
+        // devolver el total de valoraciones en la base de datos
+        $ratesCount = Rate::all()->count();
+
+
+        return Inertia::render('Admin/Index', [
+            'booksCount' => $booksCount,
+            'librariesCount' => $librariesCount,
+            'usersCount' => $usersCount,
+            'ratesCount' => $ratesCount
+        ]);
+    }
+
     public function users()
     {
         // Coge todos los usuarios con su relacion con role_user y roles para mostrar el nombre del rol y el numero de bibliotecas que tiene cada uni
@@ -38,9 +59,9 @@ class AdminController extends Controller
                 'role' => $user->roles->pluck('role')->join(', '), // Une los nombres de roles con comas
                 'libraries_count' => $user->libraries_count // Directamente obtenido de la consulta SQL
             ];
-        });     
-        
-        
+        });
+
+
         return Inertia::render('Admin/Users', [
             'users' => $users
         ]);
