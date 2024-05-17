@@ -96,7 +96,7 @@ export default function Index({ auth }) {
                                         <img
                                             src="/images/authors/sanderson.jpg"
                                             alt=""
-                                            className="w-full rounded cursor-pointer"
+                                            className="w-[263px] h-[385px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Brandon Sanderson`
@@ -111,7 +111,7 @@ export default function Index({ auth }) {
                                         <img
                                             src="/images/authors/rebecca.jpg"
                                             alt=""
-                                            className="w-full rounded cursor-pointer"
+                                            className="w-[263px] h-[385px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Rebecca Yarros`
@@ -126,7 +126,7 @@ export default function Index({ auth }) {
                                         <img
                                             src="/images/authors/sally.jpg"
                                             alt=""
-                                            className="w-full rounded cursor-pointer"
+                                            className="w-[263px] h-[385px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Sally Rooney`
@@ -141,7 +141,7 @@ export default function Index({ auth }) {
                                         <img
                                             src="/images/authors/king.jpg"
                                             alt=""
-                                            className="w-full rounded cursor-pointer"
+                                            className="w-[263px] h-[385px] rounded cursor-pointer"
                                             onClick={() =>
                                                 Inertia.visit(
                                                     `/books?autor=Stephen King`
