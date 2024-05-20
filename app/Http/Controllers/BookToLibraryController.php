@@ -37,7 +37,8 @@ class BookToLibraryController extends Controller
 
         BookToLibrary::create($validatedData);
 
-        return to_route('books.index');
+        // Devolver la pagina en la que estabamos
+        return redirect()->back();
     }
 
     /**

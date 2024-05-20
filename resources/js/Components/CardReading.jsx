@@ -1,29 +1,56 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
-import { Rating } from "@mui/material";
-import BasicRating from "./BasicRating";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import BookmarkRemoveOutlinedIcon from "@mui/icons-material/BookmarkRemoveOutlined";
+import DrawOutlinedIcon from "@mui/icons-material/DrawOutlined";
+import { red } from "@mui/material/colors";
 import BookStatusSelector from "./BookStatusSelector";
+import CardLibraryModal from "./CardLibraryModal";
+import BasicRating from "./BasicRating";
 
-const CardReading = ({ book, auth }) => {
-    console.log(book);
-
+const CardReading = ({ book, auth, librariesWithBookCount }) => {
     const [showModal, setShowModal] = useState(false);
+    const [reviewModal, setReviewModal] = useState(false);
+    const [reviewContent, setReviewContent] = useState("");
 
     const handleAddToLibrary = async (libraryId) => {
-        // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-        console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-        setShowModal(false); // Cierra la ventana modal después de añadir el libro
+        setShowModal(false);
+        await Inertia.post("/booktolibrary", { book_id: book.id, library_id: libraryId }, {
+            preserveScroll: true,
+            preserveState: true,
+        });
+    };
 
-        await Inertia.post(
-            "/booktolibrary",
-            { book_id: book.id, library_id: libraryId },
-            {
+    const handleDeleteReading = async () => {
+        let confirmMessage = "Ya no quieres leer este libro?";
+        if (book.status === "leyendo") {
+            confirmMessage = "¿Seguro que quieres cancelar tu lectura?";
+        } else if (book.status === "leido") {
+            confirmMessage = "¿Seguro que quieres eliminar tu registro de lectura?";
+        }
+
+        const confirmed = window.confirm(confirmMessage);
+        if (confirmed) {
+            await Inertia.delete("/deletereading", {
+                data: { user_id: auth.user.id, book_id: book.id, status: book.status },
                 preserveScroll: true,
                 preserveState: true,
-            }
-        );
+            });
+        }
+    };
+
+    const handleReviewSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await Inertia.post("/reviews/store", {
+                book_id: book.id,
+                user_id: auth.user.id,
+                review: reviewContent,
+            });
+            setReviewModal(false);
+        } catch (error) {
+            console.error("Error al enviar la reseña:", error);
+        }
     };
 
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
@@ -31,8 +58,6 @@ const CardReading = ({ book, auth }) => {
     return (
         <div className="card w-full max-h-[250px] flex flex-col pb-5 rounded min-w-[263px] border-b-2">
             <div className="w-full max-h-[250px] flex flex-row items-center justify-start">
-                {/* Contenido del libro */}
-                {/*  enlace a show del libro*/}
                 <div className="w-full flex flex-row gap-10">
                     <a
                         href={route("books.show", book.id)}
@@ -84,29 +109,65 @@ const CardReading = ({ book, auth }) => {
                             />
                         </div>
 
-                        {/* Botón "Añadir a" */}
-                        <div className="w-full max-h-[250px] flex flex-row items-center justify-between gap-2">
-                            <div className="w-full flex flex-row items-start justify-start">
+                        <div className="max-h-[250px] flex flex-row items-center justify-between gap-2">
+                            <div className="flex flex-row items-start justify-start">
                                 <BookStatusSelector
                                     initialStatus={book.status}
                                     book={book}
                                     auth={auth}
+                                    showPage={false}
                                 />
                             </div>
-                            <div className="w-full flex flex-row items-end justify-end gap-5">
-                                <button
-                                    className=" text-center transition duration-300 ease-in-out"
-                                    onClick={() => setShowModal(true)}
-                                >
-                                    <LibraryAddOutlinedIcon
-                                        sx={{ fill: bgColor, fontSize: "35px" }}
-                                    />
-                                </button>
+                            <div className="flex flex-row items-center justify-center gap-5">
+                                {book.status === "leido" && book.rate > 0 && (
+                                    <div>
+                                        <button
+                                            className=" text-center transition duration-300 ease-in-out"
+                                            onClick={() => setReviewModal(true)}
+                                            title="Escribir reseña"
+                                        >
+                                            <DrawOutlinedIcon
+                                                sx={{
+                                                    fill: bgColor,
+                                                    fontSize: "35px",
+                                                }}
+                                            />
+                                        </button>
+                                    </div>
+                                )}
+                                <div className="w-full flex flex-row items-end justify-end gap-5">
+                                    <button
+                                        className=" text-center transition duration-300 ease-in-out"
+                                        onClick={() => setShowModal(true)}
+                                        title="Añadir a biblioteca"
+                                    >
+                                        <LibraryAddOutlinedIcon
+                                            sx={{
+                                                fill: bgColor,
+                                                fontSize: "35px",
+                                            }}
+                                        />
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <button
+                                        className=" text-center transition duration-300 ease-in-out"
+                                        onClick={handleDeleteReading}
+                                        title="Eliminar de la lista de lectura"
+                                    >
+                                        <BookmarkRemoveOutlinedIcon
+                                            sx={{
+                                                fill: red[700],
+                                                fontSize: "35px",
+                                            }}
+                                        />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* Ventana modal para seleccionar biblioteca */}
                 {showModal && (
                     <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
                         <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
@@ -115,29 +176,69 @@ const CardReading = ({ book, auth }) => {
                                     Selecciona una biblioteca
                                 </h2>
                                 <div className="grid gap-4">
-                                    {/* Lista de bibliotecas */}
-                                    {libraries.map((library) => (
+                                    {librariesWithBookCount.map((library) => (
                                         <button
                                             key={library.id}
-                                            className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded"
                                             onClick={() =>
                                                 handleAddToLibrary(library.id)
                                             }
                                         >
-                                            {library.nombre}
+                                            <CardLibraryModal
+                                                key={library.id}
+                                                library={library}
+                                            />
                                         </button>
                                     ))}
                                 </div>
                             </div>
-                            {/* Botón para cerrar la ventana modal */}
                             <div className="w-full flex flex-col items-center">
                                 <button
-                                    className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
+                                    className={`w-[50%] py-2 px-4 bg-red-500 text-white rounded`}
                                     onClick={() => setShowModal(false)}
                                 >
                                     Cerrar
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                )}
+                {reviewModal && (
+                    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
+                        <div className="w-[40%] relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
+                            <form onSubmit={handleReviewSubmit}>
+                                <div>
+                                    <h2 className="text-xl font-semibold mb-4">
+                                        Escribe una reseña
+                                    </h2>
+                                    <div className="grid gap-4">
+                                        <textarea
+                                            name="review"
+                                            id="review"
+                                            cols="30"
+                                            rows="10"
+                                            value={reviewContent}
+                                            onChange={(e) =>
+                                                setReviewContent(e.target.value)
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                                <div className="w-full flex flex-row items-center gap-3">
+                                    <button
+                                        type="submit"
+                                        className={`w-[50%] py-2 px-4 bg-[${bgColor}] text-white rounded`}
+                                    >
+                                        Publicar reseña
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
+                                        onClick={() => setReviewModal(false)}
+                                    >
+                                        Cerrar
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 )}

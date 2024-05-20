@@ -5,17 +5,31 @@ import CardInLibrary from "@/Components/CardInLibrary";
 import CardLibrary from "@/Components/CardLibrary"; // Asegúrate de que esto está correctamente importado
 
 export default function Show({ auth, libraries, books, currentLibrary, librariesWithBookCount }) {
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat("es-ES", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            // hour: "2-digit",
+            // minute: "2-digit",
+            // second: "2-digit",
+        }).format(date);
+    };
+
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Discover Books" />
 
             <div className="flex w-full h-full justify-center items-start pt-20 px-10">
                 {/* Panel Izquierdo para Detalles de la Biblioteca - Ocupará 35% del ancho */}
-                <div className="w-1/3 p-4">
+                <div className="w-1/3 p-4 pt-10">
                     <div className="bg-white shadow rounded p-4">
                         <h2 className="text-xl font-semibold mb-2">{currentLibrary.nombre}</h2>
                         <p>Tipo: {currentLibrary.tipo}</p>
-                        <p>Total libros: {books.length}</p>
+                        <p>{books.length} libros añadidos a la biblioteca</p>
+                        <p>Biblioteca creada el {formatDate(currentLibrary.created_at)}</p>
                     </div>
                     <div>
                         {/* mostrar el resto de bibliotecas que no sea la que esta viendose */}

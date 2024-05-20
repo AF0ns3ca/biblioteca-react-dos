@@ -26,6 +26,12 @@ class Book extends Model
         return $this->hasMany(Rate::class);
     }
 
+    // Relacion con tabla reviews
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     protected $fillable = [
         'titulo',
         'autor',

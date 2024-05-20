@@ -3,7 +3,7 @@ import { Inertia } from "@inertiajs/inertia";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 
-export default function BasicRating({ book, initialRating }) {
+export default function BasicRating({ book, initialRating, size }) {
     // Asegúrate de que initialRating sea un número
     const initialRatingNumber = parseFloat(initialRating) || 0;
     const [value, setValue] = useState(initialRatingNumber);
@@ -64,6 +64,7 @@ export default function BasicRating({ book, initialRating }) {
                 value={value}
                 precision={0.5}
                 onChange={handleRatingChange}
+                size={size}
             />
         </Box>
     );

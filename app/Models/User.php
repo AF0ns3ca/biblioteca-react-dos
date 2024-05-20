@@ -14,6 +14,9 @@ class User extends Authenticatable
     // Relacion con roles
     // User.php
     // User.php
+
+    
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'role_user');
@@ -23,6 +26,12 @@ class User extends Authenticatable
     public function libraries()
     {
         return $this->hasMany(Library::class);
+    }
+
+    // Relacion con reviews
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
     use HasFactory, Notifiable;

@@ -7,6 +7,7 @@ use App\Http\Controllers\BookToLibraryController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReadingController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -88,6 +89,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/reading', [ReadingController::class, 'reading'])->name('readings.reading');
     Route::post('/read', [ReadingController::class, 'read'])->name('readings.read');
     Route::post('/update-reading-status', [ReadingController::class, 'updateStatus']);
+
+    Route::delete('/deletereading', 'App\Http\Controllers\ReadingController@destroy')->name('readings.destroy');
+
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
 
 
 });

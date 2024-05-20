@@ -162,7 +162,7 @@ export default function Index({ auth }) {
                                 <img
                                     src="/images/magic.png"
                                     alt="Book Image"
-                                    className="w-full h-96 rounded-lg sm:w-1/4"
+                                    className="min-w-[250px] h-96 rounded-lg "
                                 />
                             </div>
                         </div>

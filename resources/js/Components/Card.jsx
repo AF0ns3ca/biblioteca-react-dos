@@ -3,10 +3,11 @@ import { Inertia } from "@inertiajs/inertia";
 import CardLibraryModal from "./CardLibraryModal";
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import { styled } from '@mui/system';
 
-const Card = ({ book, libraries, auth, isShown }) => {
+const Card = ({ book, libraries, auth, isShown,status }) => {
 
     const [showModal, setShowModal] = useState(false);
 
@@ -110,7 +111,13 @@ const Card = ({ book, libraries, auth, isShown }) => {
                 {/* Botón "Añadir a" */}
                 <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
                     <button onClick={handleAddToWantToRead}>
-                        <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }}/>
+                        {/* si status es quiero_leer poner esto, sino otro */}
+                        {status === "quiero_leer" ? (
+                            <BookmarkIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
+                            
+                        ) : (
+                            <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
+                        )}
                     </button>
                     <button
                         className="text-center py-2 transition duration-300 ease-in-out"

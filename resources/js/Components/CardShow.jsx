@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import CardLibraryModal from "./CardLibraryModal";
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
-import { styled } from '@mui/system';
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
+import { styled } from "@mui/system";
 
 const CardShow = ({ book, libraries, auth }) => {
     const [showModal, setShowModal] = useState(false);
@@ -45,9 +45,10 @@ const CardShow = ({ book, libraries, auth }) => {
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
     return (
-        <div className={`card flex flex-col gap-3 items-center justify-center p-3 rounded min-w-[263px]`}>
-
-            <div className="flex flex-col items-center justify-center">
+        <div
+            className={`card flex flex-col gap-3 items-center justify-center p-3 `}
+        >
+            <div className="flex flex-col items-start justify-start min-w-[120px]">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
                 <a
@@ -60,11 +61,11 @@ const CardShow = ({ book, libraries, auth }) => {
                             <img
                                 src={book.portada}
                                 alt={book.titulo}
-                                className="w-[240px] h-[380px] rounded"
+                                className="w-[120px] h-[190px] rounded"
                             />
                         ) : (
-                            <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
-                                <span className="text-2xl font-bold text-gray-600">
+                            <div className="w-[120px] h-[190px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
+                                <span className="text-sm font-bold text-gray-600">
                                     {book.titulo}
                                 </span>
                             </div>
@@ -80,38 +81,6 @@ const CardShow = ({ book, libraries, auth }) => {
                         {book.numero ? `#${book.num_serie}` : ""}
                     </p>
                 </div>
-
-                {/* Botón "Añadir a" */}
-                <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
-                    <button>
-                        <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }}/>
-                    </button>
-                    <button
-                        className=" text-center py-2 transition duration-300 ease-in-out"
-                        onClick={() => setShowModal(true)}
-                    >
-                        <LibraryAddOutlinedIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
-
-                    </button>
-                </div>
-                {/* Ventana modal para seleccionar biblioteca */}
-                {showModal && (
-                <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
-                    <div className="relative max-h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
-                        <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
-                        <div className="grid gap-4">
-                            {libraries.map((library) => (
-                                <button
-                                    key={library.id}
-                                    onClick={() => handleAddToLibrary(library.id)}
-                                >
-                                    <CardLibraryModal key={library.id} library={library} />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
             </div>
         </div>
     );

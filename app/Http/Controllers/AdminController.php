@@ -69,7 +69,8 @@ class AdminController extends Controller
 
     public function books()
     {
-        $books = Book::all();
+        // Obtener todos los libros ordenados por portada, luego por serie y luego por num_serie
+        $books = Book::orderBy('portada')->orderBy('serie')->orderBy('num_serie')->get();
 
         return Inertia::render('Admin/Books', [
             'books' => $books

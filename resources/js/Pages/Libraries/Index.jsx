@@ -1,4 +1,3 @@
-// Importar useState y useEffect si es necesario
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
@@ -8,6 +7,7 @@ import AddButton from "@/Components/AddButton";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import Alert from "@mui/material/Alert";
 import CheckIcon from "@mui/icons-material/Check";
+import CardLibraryExpand from "@/Components/CardLibraryExpand";
 
 export default function Index({ auth, librariesWithBookCount, role }) {
     const [showModal, setShowModal] = useState(false);
@@ -57,35 +57,39 @@ export default function Index({ auth, librariesWithBookCount, role }) {
         setShowAlert(true);
     };
 
-    const handleCloseLibrary = (e) => {
+    const handleCloseLibrary = () => {
         setShowAlert(false);
     };
 
-    const bgColor = auth.user.role == "user" ? "bg-metal" : "bg-premium";
+    const handleCloseAlert = (e) => {
+        if (e.target.id === "modal-alert") {
+            setShowAlert(false);
+        }
+    };
+
+    const bgColor = auth.user.role === "user" ? "bg-metal" : "bg-premium";
+    const color = auth.user.role === "user" ? "text-black" : "text-white";   
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            role={role}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight mt-16">
-                    Bibliotecas de {auth.user.name}
-                </h2>
-            }
-        >
+        <AuthenticatedLayout user={auth.user} role={role}>
             <Head title="Bibliotecas" />
-            <div className="w-full h-full flex justify-center items-center">
-                <div className="w-[70%] h-full flex py-4 px-14">
-                    {/* Cambiar a grid cols y cambiar los width para volver atras, poner boton para cambiar la vista de cuadrícula a alargado */}
-                    <div className="w-full grid grid-rows-1 sm:grid-rows-2 md:grid-rows-3 lg:grid-rows-4 lgxl:grid-rows-4 gap-10">
+            <div className="w-full mt-20 h-full flex flex-col justify-center items-center">
+                <h1 className="p-5 text-5xl font-serif">
+                    Tus bibliotecas, {auth.user.name}
+                </h1>
+                <div className="w-full px-5 sm:w-[90%] md:w-[90%] lg:w-[80%] xl:w-[70%] flex items-center justify-center py-4 ">
+                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-content-center gap-10">
                         {librariesWithBookCount.map((library) => (
-                            <CardLibrary key={library.id} library={library} />
+                            <CardLibraryExpand
+                                key={library.id}
+                                library={library}
+                            />
                         ))}
                     </div>
                 </div>
                 {(librariesWithBookCount.length < 5 &&
-                    auth.user.role == "user") ||
-                auth.user.role == "premium_user" ? (
+                    auth.user.role === "user") ||
+                auth.user.role !== "user" ? (
                     <div className="fixed bottom-10 right-10 rounded-full">
                         <AddButton
                             color={bgColor}
@@ -104,16 +108,22 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                             <div
                                 id="modal-alert"
                                 className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
+                                onClick={handleCloseAlert}
                             >
                                 <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg flex flex-col gap-5 font-serif text-lg">
                                     <p>
-                                        Has llegado al límite de bibliotecas. Para crear más bibliotecas, actualiza a una cuenta premium.
+                                        Has llegado al límite de bibliotecas.
+                                        Para crear más bibliotecas, actualiza a
+                                        una cuenta premium.
                                     </p>
                                     <button>
-                                        <CheckIcon 
-                                            sx={{ fill: "#10B981", fontSize: "35px" }}
+                                        <WorkspacePremiumIcon
+                                            sx={{
+                                                fill: "#602F6B",
+                                                fontSize: "35px",
+                                            }}
                                             onClick={handleCloseLibrary}
-                                            className="text-center rounded-full border-2 border-green-600 m-3"
+                                            className="text-center rounded-ful m-3"
                                         />
                                     </button>
                                 </div>
@@ -166,13 +176,13 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                             <div className="w-full flex items-center justify-center gap-5">
                                 <button
                                     type="submit"
-                                    className="bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="w-full bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 >
                                     Crear
                                 </button>
                                 <button
                                     onClick={() => setShowModal(false)}
-                                    className="bg-red-500 text-white rounded px-4 py-2"
+                                    className="w-full bg-red-500 text-white rounded px-4 py-2"
                                 >
                                     Cancelar
                                 </button>

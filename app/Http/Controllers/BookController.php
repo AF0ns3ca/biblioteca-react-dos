@@ -59,8 +59,6 @@ class BookController extends Controller
 
             $book->status = $status;
 
-            $book->status = $status;
-
             return $book;
         });
 
@@ -77,19 +75,6 @@ class BookController extends Controller
         ]);
     }
 
-    public function indexLastBooks()
-    {
-        // Lógica para mostrar los últimos 3 libros añadidos
-        $lastBooks = Book::orderBy('created_at', 'desc')->take(3)->get();
-        $booksCount = Book::count();
-        $pagesCount = Book::sum('paginas');
-        $authorsCount = Book::distinct()->count('autor');
-        $seriesCount = Book::distinct()->count('serie');
-
-        return view('welcome', ['lastBooks' => $lastBooks, 'booksCount' => $booksCount, 'authorsCount' => $authorsCount, 'seriesCount' => $seriesCount, 'pagesCount' => $pagesCount]);
-    }
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -98,37 +83,6 @@ class BookController extends Controller
         //redirige a la pagina add en la carpeta templates
         return view('books.store');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     //
-    //     $validatedData = $request->validate([
-    //         'titulo' => 'required|max:45',
-    //         'autor' => 'required|max:45',
-    //         'serie' => 'max:45|nullable',
-    //         'num_serie' => 'numeric|nullable',
-    //         'paginas' => 'required|numeric',
-    //         'estante' => 'required|numeric',
-    //         'balda' => 'required|max:45',
-    //         'fila' => 'required|max:45',
-    //         'portada' => 'image|nullable'
-
-    //     ]);
-
-    //     if ($request->hasFile('portada')) {
-    //         $path = $request->file('portada')->store('public/photos');
-    //         $validatedData['portada'] = $path;
-    //     } else {
-    //         $path = 'public/photos/base.jpg';
-    //         $validatedData['portada'] = $path;
-    //     }
-
-    //     Book::create($validatedData);
-    //     return redirect(route('books.index'))->with('success', 'Book is successfully saved');
-    // }
 
     public function store(Request $request)
     {
@@ -191,10 +145,15 @@ class BookController extends Controller
         $book = $books->first();
 
         $autor = $book->autor;
-        $booksAuthor = Book::where('autor', 'like', "%{$autor}%")->get();
+        // Buscar libros del mismo autor ordenados primero por serie y numero y luego por titulo que no sean el mismo libro
+        $booksAuthor = Book::where('autor', 'like', "%{$autor}%")->where('id', '!=', $book->id)->orderBy('serie')->orderBy('num_serie')->orderBy('titulo')->get();
+        $booksAuthorCount = Book::where('autor', 'like', "%{$autor}%")->count();
+        
 
         $serie = $book->serie;
-        $booksSerie = Book::where('serie', 'like', "%{$serie}%")->get();
+        // Buscar libros de la misma serie ordenados por numero de serie y luego por titulo que no sean el mismo libro que no sea null
+        $booksSerie = Book::where('serie', 'like', "%{$serie}%")->where('id', '!=', $book->id)->whereNotNull('num_serie')->orderBy('num_serie')->orderBy('titulo')->get();
+        $booksSerieCount = Book::where('serie', 'like', "%{$serie}%")->count();
 
         $reading = Reading::where('book_id', $book->id)
             ->where('user_id', auth()->id())
@@ -215,12 +174,20 @@ class BookController extends Controller
 
         $book->status = $status;
 
+        $librariesWithBookCount = Library::where('user_id', auth()->id())
+            ->withCount('books') // Contar el número de libros para cada biblioteca
+            ->get();
+
+        
+
         // Devolver con inertia
         return Inertia::render('Books/Show', [
             'book' => $book,
             'booksAuthor' => $booksAuthor,
-            'bookSerie' => $booksSerie,
-            'libraries' => Library::where('user_id', auth()->id())->get(),
+            'booksSerie' => $booksSerie,
+            'booksAuthorCount' => $booksAuthorCount,
+            'booksSerieCount' => $booksSerieCount,
+            'libraries' => $librariesWithBookCount,
             'auth' => [
                 'user' => array_merge($user->toArray(), ['role' => $userRole]),
             ],

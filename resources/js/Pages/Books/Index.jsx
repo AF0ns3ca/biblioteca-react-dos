@@ -13,15 +13,29 @@ export default function Index({ auth, books, librariesWithBookCount }) {
     );
     const [sortField, setSortField] = useState(null);
     const [sortDirection, setSortDirection] = useState("asc");
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(
+        parseInt(localStorage.getItem("currentPage")) || 1
+    );
+    const [shouldClearLocalStorage, setShouldClearLocalStorage] = useState(false); // Track if local storage should be cleared
     const booksPerPage = 12;
 
     useEffect(() => {
         localStorage.setItem("view", view);
     }, [view]);
 
+    useEffect(() => {
+        if (shouldClearLocalStorage) {
+            localStorage.removeItem("currentPage");
+            setShouldClearLocalStorage(false);
+        } else {
+            // Update local storage with the current page when it changes
+            localStorage.setItem("currentPage", page);
+        }
+    }, [page, shouldClearLocalStorage]);
+
     const handleChangePage = (event, value) => {
         setPage(value);
+        setShouldClearLocalStorage(true); // Set shouldClearLocalStorage to true when page changes
     };
 
     const toggleSortDirection = () => {
@@ -130,6 +144,7 @@ export default function Index({ auth, books, librariesWithBookCount }) {
                                     libraries={librariesWithBookCount}
                                     key={book.id}
                                     auth={auth}
+                                    status={book.status}
                                     isShown={(index >= (page - 1) * booksPerPage && index < page * booksPerPage) ? true : false
                                     }
                                 />
