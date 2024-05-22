@@ -1,5 +1,6 @@
 import React from "react";
 import { Inertia } from "@inertiajs/inertia";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CardUser = ({ user }) => {
     const handleDelete = async () => {
@@ -26,11 +27,10 @@ const CardUser = ({ user }) => {
         }
     };
 
-
     return (
-        <div className={`w-full flex flex-row justify-center gap-5 ${getBgColor(user.role)} shadow-lg rounded-lg p-6 text-white`}>
-            <div className="w-full flex flex-col gap-3">
-                <div className="w-full flex flex-row gap-5">
+        <div className={`w-full flex flex-col md:flex-row justify-between items-center gap-5 ${getBgColor(user.role)} shadow-lg rounded-lg p-6 text-white`}>
+            <div className="flex flex-col md:flex-row w-full justify-between items-center gap-3">
+                <div className="flex flex-col md:flex-row gap-5 w-full">
                     <h2 className="text-2xl font-semibold">
                         {user.name}
                     </h2>
@@ -38,8 +38,6 @@ const CardUser = ({ user }) => {
                     <p className="mt-1">
                         Tipo de Usuario: {user.role}
                     </p>
-                </div>
-                <div>
                     {user.role !== "admin" && (
                         <p className="mt-1">
                             {user.libraries_count > 0 ? (
@@ -50,20 +48,13 @@ const CardUser = ({ user }) => {
                         </p>
                     )}
                 </div>
-            </div>
-            <div className="flex flex-col gap-3">
                 {user.role !== "admin" ? (
-                    <>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Edit
-                        </button>
-                        <button
-                            onClick={handleDelete}
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Delete
-                        </button>
-                    </>
+                    <button
+                        onClick={handleDelete}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 md:mt-0"
+                    >
+                        <DeleteIcon />
+                    </button>
                 ) : (
                     <div className="flex justify-center items-center">
                         Administrador

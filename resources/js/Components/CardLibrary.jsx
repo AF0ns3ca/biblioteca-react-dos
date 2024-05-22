@@ -26,7 +26,7 @@ const CardLibrary = ({ library }) => {
                 {/* Condiciona el enlace al método show basado en el conteo de libros */}
                 {library.books_count > 0 ? (
                     <a href={route("libraries.show", library.id)} className="w-[50%] cursor-pointer flex flex-col items-start">
-                        <h1 className="text-xl font-bold">{library.nombre}</h1>
+                        <h1 className="text-sm md:text-lg font-bold">{library.nombre}</h1>
                         <p className="text-gray-600">{library.books_count} libros</p>
                     </a>
                 ) : (

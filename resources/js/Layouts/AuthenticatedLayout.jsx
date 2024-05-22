@@ -8,6 +8,7 @@ import { usePage } from "@inertiajs/react";
 import SearchComponent from "@/Components/SearchComponent";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import SupervisedUserCircleOutlinedIcon from "@mui/icons-material/SupervisedUserCircleOutlined";
+import Footer from "@/Components/Footer";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -15,6 +16,7 @@ export default function Authenticated({ user, header, children }) {
 
     const url = usePage().url;
     console.log(url);
+    console.log(user.role);
 
     function checkUrl(url) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
@@ -27,7 +29,7 @@ export default function Authenticated({ user, header, children }) {
     // bgColor = "bg-metal";
     // textColor = "text-blue-200";
 
-    //Se pone el color de fondo en "metal" si el usuario es user y "imperial" si es premmium_user
+    //Se pone el color de fondo en "metal" si el usuario es user, "premium" si es premmium_user
     const bgColor = user.role == "user" ? "bg-metal" : "bg-premium";
     const textColor = user.role == "user" ? "text-blue-200" : "text-purple-200";
 
@@ -276,6 +278,7 @@ export default function Authenticated({ user, header, children }) {
             )}
 
             <main className="mt-5">{children}</main>
+            <Footer />
         </div>
     );
 }

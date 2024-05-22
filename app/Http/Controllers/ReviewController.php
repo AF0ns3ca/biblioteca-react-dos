@@ -19,7 +19,19 @@ class ReviewController extends Controller
         $userRole = $user->roles->first()->role;
 
         // devuelve las reviews de la base de datos junto con el rate de los libros y el nombre del usuario que ha hecho la review
-        $reviews = Review::with('book', 'user')->get();
+        $reviews = Review::with([
+            'book' => function ($query) {
+                // Cargar la relación 'rate' dentro de 'book'
+                $query->leftJoin('rate', function ($join) {
+                    $join->on('books.id', '=', 'rate.book_id')
+                        ->where('rate.user_id', auth()->id());
+                })
+
+                    ->select('books.*', 'rate.rate as rate');
+            },
+            'user'
+        ])
+            ->get();
 
         return Inertia::render('Dashboard', [
             'reviews' => $reviews,
@@ -54,7 +66,7 @@ class ReviewController extends Controller
         // Devolver a dashboard con todas las reviews
 
         return redirect()->route('reviews.index');
-        
+
     }
 
     /**
@@ -63,24 +75,39 @@ class ReviewController extends Controller
     public function show(Review $review)
     {
         //
-        
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Review $review)
+    public function edit(Request $request)
     {
         //
+
+
+
+
+
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Review $review)
-    {
-        //
-    }
+    public function update(Request $request, string $id)
+{
+    $validatedData = $request->validate([
+        'review' => 'required',
+    ]);
+
+    Review::whereId($id)->update($validatedData);
+
+    return to_route('dashboard');
+
+}
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import CardReading from "@/Components/CardReading";
 import BasicTab from "@/Components/BasicTab";
+
 
 export default function Index({
     auth,
@@ -14,18 +16,25 @@ export default function Index({
     readBooksCount,
     librariesWithBookCount,
 }) {
-    console.log(wantToReadBooksCount);
-    console.log(readingBooksCount);
-    console.log(readBooksCount);
+    // Estado local para almacenar la pestaña seleccionada
+    const [selectedSectionReading, setselectedSectionReading] = useState(() => {
+        // Intenta recuperar el valor de la pestaña desde el almacenamiento local
+        const storedselectedSectionReading = localStorage.getItem("selectedSectionReading");
+        // Devuelve el valor almacenado o 0 (primera pestaña) si no se encuentra
+        return storedselectedSectionReading ? parseInt(storedselectedSectionReading) : 0;
+    });
 
-    const [selectedSection, setSelectedSection] = useState(0);
+    // Efecto para almacenar la pestaña seleccionada en el almacenamiento local
+    useEffect(() => {
+        localStorage.setItem("selectedSectionReading", selectedSectionReading);
+    }, [selectedSectionReading]);
 
+    // Función para manejar el cambio de pestaña
     const handleSectionChange = (sectionIndex) => {
-        setSelectedSection(sectionIndex);
+        setselectedSectionReading(sectionIndex);
     };
-
-    const renderSelectedSection = () => {
-        switch (selectedSection) {
+    const renderselectedSectionReading = () => {
+        switch (selectedSectionReading) {
             case 0:
                 return (
                     <div
@@ -135,7 +144,7 @@ export default function Index({
                 <div className="mt-20 w-full max-w-6xl px-4">
                     <div className="flex">
                         <BasicTab
-                            value={selectedSection}
+                            value={selectedSectionReading}
                             onChange={handleSectionChange}
                             role={auth.user.role}
                             want={wantToReadBooksCount}
@@ -143,7 +152,7 @@ export default function Index({
                             read={readBooksCount}
                         />
                     </div>
-                    {renderSelectedSection()}
+                    {renderselectedSectionReading()}
                 </div>
             </div>
         </AuthenticatedLayout>

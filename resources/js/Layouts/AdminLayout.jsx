@@ -7,6 +7,7 @@ import { Link } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
 import SearchComponent from "@/Components/SearchComponent";
 import SupervisedUserCircleOutlinedIcon from "@mui/icons-material/SupervisedUserCircleOutlined";
+import Footer from "@/Components/Footer";
 
 export default function Admin({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -21,8 +22,8 @@ export default function Admin({ user, header, children }) {
     }
 
     return (
-        <div className="min-h-screen bg-white">
-            <nav className=" w-full bg-black border-b border-gray-100 top-0 fixed z-infinity">
+        <div className="min-h-screen flex flex-col">
+            <nav className="w-full bg-black border-b border-gray-100 top-0 fixed z-infinity">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex flex-row items-center justify-center gap-5">
@@ -50,7 +51,6 @@ export default function Admin({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            {/* {url === ("/books" || "/libraries/[id]") && ( */}
                             {checkUrl(url) && (
                                 <div className="hidden sm:flex sm:items-center sm:ms-6">
                                     <SearchComponent />
@@ -90,7 +90,6 @@ export default function Admin({ user, header, children }) {
                                                 className="inline-flex items-center py-2 border border-transparent leading-4 font-medium rounded-md bg-black focus:outline-none transition ease-in-out duration-150 text-white text-md"
                                             >
                                                 {user.name}
-
                                                 <svg
                                                     className="ms-2 -me-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -233,7 +232,8 @@ export default function Admin({ user, header, children }) {
                 </header>
             )}
 
-            <main className="mt-5">{children}</main>
+            <main className="flex-grow mt-5">{children}</main>
+            
         </div>
     );
 }

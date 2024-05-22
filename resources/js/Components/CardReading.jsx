@@ -118,52 +118,45 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                     showPage={false}
                                 />
                             </div>
-                            <div className="flex flex-row items-center justify-center gap-5">
+                            <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-1 md:gap-5">
                                 {book.status === "leido" && book.rate > 0 && (
-                                    <div>
-                                        <button
-                                            className=" text-center transition duration-300 ease-in-out"
-                                            onClick={() => setReviewModal(true)}
-                                            title="Escribir reseña"
-                                        >
-                                            <DrawOutlinedIcon
-                                                sx={{
-                                                    fill: bgColor,
-                                                    fontSize: "35px",
-                                                }}
-                                            />
-                                        </button>
-                                    </div>
-                                )}
-                                <div className="w-full flex flex-row items-end justify-end gap-5">
                                     <button
-                                        className=" text-center transition duration-300 ease-in-out"
-                                        onClick={() => setShowModal(true)}
-                                        title="Añadir a biblioteca"
+                                        className="text-center transition duration-300 ease-in-out"
+                                        onClick={() => setReviewModal(true)}
+                                        title="Escribir reseña"
                                     >
-                                        <LibraryAddOutlinedIcon
+                                        <DrawOutlinedIcon
                                             sx={{
                                                 fill: bgColor,
                                                 fontSize: "35px",
                                             }}
                                         />
                                     </button>
-                                </div>
-
-                                <div>
-                                    <button
-                                        className=" text-center transition duration-300 ease-in-out"
-                                        onClick={handleDeleteReading}
-                                        title="Eliminar de la lista de lectura"
-                                    >
-                                        <BookmarkRemoveOutlinedIcon
-                                            sx={{
-                                                fill: red[700],
-                                                fontSize: "35px",
-                                            }}
-                                        />
-                                    </button>
-                                </div>
+                                )}
+                                <button
+                                    className="text-center transition duration-300 ease-in-out"
+                                    onClick={() => setShowModal(true)}
+                                    title="Añadir a biblioteca"
+                                >
+                                    <LibraryAddOutlinedIcon
+                                        sx={{
+                                            fill: bgColor,
+                                            fontSize: "35px",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className="text-center transition duration-300 ease-in-out"
+                                    onClick={handleDeleteReading}
+                                    title="Eliminar de la lista de lectura"
+                                >
+                                    <BookmarkRemoveOutlinedIcon
+                                        sx={{
+                                            fill: red[700],
+                                            fontSize: "35px",
+                                        }}
+                                    />
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -193,7 +186,7 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                             </div>
                             <div className="w-full flex flex-col items-center">
                                 <button
-                                    className={`w-[50%] py-2 px-4 bg-red-500 text-white rounded`}
+                                    className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
                                     onClick={() => setShowModal(false)}
                                 >
                                     Cerrar
@@ -204,8 +197,8 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                 )}
                 {reviewModal && (
                     <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                        <div className="w-[40%] relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
-                            <form onSubmit={handleReviewSubmit}>
+                        <div className="w-[90%] md:w-[40%] relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
+                            <form onSubmit={handleReviewSubmit} className="flex flex-col gap-3">
                                 <div>
                                     <h2 className="text-xl font-semibold mb-4">
                                         Escribe una reseña
@@ -216,6 +209,8 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                             id="review"
                                             cols="30"
                                             rows="10"
+                                            className="w-full p-2 border border-gray-300 rounded"
+                                            placeholder="Escribe tu reseña aquí..."
                                             value={reviewContent}
                                             onChange={(e) =>
                                                 setReviewContent(e.target.value)
@@ -226,9 +221,9 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                 <div className="w-full flex flex-row items-center gap-3">
                                     <button
                                         type="submit"
-                                        className={`w-[50%] py-2 px-4 bg-[${bgColor}] text-white rounded`}
+                                        className="w-[50%] py-2 px-4 bg-[#2C3E50] text-white rounded"
                                     >
-                                        Publicar reseña
+                                        Publicar
                                     </button>
                                     <button
                                         type="button"

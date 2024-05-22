@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Review;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -71,11 +72,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.index');
         }
 
-        // Renderiza la vista del dashboard y pasa los datos del usuario y su rol
-        return Inertia::render('Dashboard', [
-            'auth' => [
-                'user' => array_merge($user->toArray(), ['role' => $userRole]),
-            ]
-        ]);
+        
+        return redirect()->route('dashboard');
     }
 }

@@ -3,59 +3,60 @@ import { Inertia } from "@inertiajs/inertia";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 
-export default function BasicRating({ book, initialRating, size }) {
-    // Asegúrate de que initialRating sea un número
+export default function BasicRating({ book, initialRating, size, readonly }) {
     const initialRatingNumber = parseFloat(initialRating) || 0;
     const [value, setValue] = useState(initialRatingNumber);
 
+    // Establecer el valor de la calificación solo si no está en modo de solo lectura
+    useEffect(() => {
+        if (!readonly) {
+            setValue(parseFloat(initialRating) || 0);
+        }
+    }, [initialRating, readonly]);
+
     const handleRatingChange = async (event, newValue) => {
-        console.log(
-            "Al libro " + book.titulo + " le diste " + newValue + " estrellas"
-        );
-        setValue(newValue);
+        if (!readonly) {
+            console.log(
+                "Al libro " + book.titulo + " le diste " + newValue + " estrellas"
+            );
+            setValue(newValue);
 
-        if (newValue === null) {
-            // Llamar al endpoint para eliminar la calificación
-            await Inertia.delete(`/rate/destroy/${book.id}`, {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: () => {
-                    Inertia.reload({ only: ["rate"] });
-                    console.log("Rating removed successfully");
-                },
-            });
-        } else {
-            // Lógica para crear o actualizar la calificación
-            const endpoint =
-                initialRating === null ? "/rate/store" : `/rate/update/${book.id}`;
-            const data = { rate: newValue, book_id: book.id };
-
-            if (initialRating === null) {
-                await Inertia.post(endpoint, data, {
+            if (newValue === null) {
+                await Inertia.delete(`/rate/destroy/${book.id}`, {
                     preserveScroll: true,
                     preserveState: true,
                     onSuccess: () => {
                         Inertia.reload({ only: ["rate"] });
-                        console.log("Rating processed successfully");
+                        console.log("Rating removed successfully");
                     },
                 });
             } else {
-                await Inertia.put(endpoint, data, {
-                    preserveScroll: true,
-                    preserveState: true,
-                    onSuccess: () => {
-                        Inertia.reload({ only: ["rate"] });
-                        console.log("Rating updated successfully");
-                    },
-                });
+                const endpoint =
+                    initialRating === null ? "/rate/store" : `/rate/update/${book.id}`;
+                const data = { rate: newValue, book_id: book.id };
+
+                if (initialRating === null) {
+                    await Inertia.post(endpoint, data, {
+                        preserveScroll: true,
+                        preserveState: true,
+                        onSuccess: () => {
+                            Inertia.reload({ only: ["rate"] });
+                            console.log("Rating processed successfully");
+                        },
+                    });
+                } else {
+                    await Inertia.put(endpoint, data, {
+                        preserveScroll: true,
+                        preserveState: true,
+                        onSuccess: () => {
+                            Inertia.reload({ only: ["rate"] });
+                            console.log("Rating updated successfully");
+                        },
+                    });
+                }
             }
         }
     };
-
-    // Efecto para actualizar la calificación si el initialRating cambia
-    useEffect(() => {
-        setValue(parseFloat(initialRating) || 0);
-    }, [initialRating]);
 
     return (
         <Box sx={{ "& > legend": { mt: 2 } }}>
@@ -65,6 +66,7 @@ export default function BasicRating({ book, initialRating, size }) {
                 precision={0.5}
                 onChange={handleRatingChange}
                 size={size}
+                readOnly={readonly} // Aquí establecemos el modo de solo lectura
             />
         </Box>
     );

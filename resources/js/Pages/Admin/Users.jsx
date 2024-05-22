@@ -19,10 +19,10 @@ const UsersIndex = ({ auth, users }) => {
         <AdminLayout user={auth.user}>
             <Head title="Usuarios" />
             <div className="mt-20 flex flex-col justify-center items-center gap-10 p-5">
-                <h1 className="text-3xl">Lista de Usuarios</h1>
-                <div className="w-[50%] flex flex-col items-center gap-5">
+                <h1 className="text-3xl text-center">Lista de Usuarios</h1>
+                <div className="w-full md:w-3/4 lg:w-1/2 flex flex-col items-center gap-5">
                     {sortedUsers.map((user) => (
-                        <CardUser user={user} />
+                        <CardUser key={user.id} user={user} />
                     ))}
                 </div>
             </div>

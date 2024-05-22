@@ -10,6 +10,8 @@ use App\Http\Controllers\ReadingController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Review;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -23,14 +25,35 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, "index"])->name('admin.index');
-    
+
     Route::get('/dashboard', function () {
         // Obtén el usuario autenticado
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
-        // Renderiza la vista del dashboard y pasa los datos del usuario y su rol
-        return Inertia::render('Dashboard');
+        
+
+        // Renderiza la vista del dashboard y pasa las reseñas con usuarios y libro con rating
+        $reviews = Review::with(['book' => function ($query){
+            // Cargar la relación 'rate' dentro de 'book'
+            $query->leftJoin('rate', function ($join) {
+                $join->on('books.id', '=', 'rate.book_id')
+                    ->where('rate.user_id', auth()->id());
+            })
+                       
+            ->select('books.*', 'rate.rate as rate');
+        }, 'user'])
+        ->get();
+
+
+
+        return Inertia::render('Dashboard', [
+            'reviews' => $reviews,
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
+
+        ]);
     })->name('dashboard');
 
 });
@@ -41,13 +64,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
+        // Renderiza la vista del dashboard y pasa las reseñas
+        $reviews = Review::with(['book' => function ($query) {
+            // Subconsulta para obtener el user_id del libro que se ha reseñado
+            $query->select('books.*')
+                  ->leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
+                  ->leftJoin('rate', function ($join) {
+                      $join->on('books.id', '=', 'rate.book_id')
+                           ->whereRaw('rate.user_id = reviews.user_id');
+                  })
+                  ->select('books.*', \DB::raw('COALESCE(rate.rate, 0) as rate'));
+        }, 'user'])
+        ->get();
+        
+        
+        
+        
+        
+        
+
         return Inertia::render('Dashboard', [
+            'reviews' => $reviews,
             'auth' => [
                 'user' => array_merge($user->toArray(), ['role' => $userRole]),
             ],
+
         ]);
     })->name('dashboard');
-    
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -75,10 +119,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::delete('/booktolibrary/{book_id}/{library_id}', 'App\Http\Controllers\BookToLibraryController@destroy')->name('booktolibrary.destroy');
 
-    //Ruta a metodo Rate store
-    // Route::post('/rate/store', 'App\Http\Controllers\RateController@store')->name('rate.store');
-    // Route::put('/rate/update', 'App\Http\Controllers\RateController@update')->name('rate.update');
-    // Route::delete('/rate/destroy/{id}', 'App\Http\Controllers\RateController@destroy')->name('rate.destroy');
     Route::post('/rate/store', [RateController::class, 'store'])->name('rate.store');
     Route::put('/rate/update/{book}', [RateController::class, 'update'])->name('rate.update');
     Route::delete('/rate/destroy/{book}', [RateController::class, 'destroy'])->name('rate.destroy');
@@ -94,12 +134,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
     Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::patch('/reviews/update/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{id}', 'App\Http\Controllers\ReviewController@destroy')->name('reviews.destroy');
 
 
 });
 
 Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
-    Route::get('/admin_user_view',[AdminController::class, 'userView'])->name('admin.userview');
+    Route::get('/admin_user_view', [AdminController::class, 'userView'])->name('admin.userview');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
     Route::delete('/admin/users/{id}', [AdminController::class, 'userDestroy'])->name('admin.userDestroy');
     Route::get('/admin/books', [AdminController::class, 'books'])->name('admin.books');

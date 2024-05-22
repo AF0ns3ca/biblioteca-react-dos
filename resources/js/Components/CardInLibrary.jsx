@@ -80,7 +80,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
 
                     <div className="w-full max-h-[250px] flex flex-col justify-between">
                         <div className=" flex flex-col gap-2">
-                            <h2 className="titulo text-2xl font-serif">
+                            <h2 className="titulo text-lg md:text-2xl font-serif">
                                 {book.titulo}
                             </h2>
                             <p className="autor text-l">
