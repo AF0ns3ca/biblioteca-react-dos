@@ -61,7 +61,7 @@ const CardReview = ({ review, auth }) => {
                             {formatDate(review.created_at)}
                         </p>
                         <div className="pt-3">
-                        <BasicRating
+                            <BasicRating
                                 book={review.book}
                                 initialRating={review.book.rate}
                                 readonly={true}
@@ -82,7 +82,7 @@ const CardReview = ({ review, auth }) => {
                                 onClick={handleDeleteReview}
                                 title="Eliminar reseña"
                             >
-                               <DeleteForeverIcon sx={{ color: red[500] }} />
+                                <DeleteForeverIcon sx={{ color: red[500] }} />
                             </button>
                         </div>
                     )}
@@ -94,21 +94,27 @@ const CardReview = ({ review, auth }) => {
                         </p>
                     </div>
                     <div className="w-full flex flex-row gap-3 items-center pl-10">
-                        <div>
-                            {review.book.portada ? (
-                                <img
-                                    src={review.book.portada}
-                                    alt={review.book.titulo}
-                                    className="min-w-[70px] h-[110px] rounded"
-                                />
-                            ) : (
-                                <div className="w-[70px] h-[110px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
-                                    <span className="text-sm font-bold text-gray-600">
-                                        {review.book.titulo}
-                                    </span>
-                                </div>
-                            )}
-                        </div>
+                        <a
+                            href={route("books.show", review.book.id)}
+                            key={review.book.id}
+                            className="cursor-pointer"
+                        >
+                            <div>
+                                {review.book.portada ? (
+                                    <img
+                                        src={review.book.portada}
+                                        alt={review.book.titulo}
+                                        className="min-w-[70px] h-[110px] rounded"
+                                    />
+                                ) : (
+                                    <div className="w-[70px] h-[110px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
+                                        <span className="text-sm font-bold text-gray-600">
+                                            {review.book.titulo}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </a>
                         <div className="w-full font-serif">
                             <p className="text-sm md:text-2xl">
                                 {review.book.titulo}

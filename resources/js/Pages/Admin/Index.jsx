@@ -10,6 +10,7 @@ export default function Index({
     librariesCount,
     usersCount,
     ratesCount,
+    reviewsCount
 }) {
     console.log(auth);
     console.log(booksCount);
@@ -55,6 +56,12 @@ export default function Index({
                                 {ratesCount}
                             </div>
                             <div className="text-gray-500">Libros puntuados</div>
+                        </div>
+                        <div>
+                            <div className="text-3xl text-gray-700 font-bold">
+                                {reviewsCount}
+                            </div>
+                            <div className="text-gray-500">Reseñas Publicadas</div>
                         </div>
                     </div>
                 </div>

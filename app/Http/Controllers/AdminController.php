@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Rate;
 use App\Models\User;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -28,13 +29,16 @@ class AdminController extends Controller
         $usersCount = User::all()->count();
         // devolver el total de valoraciones en la base de datos
         $ratesCount = Rate::all()->count();
+        // devolver el total de reviews en la base de datos
+        $reviewsCount = Review::all()->count();
 
 
         return Inertia::render('Admin/Index', [
             'booksCount' => $booksCount,
             'librariesCount' => $librariesCount,
             'usersCount' => $usersCount,
-            'ratesCount' => $ratesCount
+            'ratesCount' => $ratesCount,
+            'reviewsCount' => $reviewsCount
         ]);
     }
 

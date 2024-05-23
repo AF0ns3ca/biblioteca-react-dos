@@ -41,7 +41,7 @@ export default function Admin({ user, header, children }) {
                             <div>
                                 <button
                                     onClick={() => {
-                                        window.location.href = "/admin_user_view";
+                                        window.location.href = "/dashboard";
                                     }}
                                     className="flex items-center gap-2 text-white"
                                 >

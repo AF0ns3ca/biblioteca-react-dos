@@ -34,7 +34,7 @@ export default function Authenticated({ user, header, children }) {
     const textColor = user.role == "user" ? "text-blue-200" : "text-purple-200";
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white flex flex-col">
             <nav
                 className={`w-full ${bgColor} border-b border-gray-100 top-0 fixed z-infinity`}
             >
@@ -277,7 +277,7 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main className="mt-5">{children}</main>
+            <main className="flex-grow mt-5">{children}</main>
             <Footer />
         </div>
     );
