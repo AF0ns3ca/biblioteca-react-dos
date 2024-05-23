@@ -148,7 +148,7 @@ class BookController extends Controller
         // Buscar libros del mismo autor ordenados primero por serie y numero y luego por titulo que no sean el mismo libro
         $booksAuthor = Book::where('autor', 'like', "%{$autor}%")->where('id', '!=', $book->id)->orderBy('serie')->orderBy('num_serie')->orderBy('titulo')->get();
         $booksAuthorCount = Book::where('autor', 'like', "%{$autor}%")->count();
-        
+
 
         $serie = $book->serie;
         // Buscar libros de la misma serie ordenados por numero de serie y luego por titulo que no sean el mismo libro que no sea null
@@ -178,7 +178,7 @@ class BookController extends Controller
             ->withCount('books') // Contar el número de libros para cada biblioteca
             ->get();
 
-        
+
 
         // Devolver con inertia
         return Inertia::render('Books/Show', [

@@ -106,6 +106,8 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                             <BasicRating
                                 book={book}
                                 initialRating={book.rate}
+                                // si el status no es leido
+                                readonly={book.status !== "leido"}
                             />
                         </div>
 

@@ -103,6 +103,7 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
                             <BasicRating
                                 book={book}
                                 initialRating={book.rate}
+                                readonly={true}
                             />
                         </div>
 

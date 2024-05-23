@@ -158,6 +158,7 @@ export default function Show({
                                         book={book}
                                         initialRating={book.rate}
                                         size="large"
+                                        readonly={true}
                                     />
                                 </div>
                             </div>
