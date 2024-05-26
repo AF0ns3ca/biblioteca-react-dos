@@ -7,24 +7,13 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import { styled } from '@mui/system';
 
-const Card = ({ book, libraries, auth, isShown,status }) => {
-
+const Card = ({ book, libraries, auth, isShown, status }) => {
     const [showModal, setShowModal] = useState(false);
-
-    // const handleAddToLibrary = (libraryId) => {
-    //     // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-    //     console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-    //     setShowModal(false); // Cierra la ventana modal después de añadir el libro
-
-    //     Inertia.post('/booktolibrary', {book_id: book.id, library_id: libraryId});
-    // };
 
     const handleAddToLibrary = async (libraryId) => {
         try {
-            // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
             console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
             
-            // Realizar la solicitud POST a Inertia.js
             await Inertia.post(
                 "/booktolibrary",
                 { book_id: book.id, library_id: libraryId },
@@ -34,10 +23,8 @@ const Card = ({ book, libraries, auth, isShown,status }) => {
                 }
             );
     
-            // Cierra la ventana modal después de añadir el libro exitosamente
             setShowModal(false);
         } catch (error) {
-            // Manejo de errores
             console.error("Error al añadir el libro a la biblioteca:", error);
         }
     };
@@ -54,7 +41,6 @@ const Card = ({ book, libraries, auth, isShown,status }) => {
 
     const handleAddToWantToRead = async () => {
         try {
-            // Marcar el libro como "Quiero Leer"
             await Inertia.post('/update-reading-status', {
                 book_id: book.id,
                 status: 'quiero_leer',
@@ -63,31 +49,23 @@ const Card = ({ book, libraries, auth, isShown,status }) => {
                 end_date: null,
             });
         } catch (error) {
-            // Manejo de errores
             console.error("Error al actualizar el estado de lectura:", error);
         }
     };
     
-
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
     return (
         <div className={`card flex flex-col gap-3 items-center justify-center p-3 rounded min-w-[263px] ${!isShown ? 'hidden' : ''}`}>
-
             <div className="flex flex-col items-center justify-center">
-                {/* Contenido del libro */}
-                {/*  enlace a show del libro*/}
-                <a
-                    href={route("books.show", book.id)}
-                    key={book.id}
-                    className="cursor-pointer"
-                >
+                <a href={route("books.show", book.id)} key={book.id} className="cursor-pointer">
                     <div>
                         {book.portada ? (
                             <img
                                 src={book.portada}
                                 alt={book.titulo}
                                 className="w-[240px] h-[380px] rounded"
+                                loading="lazy" // Agregar lazy loading aquí
                             />
                         ) : (
                             <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
@@ -98,7 +76,6 @@ const Card = ({ book, libraries, auth, isShown,status }) => {
                         )}
                     </div>
                 </a>
-
                 <div className="hidden">
                     <h2 className="titulo">{book.titulo}</h2>
                     <p className="autor">{book.autor}</p>
@@ -107,44 +84,32 @@ const Card = ({ book, libraries, auth, isShown,status }) => {
                         {book.numero ? `#${book.num_serie}` : ""}
                     </p>
                 </div>
-
-                {/* Botón "Añadir a" */}
                 <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
                     <button onClick={handleAddToWantToRead}>
-                        {/* si status es quiero_leer poner esto, sino otro */}
                         {status === "quiero_leer" ? (
-                            <BookmarkIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
-                            
+                            <BookmarkIcon sx={{ fill: bgColor, fontSize: "35px" }} />
                         ) : (
-                            <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
+                            <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
                         )}
                     </button>
-                    <button
-                        className="text-center py-2 transition duration-300 ease-in-out"
-                        onClick={() => setShowModal(true)}
-                    >
-                        <LibraryAddOutlinedIcon sx={{ fill: bgColor, fontSize: "35px"  }}/>
-                        
+                    <button className="text-center py-2 transition duration-300 ease-in-out" onClick={() => setShowModal(true)}>
+                        <LibraryAddOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
                     </button>
                 </div>
-                {/* Ventana modal para seleccionar biblioteca */}
                 {showModal && (
-                <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
-                    <div className="relative max-h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
-                        <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
-                        <div className="grid gap-4">
-                            {libraries.map((library) => (
-                                <button
-                                    key={library.id}
-                                    onClick={() => handleAddToLibrary(library.id)}
-                                >
-                                    <CardLibraryModal key={library.id} library={library} />
-                                </button>
-                            ))}
+                    <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
+                        <div className="relative max-h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
+                            <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
+                            <div className="grid gap-4">
+                                {libraries.map((library) => (
+                                    <button key={library.id} onClick={() => handleAddToLibrary(library.id)}>
+                                        <CardLibraryModal key={library.id} library={library} />
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
             </div>
         </div>
     );

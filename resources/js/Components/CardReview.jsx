@@ -12,7 +12,7 @@ const CardReview = ({ review, auth }) => {
         review: review.review,
     };
 
-    const { data, setData, patch } = useForm(initialValues);
+    const { data, setData, patch, delete: destroy } = useForm(initialValues);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -38,7 +38,15 @@ const CardReview = ({ review, auth }) => {
     };
 
     const handleDeleteReview = () => {
-        // Lógica para manejar la eliminación de la reseña
+        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer.');
+        if (confirmed) {
+            destroy(`/reviews/${review.id}`, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    console.log('Review deleted successfully');
+                },
+            });
+        }
     };
 
     const color = auth.role === "user" ? "metal" : "premium";

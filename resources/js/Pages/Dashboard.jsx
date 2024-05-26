@@ -1,24 +1,33 @@
+import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import BookNest from "@/Components/BookNest";
-import { useState, useEffect } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Head } from "@inertiajs/react";
 import InitTab from "@/Components/InitTab";
 import CardReview from "@/Components/CardReview";
+import Loading from "@/Components/Loading"; // Importa el componente de carga aquí
 
 export default function Index({ auth, reviews }) {
     const [selectedSection, setSelectedSection] = useState(0);
+    const [loading, setLoading] = useState(true); // Estado de carga
 
     useEffect(() => {
-        const savedSection = localStorage.getItem('selectedSection');
+        const savedSection = localStorage.getItem("selectedSection");
         if (savedSection) {
             setSelectedSection(parseInt(savedSection, 10));
         }
     }, []);
 
+    useEffect(() => {
+        // Simula la carga de reseñas (puede reemplazar esto con una llamada real a la API)
+        setTimeout(() => {
+            setLoading(false); // Cambia el estado de carga a falso después de cargar las reseñas
+        }, 2000); // Simula una carga de datos de 2 segundos
+    }, []); // El efecto se ejecuta solo una vez al montar el componente
+
     const handleSectionChange = (sectionIndex) => {
         setSelectedSection(sectionIndex);
-        localStorage.setItem('selectedSection', sectionIndex);
+        localStorage.setItem("selectedSection", sectionIndex);
     };
 
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -67,7 +76,8 @@ export default function Index({ auth, reviews }) {
                                             Bienvenido a Book
                                             <span className="font-bold text-blue-200">
                                                 Nest
-                                            </span>,{" "}
+                                            </span>
+                                            ,{" "}
                                             <span className="capitalize inline-block">
                                                 {auth.user.name}
                                             </span>
@@ -78,12 +88,21 @@ export default function Index({ auth, reviews }) {
                                             <span className="font-bold text-blue-200">
                                                 Nest
                                             </span>{" "}
-                                            es la red social independiente para los amantes de los libros.
+                                            es la red social independiente para
+                                            los amantes de los libros.
                                         </p>
                                         <ul className="px-5 list-disc mb-5">
-                                            <li>Descubre libros de todas las épocas</li>
-                                            <li>Crea tus propias bibliotecas</li>
-                                            <li>Conecta con lectores de todas las partes del mundo</li>
+                                            <li>
+                                                Descubre libros de todas las
+                                                épocas
+                                            </li>
+                                            <li>
+                                                Crea tus propias bibliotecas
+                                            </li>
+                                            <li>
+                                                Conecta con lectores de todas
+                                                las partes del mundo
+                                            </li>
                                         </ul>
                                     </div>
                                     <div className="pl-4 sm:w-1/3">
@@ -163,7 +182,22 @@ export default function Index({ auth, reviews }) {
                                 </div>
                                 <div className="flex flex-col sm:flex-row items-center gap-10 text-2xl font-serif p-10 mb-10 mt-24">
                                     <p className="text-justify sm:w-3/4">
-                                        "Los libros son puertas a mundos inexplorados, puertas que nos ofrecen escapar a otros mundos, son conocimiento y aventura al alcance de nuestras manos. Cada página que pasamos alimenta nuestro espíritu, amplía nuestros horizontes y fortalece nuestra comprensión del mundo y de nosotros mismos. Son herramientas poderosas que moldean mentes, construyen puentes entre culturas y generaciones, y despiertan nuestra creatividad más profunda. Abre un libro y descubre no solo historias, sino también partes de ti mismo en cada personaje y trama. ¡Explora, aprende y crece con cada lectura!"
+                                        "Los libros son puertas a mundos
+                                        inexplorados, puertas que nos ofrecen
+                                        escapar a otros mundos, son conocimiento
+                                        y aventura al alcance de nuestras manos.
+                                        Cada página que pasamos alimenta nuestro
+                                        espíritu, amplía nuestros horizontes y
+                                        fortalece nuestra comprensión del mundo
+                                        y de nosotros mismos. Son herramientas
+                                        poderosas que moldean mentes, construyen
+                                        puentes entre culturas y generaciones, y
+                                        despiertan nuestra creatividad más
+                                        profunda. Abre un libro y descubre no
+                                        solo historias, sino también partes de
+                                        ti mismo en cada personaje y trama.
+                                        ¡Explora, aprende y crece con cada
+                                        lectura!"
                                     </p>
                                     <img
                                         src="/images/magic.png"
@@ -181,9 +215,17 @@ export default function Index({ auth, reviews }) {
                         className="opacity-100 transition-opacity ease-in-out w-[80%] items-center justify-center flex flex-col gap-10"
                         key={1}
                     >
-                        {reviews.length > 0 ? (
+                        {loading ? ( // Mostrar componente de carga si los datos están cargando
+                            <div className="w-full h-screen flex items-center justify-center">
+                                <Loading />
+                            </div>
+                        ) : reviews.length > 0 ? (
                             reviews.map((review) => (
-                                <CardReview review={review} auth={auth.user} key={review.id} />
+                                <CardReview
+                                    review={review}
+                                    auth={auth.user}
+                                    key={review.id}
+                                />
                             ))
                         ) : (
                             <div className="text-center">
