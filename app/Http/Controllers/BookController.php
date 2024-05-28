@@ -25,10 +25,13 @@ class BookController extends Controller
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
+        $pageOne = false;
+
         $autor = $request->query('autor');
 
         if ($autor) {
             $books = Book::where('autor', 'like', "%{$autor}%")->get();
+            $pageOne = true;
         } else {
             // Obtener todos los libros ordenados por titulo
             $books = Book::orderBy('titulo')->get();
@@ -71,6 +74,7 @@ class BookController extends Controller
             'books' => $books,
             // Mandamos el conteo de libros por biblioteca
             'librariesWithBookCount' => $librariesWithBookCount,
+            'pageOne' => $pageOne,
 
         ]);
     }

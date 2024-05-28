@@ -20,6 +20,7 @@ export default function Show({
 }) {
     const bgColor = auth.user.role === "user" ? "#2C3E50" : "#512E5F";
     const bgColorBG = auth.user.role === "user" ? "bg-metal" : "bg-premium";
+    (book.serie==null) && (booksSerieCount = 1)
 
     // Estado para controlar la apertura y cierre de la ventana modal
     const [showModal, setShowModal] = useState(false);
@@ -66,7 +67,7 @@ export default function Show({
             case 1:
                 return (
                     <div className="w-full">
-                        {booksSerieCount > 1 ? (
+                        {((booksSerieCount > 1) && book.serie != null) ? (
                             <div className="w-full flex flex-row overflow-x-auto m-5">
                                 {booksSerie.map((bookauthor) => (
                                     <CardShow
@@ -79,7 +80,7 @@ export default function Show({
                             </div>
                         ) : (
                             <div className="w-full flex items-center justify-center text-2xl">
-                                <p>No hay más libros de este autor/a</p>
+                                <p>No hay más libros de esta serie</p>
                             </div>
                         )}
                     </div>
@@ -178,6 +179,7 @@ export default function Show({
                     </div>
                     <div className="w-full max-w-6xl mt-6 md:mt-0">
                         <div className="flex">
+                            
                             <ShowTab
                                 value={selectedSection}
                                 onChange={handleSectionChange}
@@ -185,6 +187,7 @@ export default function Show({
                                 booksAuthorCount={booksAuthorCount}
                                 booksSerieCount={booksSerieCount}
                             />
+                            
                         </div>
                         {renderSelectedSection()}
                     </div>

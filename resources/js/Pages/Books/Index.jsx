@@ -8,7 +8,10 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
-export default function Index({ auth, books, librariesWithBookCount }) {
+export default function Index({ auth, books, librariesWithBookCount, pageOne }) {
+
+    console.log(books);
+
     const [view, setView] = useState(
         () => localStorage.getItem("view") || "cards"
     );
@@ -42,6 +45,13 @@ export default function Index({ auth, books, librariesWithBookCount }) {
             setLoading(false); // Cambiar el estado de carga cuando los datos estén listos
         }, 2000); // Simula una carga de datos de 2 segundos
     }, []); // El efecto se ejecuta solo una vez al montar el componente
+
+    useEffect(() => {
+        if (pageOne) {
+            setPage(1);
+            localStorage.setItem("currentPage", 1);
+        }
+    }, [pageOne]);
 
     const handleChangePage = (event, value) => {
         setPage(value);
