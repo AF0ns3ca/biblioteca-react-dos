@@ -182,6 +182,17 @@ class BookController extends Controller
             ->withCount('books') // Contar el número de libros para cada biblioteca
             ->get();
 
+        // Devolver todas las fechas de inicio y fin de lectura del libro
+        $dates = Reading::where('book_id', $book->id)
+            ->where('user_id', auth()->id())
+            ->get();
+
+            // Contar el número de lecturas del libro, es decir los registros de lectura con el mismo libro_id y que tenga fecha de inicio y de fin
+        $datesCount = Reading::where('book_id', $book->id)
+            ->where('user_id', auth()->id())
+            ->whereNotNull('start_date')
+            ->whereNotNull('end_date')
+            ->count();
 
 
         // Devolver con inertia
@@ -192,6 +203,8 @@ class BookController extends Controller
             'booksAuthorCount' => $booksAuthorCount,
             'booksSerieCount' => $booksSerieCount,
             'libraries' => $librariesWithBookCount,
+            'dates' => $dates,
+            'datesCount' => $datesCount,
             'auth' => [
                 'user' => array_merge($user->toArray(), ['role' => $userRole]),
             ],

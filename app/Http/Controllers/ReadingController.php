@@ -20,97 +20,97 @@ class ReadingController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $user = Auth::user()->load('roles');
-    $userRole = $user->roles->first()->role;
+    {
+        $user = Auth::user()->load('roles');
+        $userRole = $user->roles->first()->role;
 
-    // Obtener las últimas lecturas de cada libro
-    $lastReadings = Reading::where('user_id', auth()->id())
-        ->latest()
-        ->get()
-        ->unique('book_id');
+        // Obtener las últimas lecturas de cada libro
+        $lastReadings = Reading::where('user_id', auth()->id())
+            ->latest()
+            ->get()
+            ->unique('book_id');
 
-    // Obtener los IDs de los libros que el usuario quiere leer
-    $wantToReadBooksId = Reading::where('user_id', auth()->id())
-        ->where('want_to_read', true)
-        ->latest()
-        ->pluck('book_id');
+        // Obtener los IDs de los libros que el usuario quiere leer
+        $wantToReadBooksId = Reading::where('user_id', auth()->id())
+            ->where('want_to_read', true)
+            ->latest()
+            ->pluck('book_id');
 
-    // Obtener los libros con sus rates
-    $wantToReadBooks = Book::select('books.*', 'rate.rate as rate')
-        ->leftJoin('rate', function ($join) {
-            $join->on('books.id', '=', 'rate.book_id')
-                ->where('rate.user_id', auth()->id());
-        })
-        ->whereIn('books.id', $wantToReadBooksId)
-        ->get();
-    $wantToReadBooksCount = $wantToReadBooks->count();
+        // Obtener los libros con sus rates
+        $wantToReadBooks = Book::select('books.*', 'rate.rate as rate')
+            ->leftJoin('rate', function ($join) {
+                $join->on('books.id', '=', 'rate.book_id')
+                    ->where('rate.user_id', auth()->id());
+            })
+            ->whereIn('books.id', $wantToReadBooksId)
+            ->get();
+        $wantToReadBooksCount = $wantToReadBooks->count();
 
-    // Obtener los IDs de los libros que el usuario está leyendo
-    $readingBooksId = Reading::where('user_id', auth()->id())
-        ->where('want_to_read', false)
-        ->whereNull('end_date')
-        ->latest()
-        ->pluck('book_id');
+        // Obtener los IDs de los libros que el usuario está leyendo
+        $readingBooksId = Reading::where('user_id', auth()->id())
+            ->where('want_to_read', false)
+            ->whereNull('end_date')
+            ->latest()
+            ->pluck('book_id');
 
-    // Obtener los libros con sus rates
-    $readingBooks = Book::select('books.*', 'rate.rate as rate')
-        ->leftJoin('rate', function ($join) {
-            $join->on('books.id', '=', 'rate.book_id')
-                ->where('rate.user_id', auth()->id());
-        })
-        ->whereIn('books.id', $readingBooksId)
-        ->get();
-    $readingBooksCount = $readingBooks->count();
+        // Obtener los libros con sus rates
+        $readingBooks = Book::select('books.*', 'rate.rate as rate')
+            ->leftJoin('rate', function ($join) {
+                $join->on('books.id', '=', 'rate.book_id')
+                    ->where('rate.user_id', auth()->id());
+            })
+            ->whereIn('books.id', $readingBooksId)
+            ->get();
+        $readingBooksCount = $readingBooks->count();
 
-    // Obtener los IDs de los libros que el usuario ha leído
-    $readBooksId = Reading::where('user_id', auth()->id())
-        ->where('want_to_read', false)
-        ->whereNotNull('end_date')
-        ->latest()
-        ->pluck('book_id');
+        // Obtener los IDs de los libros que el usuario ha leído
+        $readBooksId = Reading::where('user_id', auth()->id())
+            ->where('want_to_read', false)
+            ->whereNotNull('end_date')
+            ->latest()
+            ->pluck('book_id');
 
-    // Obtener los libros con sus rates
-    $readBooks = Book::select('books.*', 'rate.rate as rate')
-        ->leftJoin('rate', function ($join) {
-            $join->on('books.id', '=', 'rate.book_id')
-                ->where('rate.user_id', auth()->id());
-        })
-        ->whereIn('books.id', $readBooksId)
-        ->get();
-    $readBooksCount = $readBooks->count();
+        // Obtener los libros con sus rates
+        $readBooks = Book::select('books.*', 'rate.rate as rate')
+            ->leftJoin('rate', function ($join) {
+                $join->on('books.id', '=', 'rate.book_id')
+                    ->where('rate.user_id', auth()->id());
+            })
+            ->whereIn('books.id', $readBooksId)
+            ->get();
+        $readBooksCount = $readBooks->count();
 
-    // Asignar el estado a cada libro
-    foreach ($wantToReadBooks as $book) {
-        $book->status = 'quiero_leer';
+        // Asignar el estado a cada libro
+        foreach ($wantToReadBooks as $book) {
+            $book->status = 'quiero_leer';
+        }
+
+        foreach ($readingBooks as $book) {
+            $book->status = 'leyendo';
+        }
+
+        foreach ($readBooks as $book) {
+            $book->status = 'leido';
+        }
+
+        // Obtener las bibliotecas con el conteo de libros
+        $librariesWithBookCount = Library::where('user_id', auth()->id())
+            ->withCount('books')
+            ->get();
+
+        return Inertia::render('Readings/Index', [
+            'auth' => [
+                'user' => array_merge($user->toArray(), ['role' => $userRole]),
+            ],
+            'wantToReadBooks' => $wantToReadBooks,
+            'readingBooks' => $readingBooks,
+            'readBooks' => $readBooks,
+            'wantToReadBooksCount' => $wantToReadBooksCount,
+            'readingBooksCount' => $readingBooksCount,
+            'readBooksCount' => $readBooksCount,
+            'librariesWithBookCount' => $librariesWithBookCount,
+        ]);
     }
-
-    foreach ($readingBooks as $book) {
-        $book->status = 'leyendo';
-    }
-
-    foreach ($readBooks as $book) {
-        $book->status = 'leido';
-    }
-
-    // Obtener las bibliotecas con el conteo de libros
-    $librariesWithBookCount = Library::where('user_id', auth()->id())
-        ->withCount('books')
-        ->get();
-
-    return Inertia::render('Readings/Index', [
-        'auth' => [
-            'user' => array_merge($user->toArray(), ['role' => $userRole]),
-        ],
-        'wantToReadBooks' => $wantToReadBooks,
-        'readingBooks' => $readingBooks,
-        'readBooks' => $readBooks,
-        'wantToReadBooksCount' => $wantToReadBooksCount,
-        'readingBooksCount' => $readingBooksCount,
-        'readBooksCount' => $readBooksCount,
-        'librariesWithBookCount' => $librariesWithBookCount,
-    ]);
-}
 
 
     public function updateStatus(Request $request)
@@ -167,16 +167,6 @@ class ReadingController extends Controller
         return redirect()->back()->with('success', 'Book status updated successfully.');
     }
 
-
-
-
-
-
-
-
-
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -219,74 +209,102 @@ class ReadingController extends Controller
     }
 
     /**
+     * Update the reading dates.
+     */
+    public function updateDates(Request $request, $id)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        $reading = Reading::findOrFail($id);
+        $reading->start_date = $request->start_date;
+        $reading->end_date = $request->end_date;
+        $reading->save();
+
+        // Devolver la vista anterior
+        return redirect()->back()->with('success', 'Reading dates updated successfully');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request)
-{
-    // Validar los datos de la solicitud
-    $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'book_id' => 'required|exists:books,id',
-        'status' => 'required|in:quiero_leer,leyendo,leido',
-    ]);
-    
-    try {
-        // Obtener los parámetros de la solicitud
-        $userId = $request->user_id;
-        $bookId = $request->book_id;
-        $status = $request->status;
+    {
+        // Validar los datos de la solicitud
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'book_id' => 'required|exists:books,id',
+            'status' => 'required|in:quiero_leer,leyendo,leido',
+        ]);
 
-        // Definir las condiciones basadas en el estado proporcionado
-        switch ($status) {
-            case 'quiero_leer':
-                $conditions = [
-                    ['user_id', '=', $userId],
-                    ['book_id', '=', $bookId],
-                    ['want_to_read', '=', true],
-                ];
-                break;
-            case 'leyendo':
-                $conditions = [
-                    ['user_id', '=', $userId],
-                    ['book_id', '=', $bookId],
-                    ['want_to_read', '=', false],
-                    ['start_date', 'IS NOT', null],
-                    ['end_date', '=', null],
-                ];
-                break;
-            case 'leido':
-                $conditions = [
-                    ['user_id', '=', $userId],
-                    ['book_id', '=', $bookId],
-                    ['want_to_read', '=', false],
-                    ['start_date', 'IS NOT', null],
-                    ['end_date', 'IS NOT', null],
-                ];
-                break;
-            default:
-                // Si el estado no es válido, devolver un mensaje de error
-                return redirect()->back()->with('error', 'Invalid status');
+        try {
+            // Obtener los parámetros de la solicitud
+            $userId = $request->user_id;
+            $bookId = $request->book_id;
+            $status = $request->status;
+
+            // Definir las condiciones basadas en el estado proporcionado
+            switch ($status) {
+                case 'quiero_leer':
+                    $conditions = [
+                        ['user_id', '=', $userId],
+                        ['book_id', '=', $bookId],
+                        ['want_to_read', '=', true],
+                    ];
+                    break;
+                case 'leyendo':
+                    $conditions = [
+                        ['user_id', '=', $userId],
+                        ['book_id', '=', $bookId],
+                        ['want_to_read', '=', false],
+                        ['start_date', 'IS NOT', null],
+                        ['end_date', '=', null],
+                    ];
+                    break;
+                case 'leido':
+                    $conditions = [
+                        ['user_id', '=', $userId],
+                        ['book_id', '=', $bookId],
+                        ['want_to_read', '=', false],
+                        ['start_date', 'IS NOT', null],
+                        ['end_date', 'IS NOT', null],
+                    ];
+                    break;
+                default:
+                    // Si el estado no es válido, devolver un mensaje de error
+                    return redirect()->back()->with('error', 'Invalid status');
+            }
+
+            // Buscar la lectura que cumple con las condiciones proporcionadas
+            $reading = Reading::where($conditions)->first();
+
+            // Verificar si se encontró una lectura
+            if ($reading) {
+                // Eliminar la lectura
+                $reading->delete();
+
+                // Devolver la vista anterior
+                return redirect()->back()->with('success', 'Reading deleted successfully');
+            } else {
+                // Si no se encontró ninguna lectura, devolver un mensaje de error
+                return redirect()->back()->with('error', 'Reading not found');
+            }
+        } catch (\Exception $e) {
+            // Capturar y manejar cualquier excepción que ocurra
+            dd($e->getMessage()); // Muestra el mensaje de error
         }
-
-        // Buscar la lectura que cumple con las condiciones proporcionadas
-        $reading = Reading::where($conditions)->first();
-
-        // Verificar si se encontró una lectura
-        if ($reading) {
-            // Eliminar la lectura
-            $reading->delete();
-
-            // Devolver la vista anterior
-            return redirect()->back()->with('success', 'Reading deleted successfully');
-        } else {
-            // Si no se encontró ninguna lectura, devolver un mensaje de error
-            return redirect()->back()->with('error', 'Reading not found');
-        }
-    } catch (\Exception $e) {
-        // Capturar y manejar cualquier excepción que ocurra
-        dd($e->getMessage()); // Muestra el mensaje de error
     }
-}
+
+    public function deleteReading (string $id)
+    {
+        $reading = Reading::findOrFail($id);
+        $reading->delete();
+
+        return redirect()->back()->with('success', 'Reading deleted successfully');
+
+    }
 
 
 }

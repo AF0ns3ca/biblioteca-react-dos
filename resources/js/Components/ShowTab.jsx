@@ -39,6 +39,7 @@ export default function BasicTab({ value, onChange, role, booksAuthorCount, book
             },
           }}
         >
+          <Tab label="Información de lectura" />
           <Tab label={`Libros del mismo autor/a (${booksAuthorCount-1})`} />
           <Tab label={`Libros de la misma serie (${booksSerieCount-1})`} />
         </Tabs>

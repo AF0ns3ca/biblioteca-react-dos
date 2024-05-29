@@ -117,6 +117,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/read', [ReadingController::class, 'read'])->name('readings.read');
     Route::post('/update-reading-status', [ReadingController::class, 'updateStatus']);
     Route::delete('/deletereading', [ReadingController::class, 'destroy'])->name('readings.destroy');
+    Route::get('/readings/{id}/edit-dates', [ReadingController::class, 'editDates'])->name('readings.editDates');
+    Route::put('/readings/{id}/update-dates', [ReadingController::class, 'updateDates'])->name('readings.updateDates');
+    Route::delete('/readings/{id}/delete-dates', [ReadingController::class, 'deleteReading'])->name('readings.deleteReading');
 
     // -------------------------- Rutas de Reviews --------------------------
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
