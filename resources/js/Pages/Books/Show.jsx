@@ -22,6 +22,10 @@ export default function Show({
     dates,
     datesCount,
 }) {
+
+    console.log(dates);
+    console.log(datesCount);
+
     const bgColor = auth.user.role === "user" ? "#2C3E50" : "#512E5F";
     const bgColorBG = auth.user.role === "user" ? "bg-metal" : "bg-premium";
     book.serie == null && (booksSerieCount = 1);
@@ -30,13 +34,23 @@ export default function Show({
     const [showDateModal, setShowDateModal] = useState(false);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [selectedReadingId, setSelectedReadingId] = useState(null);
+    const [selectedReadingId, setSelectedReadingId] = useState(0);
+    const [startDateModal, setStartDateModal] = useState("");
+    const [endDateModal, setEndDateModal] = useState("");
 
-    const handleSelectedReadingId = (readingId) => {
+    const handleSelectedReading = (readingId, startDateModal, endDateModal) => {
         setSelectedReadingId(readingId);
+        setStartDateModal(startDateModal);
+        setEndDateModal(endDateModal);
+        console.log(readingId);
+        console.log(startDateModal);
+        console.log(endDateModal);
     };
 
-    const openModal = () => {
+
+    const openModal = (readingId) => {
+        // Aquí se establece selectedReadingId antes de abrir el modal
+        handleSelectedReadingId(readingId);
         setShowModal(true);
     };
 
@@ -50,16 +64,18 @@ export default function Show({
         setSelectedSection(sectionIndex);
     };
 
-    const handleDeleteReading = () => {
+    const handleDeleteReading = (readingId) => {
+        console.log(readingId);
         // tras la confirmacion se elimina
         if (confirm("¿Estás seguro de que quieres eliminar esta lectura?")) {
-            Inertia.delete(route("readings.deleteReading", selectedReadingId), {
-                id: selectedReadingId,
+            Inertia.delete(route("readings.deleteReading", readingId), {
+                id: readingId,
             });
         }
     };
 
     const handleSaveDates = () => {
+        // Aquí selectedReadingId se utiliza directamente sin necesidad de preocuparte por su valor
         Inertia.put(route("readings.updateDates", selectedReadingId), {
             id: selectedReadingId,
             start_date: startDate,
@@ -82,7 +98,7 @@ export default function Show({
             case 0:
                 return (
                     <div className="w-full">
-                        {dates.length > 0 ? (
+                        {datesCount > 0 ? (
                             <div className="w-full flex flex-col items-start md:m-5 space-y-6">
                                 <p className="text-2xl font-semibold">
                                     {datesCount > 1
@@ -145,7 +161,8 @@ export default function Show({
                                                         </>
                                                     ) : (
                                                         <span className="font-bold">
-                                                            ¡Lo has leído en menos de un día! 
+                                                            ¡Lo has leído en
+                                                            menos de un día!
                                                         </span>
                                                     )}
                                                 </div>
@@ -156,8 +173,10 @@ export default function Show({
                                                         setStartDate(startDate);
                                                         setEndDate(endDate);
                                                         setShowDateModal(true);
-                                                        setSelectedReadingId(
-                                                            date.id
+                                                        handleSelectedReading(
+                                                            date.id,
+                                                            date.start_date,
+                                                            date.end_date
                                                         );
                                                     }}
                                                     className={`${bgColorBG} text-white px-4 py-2 rounded-md w-full`}
@@ -166,10 +185,7 @@ export default function Show({
                                                 </button>
                                                 <button
                                                     onClick={() => {
-                                                        setSelectedReadingId(
-                                                            date.id
-                                                        );
-                                                        handleDeleteReading();
+                                                        handleDeleteReading(date.id);
                                                     }}
                                                     className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 w-full"
                                                 >
@@ -182,7 +198,31 @@ export default function Show({
                             </div>
                         ) : (
                             <div className="w-full flex items-center justify-center text-2xl">
-                                <p>Aún no has leído este libro</p>
+                                {book.status === "quiero_leer" ? (
+                                    <p>
+                                        Este libro está en tu{" "}
+                                        <span
+                                            className="text-metal cursor-pointer underline italic"
+                                            onClick={() =>
+                                                Inertia.visit(
+                                                    `/reading`
+                                                )
+                                            }
+                                        >
+                                            lista de "Quiero leer"
+                                        </span>
+                                    </p>
+                                ) : book.status === "leyendo" ? (
+                                    <p>Estás leyendo este libro
+                                    </p>
+                                ) : book.status === "leido" ? (
+                                    <p>Has terminado de leer este libro.</p>
+                                ) : (
+                                    <p>
+                                        Añade una fecha de inicio y fin para
+                                        empezar a leer este libro.
+                                    </p>
+                                )}
                             </div>
                         )}
                     </div>
@@ -373,7 +413,8 @@ export default function Show({
                             Editar fechas de lectura
                         </h2>
                         <div className="flex flex-col gap-4">
-                            <div className="flex flex-col gap-2">
+                            <div className="flex flex-col
+                            gap-2">
                                 <label
                                     htmlFor="start_date"
                                     className="text-lg font-semibold"
@@ -384,7 +425,7 @@ export default function Show({
                                     type="date"
                                     id="start_date"
                                     className="border rounded-md px-2 py-1"
-                                    value={startDate}
+                                    value={startDateModal}
                                     onChange={(e) =>
                                         setStartDate(e.target.value)
                                     }
@@ -393,8 +434,7 @@ export default function Show({
                             <div className="flex flex-col gap-2">
                                 <label
                                     htmlFor="end_date"
-                                    className="text
-                            -lg font-semibold"
+                                    className="text-lg font-semibold"
                                 >
                                     Fecha de fin:
                                 </label>
@@ -402,7 +442,7 @@ export default function Show({
                                     type="date"
                                     id="end_date"
                                     className="border rounded-md px-2 py-1"
-                                    value={endDate}
+                                    value={endDateModal}
                                     onChange={(e) => setEndDate(e.target.value)}
                                 />
                             </div>
@@ -415,11 +455,7 @@ export default function Show({
                                 Guardar
                             </button>
                             <button
-                                onClick={
-                                    () => setShowDateModal(false)
-                                    // setStartDate("");
-                                    // setEndDate("");
-                                }
+                                onClick={() => setShowDateModal(false)}
                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400"
                             >
                                 Cancelar

@@ -185,6 +185,8 @@ class BookController extends Controller
         // Devolver todas las fechas de inicio y fin de lectura del libro
         $dates = Reading::where('book_id', $book->id)
             ->where('user_id', auth()->id())
+            ->whereNotNull('start_date')
+            ->whereNotNull('end_date')
             ->get();
 
             // Contar el número de lecturas del libro, es decir los registros de lectura con el mismo libro_id y que tenga fecha de inicio y de fin
