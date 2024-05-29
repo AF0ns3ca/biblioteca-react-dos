@@ -351,7 +351,7 @@ export default function Show({
                             </div>
 
                             <div className="w-full text-justify pb-6 md:pb-20">
-                                <p className="text-lg">{book.descripcion}</p>
+                                <p className="text-lg whitespace-pre-wrap">{book.descripcion}</p>
                             </div>
                             <div className="w-full flex items-end justify-end">
                                 <button
