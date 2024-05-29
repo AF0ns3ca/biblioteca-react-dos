@@ -9,6 +9,7 @@ import SearchComponent from "@/Components/SearchComponent";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import SupervisedUserCircleOutlinedIcon from "@mui/icons-material/SupervisedUserCircleOutlined";
 import Footer from "@/Components/Footer";
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -115,6 +116,17 @@ export default function Authenticated({ user, header, children }) {
                                     Descubrir Libros
                                 </NavLink>
                             </div>
+                            {user.role === "user" && (
+                                <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                    <a
+                                        className="text-white text-lg"
+                                        href={route("books.index")}
+                                    >
+                                        <WorkspacePremiumIcon />
+                                    </a>
+                                </div>
+                            )}
+
                             <div className="relative hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <Dropdown>
                                     <Dropdown.Trigger>
