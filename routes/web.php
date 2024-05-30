@@ -130,7 +130,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // -------------------------- Rutas de Premium --------------------------
     Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
-    Route::post('/premium/checkout', [PremiumController::class, 'checkout'])->name('premium.checkout');
+    Route::post('/create-checkout-session', [PremiumController::class, 'createCheckoutSession'])->name('premium.checkout');
 });
 
 

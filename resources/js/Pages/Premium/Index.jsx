@@ -12,7 +12,7 @@ export default function Index({ auth }) {
 
     const handleUpgrade = () => {
         if (selectedPlan) {
-            Inertia.post("/premium/checkout", { plan: selectedPlan });
+            Inertia.post("/create-checkout-session", { plan: selectedPlan });
         }
     };
 

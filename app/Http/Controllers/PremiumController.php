@@ -1,11 +1,17 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+
+
+
+
+
 
 class PremiumController extends Controller
 {
@@ -28,7 +34,7 @@ class PremiumController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function checkout(Request $request)
+    public function createCheckoutSession(Request $request)
 {
     $stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
 

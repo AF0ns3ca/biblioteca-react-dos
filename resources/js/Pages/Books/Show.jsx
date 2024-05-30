@@ -47,9 +47,7 @@ export default function Show({
         console.log(endDateModal);
     };
 
-    const openModal = (readingId) => {
-        // Aquí se establece selectedReadingId antes de abrir el modal
-        handleSelectedReadingId(readingId);
+    const openModal = () => {
         setShowModal(true);
     };
 
@@ -427,8 +425,9 @@ export default function Show({
                                     id="start_date"
                                     className="border rounded-md px-2 py-1"
                                     value={startDateModal}
-                                    onChange={(e) =>
-                                        setStartDate(e.target.value)
+                                    onChange={(e) =>{
+                                        setStartDate(e.target.value),
+                                        setStartDateModal(e.target.value)}
                                     }
                                 />
                             </div>
@@ -444,7 +443,11 @@ export default function Show({
                                     id="end_date"
                                     className="border rounded-md px-2 py-1"
                                     value={endDateModal}
-                                    onChange={(e) => setEndDate(e.target.value)}
+                                    onChange={(e) => {
+                                        setEndDate(e.target.value),
+                                        setEndDateModal(e.target.value)
+                                    }
+                                    }
                                 />
                             </div>
                         </div>
