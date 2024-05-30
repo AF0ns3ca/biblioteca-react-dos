@@ -22,7 +22,7 @@ export default function Show({
     dates,
     datesCount,
 }) {
-
+    console.log(book);
     console.log(dates);
     console.log(datesCount);
 
@@ -46,7 +46,6 @@ export default function Show({
         console.log(startDateModal);
         console.log(endDateModal);
     };
-
 
     const openModal = (readingId) => {
         // Aquí se establece selectedReadingId antes de abrir el modal
@@ -185,7 +184,9 @@ export default function Show({
                                                 </button>
                                                 <button
                                                     onClick={() => {
-                                                        handleDeleteReading(date.id);
+                                                        handleDeleteReading(
+                                                            date.id
+                                                        );
                                                     }}
                                                     className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 w-full"
                                                 >
@@ -204,17 +205,14 @@ export default function Show({
                                         <span
                                             className="text-metal cursor-pointer underline italic"
                                             onClick={() =>
-                                                Inertia.visit(
-                                                    `/reading`
-                                                )
+                                                Inertia.visit(`/reading`)
                                             }
                                         >
                                             lista de "Quiero leer"
                                         </span>
                                     </p>
                                 ) : book.status === "leyendo" ? (
-                                    <p>Estás leyendo este libro
-                                    </p>
+                                    <p>Estás leyendo este libro</p>
                                 ) : book.status === "leido" ? (
                                     <p>Has terminado de leer este libro.</p>
                                 ) : (
@@ -351,7 +349,9 @@ export default function Show({
                             </div>
 
                             <div className="w-full text-justify pb-6 md:pb-20">
-                                <p className="text-lg whitespace-pre-wrap">{book.descripcion}</p>
+                                <p className="text-lg whitespace-pre-wrap">
+                                    {book.descripcion}
+                                </p>
                             </div>
                             <div className="w-full flex items-end justify-end">
                                 <button
@@ -413,8 +413,10 @@ export default function Show({
                             Editar fechas de lectura
                         </h2>
                         <div className="flex flex-col gap-4">
-                            <div className="flex flex-col
-                            gap-2">
+                            <div
+                                className="flex flex-col
+                            gap-2"
+                            >
                                 <label
                                     htmlFor="start_date"
                                     className="text-lg font-semibold"

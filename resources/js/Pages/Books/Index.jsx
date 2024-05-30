@@ -10,8 +10,6 @@ import Stack from "@mui/material/Stack";
 
 export default function Index({ auth, books, librariesWithBookCount, pageOne }) {
 
-    console.log(books);
-
     const [view, setView] = useState(
         () => localStorage.getItem("view") || "cards"
     );
