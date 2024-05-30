@@ -13,6 +13,7 @@ export default function Index({ auth }) {
     const handleUpgrade = () => {
         if (selectedPlan) {
             Inertia.post("/create-checkout-session", { plan: selectedPlan });
+            console.log("Upgrade to premium");
         }
     };
 
@@ -39,7 +40,7 @@ export default function Index({ auth }) {
                             <p className="text-lg mb-2">Disfruta de todas las características premium por solo €3.99/mes.</p>
                             <ul className="list-disc pl-5 mb-4">
                                 <li>Experiencia sin anuncios</li>
-                                <li>Acceso a contenido exclusivo</li>
+                                <li>¡Crea Bibliotecas sin límite!</li>
                                 <li>Soporte prioritario al cliente</li>
                                 <li>Acceso anticipado a nuevas funciones</li>
                             </ul>
@@ -53,9 +54,10 @@ export default function Index({ auth }) {
                             <p className="text-lg mb-2">Obtén dos meses gratis con nuestro plan anual, por solo €39.99/año.</p>
                             <ul className="list-disc pl-5 mb-4">
                                 <li>Experiencia sin anuncios</li>
-                                <li>Acceso a contenido exclusivo</li>
+                                <li>¡Crea Bibliotecas sin límite!</li>
                                 <li>Soporte prioritario al cliente</li>
                                 <li>Acceso anticipado a nuevas funciones</li>
+                                <li>Prioridad en todos los sorteos</li>
                             </ul>
                             <div className="text-center">
                                 <span className="text-4xl font-bold">€39.99</span><span className="text-xl">/año</span>
