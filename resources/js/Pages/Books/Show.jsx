@@ -217,8 +217,7 @@ export default function Show({
                                     <p>Has terminado de leer este libro.</p>
                                 ) : (
                                     <p>
-                                        Añade una fecha de inicio y fin para
-                                        empezar a leer este libro.
+                                        Aún no has leído este libro. ¿A qué esperas?
                                     </p>
                                 )}
                             </div>

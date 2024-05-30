@@ -36,21 +36,30 @@ const BookStatusSelector = ({ initialStatus, book, auth, showPage }) => {
     };
 
     const getStatusLabel = (status) => {
-        if (status === "quiero_leer")
-            return {
-                icon: <BookmarkBorderOutlinedIcon />,
-                text: "Quiero Leer",
-            };
-        if (status === "leyendo")
-            return {
-                icon: <LocalLibraryOutlinedIcon />,
-                text: "Leyendo",
-            };
-        if (status === "leido")
-            return {
-                icon: <DoneAllOutlinedIcon />,
-                text: "Leído",
-            };
+
+        switch (status) {
+            case "quiero_leer":
+                return {
+                    icon: <BookmarkBorderOutlinedIcon />,
+                    text: "Quiero Leer",
+                };
+            case "leyendo":
+                return {
+                    icon: <LocalLibraryOutlinedIcon />,
+                    text: "Leyendo",
+                };
+            case "leido":
+                return {
+                    icon: <DoneAllOutlinedIcon />,
+                    text: "Leído",
+                };
+            
+            default:
+                return {
+                    icon: <BookmarkBorderOutlinedIcon />,
+                    text: "Quiero Leer",
+                };
+        }
     };
 
     const bgColor = auth.user.role == "user" ? "bg-metal" : "bg-premium";

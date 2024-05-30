@@ -173,7 +173,7 @@ class BookController extends Controller
             $status = 'quiero_leer';
         } else {
             // Si no hay registro de lectura, establecer el estado predeterminado
-            $status = 'quiero_leer';
+            $status = null;
         }
 
         $book->status = $status;
