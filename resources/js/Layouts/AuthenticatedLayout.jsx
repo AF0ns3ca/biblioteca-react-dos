@@ -120,7 +120,7 @@ export default function Authenticated({ user, header, children }) {
                                 <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                     <a
                                         className="text-white text-lg"
-                                        href={route("books.index")}
+                                        href={route("premium.index")}
                                     >
                                         <WorkspacePremiumIcon />
                                     </a>

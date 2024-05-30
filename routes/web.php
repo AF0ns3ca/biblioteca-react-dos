@@ -8,6 +8,7 @@ use App\Http\Controllers\RateController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReadingController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\PremiumController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -126,6 +127,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
     Route::patch('/reviews/update/{id}', [ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+
+    // -------------------------- Rutas de Premium --------------------------
+    Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
+    Route::post('/premium/checkout', [PremiumController::class, 'checkout'])->name('premium.checkout');
 });
 
 
