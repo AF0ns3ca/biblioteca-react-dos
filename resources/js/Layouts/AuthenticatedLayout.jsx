@@ -118,12 +118,9 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                             {user.role === "user" && (
                                 <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                    <a
-                                        className="text-white text-lg"
-                                        href={route("premium.index")}
-                                    >
+                                    <NavLink href={route("premium.index")}>
                                         <WorkspacePremiumIcon />
-                                    </a>
+                                    </NavLink>
                                 </div>
                             )}
 
@@ -252,6 +249,11 @@ export default function Authenticated({ user, header, children }) {
                             active={route().current("books.index")}
                         >
                             Descubrir Libros
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink href={route("premium.index")}>
+                            <WorkspacePremiumIcon />
                         </ResponsiveNavLink>
                     </div>
 

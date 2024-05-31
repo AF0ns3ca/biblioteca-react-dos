@@ -70,17 +70,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $userRole = $user->roles->first()->role;
 
         // Renderiza la vista del dashboard y pasa las reseñas
-        $reviews = Review::with(['book' => function ($query) {
-            // Subconsulta para obtener el user_id del libro que se ha reseñado
-            $query->select('books.*')
-                  ->leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
-                  ->leftJoin('rate', function ($join) {
-                      $join->on('books.id', '=', 'rate.book_id')
-                           ->whereRaw('rate.user_id = reviews.user_id');
-                  })
-                  ->select('books.*', \DB::raw('COALESCE(rate.rate, 0) as rate'));
-        }, 'user'])
-        ->get();
+        $reviews = Review::with([
+            'book' => function ($query) {
+                // Subconsulta para obtener el user_id del libro que se ha reseñado
+                $query->select('books.*')
+                    ->leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
+                    ->leftJoin('rate', function ($join) {
+                    $join->on('books.id', '=', 'rate.book_id')
+                        ->whereRaw('rate.user_id = reviews.user_id');
+                })
+                    ->select('books.*', \DB::raw('COALESCE(rate.rate, 0) as rate'));
+            },
+            'user'
+        ])
+            ->get();
 
         return Inertia::render('Dashboard', [
             'reviews' => $reviews,
@@ -97,14 +100,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // -------------------------- Rutas de libros --------------------------
-    Route::resource('books', 'App\Http\Controllers\BookController');
     Route::get('/books', [BookController::class, 'index'])->name('books.index');
-    
+    Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
+
     // -------------------------- Rutas de bibliotecas --------------------------
-    Route::resource('libraries', 'App\Http\Controllers\LibraryController');
+    // Route::resource('libraries', 'App\Http\Controllers\LibraryController');
+    Route::get('/libraries', [LibraryController::class, 'index'])->name('libraries.index');
     Route::post('/libraries', [LibraryController::class, 'store'])->name('libraries.store');
-    Route::delete('/libraries/{id}', 'App\Http\Controllers\LibraryController@destroy')->name('libraries.destroy');
-    
+    Route::get('/libraries/{id}', [LibraryController::class, 'show'])->name('libraries.show');
+    Route::put('/libraries/{id}', [LibraryController::class, 'update'])->name('libraries.update');
+    Route::delete('/libraries/{id}', [LibraryController::class, 'destroy'])->name('libraries.destroy');
+
     // -------------------------- Rutas de Book_To_Library --------------------------
     Route::post('/booktolibrary', [BookToLibraryController::class, 'store'])->name('booktolibrary.store');
     Route::delete('/booktolibrary/{book_id}/{library_id}', [BookToLibraryController::class, 'destroy'])->name('booktolibrary.destroy');
