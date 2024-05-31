@@ -7,11 +7,7 @@ use Illuminate\Http\Request;
 use Stripe\StripeClient;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-
-
-
-
-
+use App\Models\Role;
 
 class PremiumController extends Controller
 {
@@ -31,19 +27,13 @@ class PremiumController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function createCheckoutSession(Request $request)
     {
-
+        // Lógica para crear la sesión de pago en Stripe
 
         $stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
-
         $plan = $request->input('plan');
         $priceId = '';
-
-
 
         switch ($plan) {
             case 'monthly':
@@ -64,20 +54,21 @@ class PremiumController extends Controller
                 ]
             ],
             'mode' => 'subscription',
-            'success_url' => route('dashboard'),
-            'cancel_url' => route('books.index'),
+            'success_url' => route('premium.update'),
+            'cancel_url' => route('dashboard'),
         ]);
 
-        return redirect($checkout_session->url);
-
+        return Inertia::location($checkout_session->url);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function updateSubscription()
     {
 
+        $user = Auth::user();
+        $user->roles()->detach(2);
+        $user->roles()->attach(3); 
+
+        return redirect()->route('dashboard');
     }
 
 }

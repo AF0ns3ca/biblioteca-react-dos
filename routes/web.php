@@ -24,6 +24,9 @@ Route::get('/', function () {
     ]);
 });
 
+Route::options('/{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
 
 Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     // -------------------------- Rutas de admin --------------------------
@@ -131,7 +134,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // -------------------------- Rutas de Premium --------------------------
     Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
     Route::post('/create-checkout-session', [PremiumController::class, 'createCheckoutSession'])->name('premium.checkout');
+    Route::get('/update-subscription', [PremiumController::class, 'updateSubscription'])->name('premium.update');
 });
+
+
+
 
 
 

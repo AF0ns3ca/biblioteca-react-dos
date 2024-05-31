@@ -45,7 +45,7 @@ export default function Index({ auth }) {
                                 <li>Acceso anticipado a nuevas funciones</li>
                             </ul>
                             <div className="text-center">
-                                <span className="text-4xl font-bold">€3.99</span><span className="text-xl">/mes</span>
+                                <span className="text-4xl font-bold">3.99€</span><span className="text-xl">/mes</span>
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@ export default function Index({ auth }) {
                                 <li>Prioridad en todos los sorteos</li>
                             </ul>
                             <div className="text-center">
-                                <span className="text-4xl font-bold">€39.99</span><span className="text-xl">/año</span>
+                                <span className="text-4xl font-bold">39.99€</span><span className="text-xl">/año</span>
                             </div>
                         </div>
                     </div>
