@@ -53,32 +53,32 @@ class LibraryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    try {
-        $user = auth()->user();
+    {
+        try {
+            $user = auth()->user();
 
-        // Verificar el tipo de usuario y su límite de bibliotecas
-        if ($user->roles->pluck('role')->join(', ') === 'user' && $user->libraries()->count() >= 5) {
-            // retornar con mensaje de error e inertia render para mostrar el mensaje y no recargar la pagina
-            
+            // Verificar el tipo de usuario y su límite de bibliotecas
+            if ($user->roles->pluck('role')->join(', ') === 'user' && $user->libraries()->count() >= 5) {
+                // retornar con mensaje de error e inertia render para mostrar el mensaje y no recargar la pagina
+
+                return to_route(('libraries.index'));
+            }
+
+            $request->merge(['user_id' => $user->id]);
+
+            $validatedData = $request->validate([
+                'nombre' => 'required',
+                'tipo' => 'required',
+                'user_id' => 'required'
+            ]);
+
+            Library::create($validatedData);
+
             return to_route(('libraries.index'));
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        $request->merge(['user_id' => $user->id]);
-
-        $validatedData = $request->validate([
-            'nombre' => 'required',
-            'tipo' => 'required',
-            'user_id' => 'required'
-        ]);
-
-        Library::create($validatedData);
-
-        return to_route(('libraries.index'));
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
     }
-}
 
 
     /**
@@ -110,6 +110,18 @@ class LibraryController extends Controller
             ->leftJoin('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
             ->where('book_to_libraries.library_id', $id)
             ->get();
+
+        $books->map(function ($book) {
+            $libraries = Library::select('libraries.id', 'libraries.nombre')
+                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                ->where('book_to_libraries.book_id', $book->id)
+                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->get();
+
+            $book->libraries = $libraries;
+
+            return $book;
+        });
 
         // obtener la biblioteca con el id que se pasa por parametro
         $currentLibrary = Library::find($id);

@@ -68,69 +68,92 @@ export default function Index({ auth, librariesWithBookCount, role }) {
     };
 
     const bgColor = auth.user.role === "user" ? "bg-metal" : "bg-premium";
-    const color = auth.user.role === "user" ? "text-black" : "text-white";   
+    const color = auth.user.role === "user" ? "text-black" : "text-white";
 
     return (
         <AuthenticatedLayout user={auth.user} role={role}>
             <Head title="Bibliotecas" />
             <div className="w-full mt-20 h-full flex flex-col justify-center items-center">
-                <h1 className="p-5 text-5xl font-serif">
-                    Tus bibliotecas, {auth.user.name}
-                </h1>
-                <div className="w-full px-5 sm:w-[90%] md:w-[90%] lg:w-[80%] xl:w-[70%] flex items-center justify-center py-4 ">
-                    <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-content-center gap-10">
-                        {librariesWithBookCount.map((library) => (
-                            <CardLibraryExpand
-                                key={library.id}
-                                library={library}
-                            />
-                        ))}
-                    </div>
+                {librariesWithBookCount.length === 0 && (
+                    <div className="flex flex-col items-center justify-center my-10">
+                    <h1 className="text-3xl mb-4">
+                        ¡Bienvenido a BookNest, {auth.user.name}!
+                    </h1>
+                    <p className="text-lg mb-4">
+                        Parece que aún no has creado ninguna biblioteca. Crea una para empezar a organizar tus libros y disfrutar de todas las funciones que ofrece BookNest.
+                    </p>
+                    <button
+                        className="bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        onClick={() => setShowModal(true)}
+                    >
+                        Crear biblioteca
+                    </button>
                 </div>
-                {(librariesWithBookCount.length < 5 &&
+                )}
+                {librariesWithBookCount.length > 0 && (
+                    <>
+                        <h1 className="p-5 text-5xl font-serif">
+                            Tus bibliotecas, {auth.user.name}
+                        </h1>
+                        <div className="w-full px-5 sm:w-[90%] md:w-[90%] lg:w-[80%] xl:w-[70%] flex items-center justify-center py-4 ">
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-content-center gap-10">
+                                {librariesWithBookCount.map((library) => (
+                                    <CardLibraryExpand
+                                        key={library.id}
+                                        library={library}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </>
+                )}
+                {((librariesWithBookCount.length < 5 &&
                     auth.user.role === "user") ||
-                auth.user.role !== "user" ? (
+                    auth.user.role !== "user") && (
                     <div className="fixed bottom-10 right-10 rounded-full">
                         <AddButton
                             color={bgColor}
                             onClick={() => setShowModal(true)}
                         />
                     </div>
-                ) : (
-                    <div>
-                        <div
-                            className={`fixed bottom-10 right-10 rounded-full ${bgColor} p-4 text-white`}
-                            onClick={handleCreateLibrary}
-                        >
-                            <WorkspacePremiumIcon />
-                        </div>
-                        {showAlert && (
-                            <div
-                                id="modal-alert"
-                                className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
-                                onClick={handleCloseAlert}
-                            >
-                                <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg flex flex-col gap-5 font-serif text-lg">
-                                    <p>
-                                        Has llegado al límite de bibliotecas.
-                                        Para crear más bibliotecas, actualiza a
-                                        una cuenta premium.
-                                    </p>
-                                    <button>
-                                        <WorkspacePremiumIcon
-                                            sx={{
-                                                fill: "#602F6B",
-                                                fontSize: "35px",
-                                            }}
-                                            onClick={handleCloseLibrary}
-                                            className="text-center rounded-ful m-3"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
                 )}
+                {librariesWithBookCount.length >= 5 &&
+                    auth.user.role === "user" && (
+                        <div>
+                            <div
+                                className={`fixed bottom-10 right-10 rounded-full ${bgColor} p-4 text-white`}
+                                onClick={handleCreateLibrary}
+                            >
+                                <WorkspacePremiumIcon />
+                            </div>
+                            {showAlert && (
+                                <div
+                                    id="modal-alert"
+                                    className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
+                                    onClick={handleCloseAlert}
+                                >
+                                    <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg flex flex-col gap-5 font-serif text-lg">
+                                        <p>
+                                            Has llegado al límite de
+                                            bibliotecas. Para crear más
+                                            bibliotecas, actualiza a una cuenta
+                                            premium.
+                                        </p>
+                                        <button>
+                                            <WorkspacePremiumIcon
+                                                sx={{
+                                                    fill: "#602F6B",
+                                                    fontSize: "35px",
+                                                }}
+                                                onClick={handleCloseLibrary}
+                                                className="text-center rounded-ful m-3"
+                                            />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
             </div>
 
             {showModal && (

@@ -65,6 +65,32 @@ class BookController extends Controller
             return $book;
         });
 
+        // Añadir a cada libro un array con las bibliotecas en las que se encuentra y que pertenecen al usuario autenticado
+
+        // $books->map(function ($book) {
+        //     $libraries = Library::select('libraries.id', 'libraries.nombre')
+        //         ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+        //         ->where('book_to_libraries.book_id', $book->id)
+        //         ->get();
+
+        //     $book->libraries = $libraries;
+
+        //     return $book;
+        // });
+
+        $books->map(function ($book) {
+            $libraries = Library::select('libraries.id', 'libraries.nombre')
+                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                ->where('book_to_libraries.book_id', $book->id)
+                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->get();
+
+            $book->libraries = $libraries;
+
+            return $book;
+        });
+
+
 
         return Inertia::render('Books/Index', [
             'auth' => [
@@ -145,6 +171,18 @@ class BookController extends Controller
             ->where('books.id', $id) // Agregamos la condición para obtener el libro específico
             ->get();
 
+        $books->map(function ($book) {
+            $libraries = Library::select('libraries.id', 'libraries.nombre')
+                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                ->where('book_to_libraries.book_id', $book->id)
+                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->get();
+
+            $book->libraries = $libraries;
+
+            return $book;
+        });
+
         // Encuentra el libro
         $book = $books->first();
 
@@ -178,6 +216,8 @@ class BookController extends Controller
 
         $book->status = $status;
 
+
+
         $librariesWithBookCount = Library::where('user_id', auth()->id())
             ->withCount('books') // Contar el número de libros para cada biblioteca
             ->get();
@@ -189,7 +229,7 @@ class BookController extends Controller
             ->whereNotNull('end_date')
             ->get();
 
-            // Contar el número de lecturas del libro, es decir los registros de lectura con el mismo libro_id y que tenga fecha de inicio y de fin
+        // Contar el número de lecturas del libro, es decir los registros de lectura con el mismo libro_id y que tenga fecha de inicio y de fin
         $datesCount = Reading::where('book_id', $book->id)
             ->where('user_id', auth()->id())
             ->whereNotNull('start_date')

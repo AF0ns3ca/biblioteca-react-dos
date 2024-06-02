@@ -44,6 +44,18 @@ class ReadingController extends Controller
             })
             ->whereIn('books.id', $wantToReadBooksId)
             ->get();
+
+        $wantToReadBooks->map(function ($book) {
+            $libraries = Library::select('libraries.id', 'libraries.nombre')
+                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                ->where('book_to_libraries.book_id', $book->id)
+                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->get();
+
+            $book->libraries = $libraries;
+
+            return $book;
+        });
         $wantToReadBooksCount = $wantToReadBooks->count();
 
         // Obtener los IDs de los libros que el usuario está leyendo
@@ -61,6 +73,19 @@ class ReadingController extends Controller
             })
             ->whereIn('books.id', $readingBooksId)
             ->get();
+
+        $readingBooks->map(function ($book) {
+            $libraries = Library::select('libraries.id', 'libraries.nombre')
+                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                ->where('book_to_libraries.book_id', $book->id)
+                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->get();
+
+            $book->libraries = $libraries;
+
+            return $book;
+        });
+
         $readingBooksCount = $readingBooks->count();
 
         // Obtener los IDs de los libros que el usuario ha leído
@@ -78,6 +103,19 @@ class ReadingController extends Controller
             })
             ->whereIn('books.id', $readBooksId)
             ->get();
+
+        $readBooks->map(function ($book) {
+            $libraries = Library::select('libraries.id', 'libraries.nombre')
+                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                ->where('book_to_libraries.book_id', $book->id)
+                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->get();
+
+            $book->libraries = $libraries;
+
+            return $book;
+        });
+
         $readBooksCount = $readBooks->count();
 
         // Asignar el estado a cada libro
@@ -297,7 +335,7 @@ class ReadingController extends Controller
         }
     }
 
-    public function deleteReading (string $id)
+    public function deleteReading(string $id)
     {
         $reading = Reading::findOrFail($id);
         $reading->delete();

@@ -28,18 +28,24 @@ class BookToLibraryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+{
+    $validatedData = $request->validate([
+        'book_id' => 'required',
+        'library_id' => 'required'
+    ]);
 
-        $validatedData = $request->validate([
-            'book_id' => 'required',
-            'library_id' => 'required'
-        ]);
+    $bookAlreadyInLibrary = BookToLibrary::where('book_id', $request->book_id)
+        ->where('library_id', $request->library_id)
+        ->exists();
 
-        BookToLibrary::create($validatedData);
-
-        // Devolver la pagina en la que estabamos
-        return redirect()->back();
+    if ($bookAlreadyInLibrary) {
+        return back()->withErrors(['error' => 'Este libro ya está en la biblioteca.']);
     }
+
+    BookToLibrary::create($validatedData);
+
+    return redirect()->back();
+}
 
     /**
      * Display the specified resource.

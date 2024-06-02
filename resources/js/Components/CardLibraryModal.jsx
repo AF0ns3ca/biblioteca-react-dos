@@ -1,31 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Inertia } from "@inertiajs/inertia";
+import React from "react";
 import PhysicalLibraryIcon from "@/Components/PhysicalLibraryIcon";
 import DigitalLibraryIcon from "@/Components/DigitalLibraryIcon";
 
-
-const CardLibraryModal = ({ library }) => {
-    const [hasBook, setHasBook] = useState(false); // Estado para almacenar si la biblioteca tiene el libro
-    const [scrollPosition, setScrollPosition] = useState(0); // Estado para almacenar la posición de desplazamiento
-
-    useEffect(() => {
-        // Verifica si la biblioteca tiene el libro
-        const hasBookInLibrary = () => {
-            // Aquí debes implementar la lógica para verificar si el libro está presente en la biblioteca
-            // Esto podría involucrar una llamada a la API o una consulta a la base de datos
-            // Por ahora, estableceremos hasBook en true de forma predeterminada
-            setHasBook(true);
-        };
-
-        hasBookInLibrary();
-
-        // Almacenar la posición de desplazamiento cuando se monta el componente
-        setScrollPosition(window.scrollY);
-
-        // Restaurar la posición de desplazamiento al volver a la página
-        window.scrollTo(0, scrollPosition);
-    }, []);
-
+const CardLibraryModal = ({ library, isBookInLibrary }) => {
     return (
         <div className="w-full flex flex-row items-center justify-between bg-white shadow border p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
             {/* Columna izquierda para el tipo de biblioteca */}
@@ -53,13 +30,9 @@ const CardLibraryModal = ({ library }) => {
                 )}
             </div>
             {/* Indicador visual si la biblioteca tiene el libro */}
-            {/* <div className="p-2">
-                {hasBook ? (
-                    <div className="w-5 h-5 bg-red-500 rounded-full"></div> // Indicador visual si la biblioteca tiene el libro
-                ) : (
-                    <div className="w-5 h-5 bg-green-500 rounded-full"></div> // Indicador visual si la biblioteca no tiene el libro
-                )}
-            </div> */}
+            <div className="p-2">
+                <div className={`w-5 h-5 rounded-full ${isBookInLibrary ? 'bg-red-500' : 'bg-green-500'}`}></div>
+            </div>
         </div>
     );
 };
