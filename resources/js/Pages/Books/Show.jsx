@@ -11,6 +11,8 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import TimerIcon from "@mui/icons-material/Timer";
 import ShowTab from "@/Components/ShowTab";
 import AddToLibraryModal from "@/Components/AddToLibraryModal";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Show({
     auth,
@@ -23,9 +25,9 @@ export default function Show({
     dates,
     datesCount,
 }) {
-    console.log(book);
-    console.log(dates);
-    console.log(librariesWithBookCount);
+    console.log("Libro:", book);
+
+    console.log("Fechas:", dates);
 
     const bgColor = auth.user.role === "user" ? "#2C3E50" : "#512E5F";
     const bgColorBG = auth.user.role === "user" ? "bg-metal" : "bg-premium";
@@ -76,8 +78,8 @@ export default function Show({
         // Aquí selectedReadingId se utiliza directamente sin necesidad de preocuparte por su valor
         Inertia.put(route("readings.updateDates", selectedReadingId), {
             id: selectedReadingId,
-            start_date: startDate,
-            end_date: endDate,
+            start_date: startDateModal,
+            end_date: endDateModal,
         });
     };
 
@@ -97,7 +99,7 @@ export default function Show({
                 return (
                     <div className="w-full">
                         {datesCount > 0 ? (
-                            <div className="w-full flex flex-col items-start md:m-5 space-y-6">
+                            <div className="w-full flex flex-col items-center md:m-5 space-y-6">
                                 <p className="text-2xl font-semibold">
                                     {datesCount > 1
                                         ? `Has leído este libro ${datesCount} veces`
@@ -115,82 +117,95 @@ export default function Show({
 
                                     return (
                                         <div
-                                            className="w-full p-6 border border-gray-300 rounded-lg shadow-md bg-white"
+                                            className="w-[60%] p-6 border border-gray-300 rounded-lg shadow-md bg-white flex flex-row justify-between"
                                             key={date.id}
                                         >
-                                            <div className="text-lg mb-2 flex items-center">
-                                                <CalendarTodayIcon className="mr-2 text-metal" />
-                                                <div className="flex flex-row gap-2">
-                                                    <span className="font-bold">
-                                                        Empezaste el libro el:
-                                                    </span>
-                                                    <span>
-                                                        {startDate.toLocaleDateString(
-                                                            "es-ES"
-                                                        )}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="text-lg mb-2 flex items-center">
-                                                <CalendarTodayIcon className="mr-2 text-green-500" />
-                                                <div className="flex flex-row gap-2">
-                                                    <span className="font-bold">
-                                                        Terminaste el libro el:
-                                                    </span>
-                                                    <span>
-                                                        {endDate.toLocaleDateString(
-                                                            "es-ES"
-                                                        )}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="text-lg flex items-center">
-                                                <TimerIcon className="mr-2 text-red-500" />
-                                                <div className="flex flex-row gap-2">
-                                                    {diffDays > 0 ? (
-                                                        <>
-                                                            <span className="font-bold">
-                                                                Has tardado:
-                                                            </span>
-                                                            <span>
-                                                                {diffDays} días
-                                                                en leerlo
-                                                            </span>
-                                                        </>
-                                                    ) : (
+                                            <div>
+                                                <div className="text-lg mb-2 flex items-center">
+                                                    <CalendarTodayIcon className="mr-2 text-metal" />
+                                                    <div className="flex flex-row gap-2">
                                                         <span className="font-bold">
-                                                            ¡Lo has leído en
-                                                            menos de un día!
+                                                            Empezaste el libro
+                                                            el:
                                                         </span>
-                                                    )}
+                                                        <span>
+                                                            {startDate.toLocaleDateString(
+                                                                "es-ES"
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="text-lg mb-2 flex items-center">
+                                                    <CalendarTodayIcon className="mr-2 text-green-500" />
+                                                    <div className="flex flex-row gap-2">
+                                                        <span className="font-bold">
+                                                            Terminaste el libro
+                                                            el:
+                                                        </span>
+                                                        <span>
+                                                            {endDate.toLocaleDateString(
+                                                                "es-ES"
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="text-lg flex items-center">
+                                                    <TimerIcon className="mr-2 text-red-500" />
+                                                    <div className="flex flex-row gap-2">
+                                                        {diffDays > 0 ? (
+                                                            <>
+                                                                <span className="font-bold">
+                                                                    Has tardado:
+                                                                </span>
+                                                                <span>
+                                                                    {diffDays}{" "}
+                                                                    días en
+                                                                    leerlo
+                                                                </span>
+                                                            </>
+                                                        ) : (
+                                                            <span className="font-bold">
+                                                                ¡Lo has leído en
+                                                                menos de un día!
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className="w-full flex flex-col md:flex-row mt-4 gap-5">
-                                                <button
-                                                    onClick={() => {
-                                                        setStartDate(startDate);
-                                                        setEndDate(endDate);
-                                                        setShowDateModal(true);
-                                                        handleSelectedReading(
-                                                            date.id,
-                                                            date.start_date,
-                                                            date.end_date
-                                                        );
-                                                    }}
-                                                    className={`${bgColorBG} text-white px-4 py-2 rounded-md w-full`}
-                                                >
-                                                    Editar fechas de lectura
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        handleDeleteReading(
-                                                            date.id
-                                                        );
-                                                    }}
-                                                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400 w-full"
-                                                >
-                                                    Eliminar lectura
-                                                </button>
+                                            <div className="">
+                                                <div className="w-full flex flex-col md:flex-col gap-5">
+                                                    <button
+                                                        onClick={() => {
+                                                            setStartDate(
+                                                                startDate
+                                                            );
+                                                            setEndDate(endDate);
+                                                            setShowDateModal(
+                                                                true
+                                                            );
+                                                            handleSelectedReading(
+                                                                date.id,
+                                                                date.start_date,
+                                                                date.end_date
+                                                            );
+                                                        }}
+                                                        title="Editar fechas de lectura"
+                                                        className={`${bgColorBG} text-white px-4 py-2 rounded-md w-full`}
+                                                    >
+                                                        <EditIcon />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            handleDeleteReading(
+                                                                date.id
+                                                            );
+                                                        }}
+                                                        title="Eliminar lectura"
+                                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full"
+                                                    >
+                                                        <DeleteForeverIcon />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     );
@@ -216,7 +231,8 @@ export default function Show({
                                     <p>Has terminado de leer este libro.</p>
                                 ) : (
                                     <p>
-                                        Aún no has leído este libro. ¿A qué esperas?
+                                        Aún no has leído este libro. ¿A qué
+                                        esperas?
                                     </p>
                                 )}
                             </div>
@@ -377,11 +393,11 @@ export default function Show({
             </div>
 
             {showModal && (
-                <AddToLibraryModal 
-                book={book}
-                librariesWithBookCount={librariesWithBookCount}
-                setShowModal={setShowModal}
-            />
+                <AddToLibraryModal
+                    book={book}
+                    librariesWithBookCount={librariesWithBookCount}
+                    setShowModal={setShowModal}
+                />
                 // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
                 //     <div className="w-[90%] md:w-[50%] bg-white p-4 md:p-8 flex flex-col rounded-lg items-center justify-center">
                 //         <h2 className="text-xl font-bold mb-4">Añadir a...</h2>
@@ -431,10 +447,14 @@ export default function Show({
                                     id="start_date"
                                     className="border rounded-md px-2 py-1"
                                     value={startDateModal}
-                                    onChange={(e) =>{
+                                    onChange={(e) => {
                                         setStartDate(e.target.value),
-                                        setStartDateModal(e.target.value)}
-                                    }
+                                            setStartDateModal(e.target.value),
+                                            console.log(
+                                                "Nueva Fecha Inicio:",
+                                                e.target.value
+                                            );
+                                    }}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
@@ -451,9 +471,12 @@ export default function Show({
                                     value={endDateModal}
                                     onChange={(e) => {
                                         setEndDate(e.target.value),
-                                        setEndDateModal(e.target.value)
-                                    }
-                                    }
+                                            setEndDateModal(e.target.value),
+                                            console.log(
+                                                "Nueva Fecha Fin:",
+                                                e.target.value
+                                            );
+                                    }}
                                 />
                             </div>
                         </div>

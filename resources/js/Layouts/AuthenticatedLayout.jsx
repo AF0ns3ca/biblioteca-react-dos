@@ -16,8 +16,6 @@ export default function Authenticated({ user, header, children }) {
         useState(false);
 
     const url = usePage().url;
-    console.log(url);
-    console.log(user.role);
 
     function checkUrl(url) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'
@@ -41,7 +39,7 @@ export default function Authenticated({ user, header, children }) {
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex flex-row items-center justify-center gap-5">
+                        <div className="flex flex-row items-center justify-center gap-3 md:gap-24">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/dashboard">
                                     {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" /> */}
@@ -74,15 +72,16 @@ export default function Authenticated({ user, header, children }) {
                                     </Link>
                                 )}
                             </div>
+                            {checkUrl(url) && (
+                                <div className="w-[130px] md:w-full sm:flex sm:items-center sm:ms-6">
+                                    <SearchComponent />
+                                </div>
+                            )}
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             {/* {url === ("/books" || "/libraries/[id]") && ( */}
-                            {checkUrl(url) && (
-                                <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                    <SearchComponent />
-                                </div>
-                            )}
+                            
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
@@ -251,11 +250,13 @@ export default function Authenticated({ user, header, children }) {
                             Descubrir Libros
                         </ResponsiveNavLink>
                     </div>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route("premium.index")}>
-                            <WorkspacePremiumIcon />
-                        </ResponsiveNavLink>
-                    </div>
+                    {user.role === "user" && (
+                        <div className="pt-2 pb-3 space-y-1">
+                            <ResponsiveNavLink href={route("premium.index")}>
+                                <WorkspacePremiumIcon />
+                            </ResponsiveNavLink>
+                        </div>
+                    )}
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">

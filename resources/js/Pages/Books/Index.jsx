@@ -7,6 +7,7 @@ import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import SearchComponent from "@/Components/SearchComponent";
 
 export default function Index({ auth, books, librariesWithBookCount, pageOne }) {
 
@@ -135,6 +136,11 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
                             view === "cards" ? "flex" : "hidden"
                         } pt-24 flex-col items-center justify-center pb-3 bg-white`}
                     >
+                        {/* Idea Poner barra busqueda debajo del layout cuando se esta en movil */}
+                        {/* <div className="md:hidden">
+                            <SearchComponent />
+                        </div> */}
+
                         <div className="w-[50%] pb-5 flex flex-row items-center text-center justify-center gap-10">
                             <div className="">
                                 <p className="font-bold text-lg">
