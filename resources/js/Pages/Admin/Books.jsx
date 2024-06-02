@@ -7,7 +7,9 @@ import AddButton from "@/Components/AddButton";
 import InputLabel from "@/Components/InputLabel";
 
 export default function Books({ auth, books, libraries }) {
-    const [view, setView] = useState(() => localStorage.getItem("view") || "cards");
+    const [view, setView] = useState(
+        () => localStorage.getItem("view") || "cards"
+    );
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -46,24 +48,47 @@ export default function Books({ auth, books, libraries }) {
     return (
         <AdminLayout user={auth.user}>
             <Head title="Gestionar Libros" />
-            <div id="cards" className={`w-full ${view === "cards" ? "flex" : "hidden"} pt-24 flex-col items-center justify-center pb-3 bg-white`}>
+            <div
+                id="cards"
+                className={`w-full ${
+                    view === "cards" ? "flex" : "hidden"
+                } pt-24 flex-col items-center justify-center pb-3 bg-white`}
+            >
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
                     {books.map((book) => (
-                        <CardBookAdmin book={book} libraries={libraries} key={book.id} />
+                        <CardBookAdmin
+                            book={book}
+                            libraries={libraries}
+                            key={book.id}
+                        />
                     ))}
                 </div>
                 <div className="fixed bottom-10 right-10 rounded-full">
-                    <AddButton color={"bg-black"} onClick={() => setShowModal(true)} />
+                    <AddButton
+                        color={"bg-black"}
+                        onClick={() => setShowModal(true)}
+                    />
                 </div>
             </div>
             {showModal && (
-                <div id="crear" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleCloseModal}>
+                <div
+                    id="crear"
+                    className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
+                    // onClick={handleCloseModal}
+                >
                     <div className="w-full max-w-4xl p-8 bg-white m-6 rounded shadow-lg relative mt-44 md:mt-10">
-                        <form onSubmit={handleSubmit} encType="multipart/form-data" className="w-full flex flex-col gap-4">
+                        <form
+                            onSubmit={handleSubmit}
+                            encType="multipart/form-data"
+                            className="w-full flex flex-col gap-4"
+                        >
                             <div className="w-full flex flex-col md:flex-row gap-6">
                                 <div className="w-full md:w-[50%]">
                                     <div className="mb-4">
-                                        <label htmlFor="titulo" className="block text-sm font-medium text-gray-700">
+                                        <label
+                                            htmlFor="titulo"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
                                             Título
                                         </label>
                                         <input
@@ -71,11 +96,19 @@ export default function Books({ auth, books, libraries }) {
                                             type="text"
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.titulo}
-                                            onChange={(e) => setData("titulo", e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "titulo",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                     </div>
                                     <div className="mb-4">
-                                        <label htmlFor="autor" className="block text-sm font-medium text-gray-700">
+                                        <label
+                                            htmlFor="autor"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
                                             Autor
                                         </label>
                                         <input
@@ -83,11 +116,16 @@ export default function Books({ auth, books, libraries }) {
                                             type="text"
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.autor}
-                                            onChange={(e) => setData("autor", e.target.value)}
+                                            onChange={(e) =>
+                                                setData("autor", e.target.value)
+                                            }
                                         />
                                     </div>
                                     <div className="mb-4">
-                                        <label htmlFor="serie" className="block text-sm font-medium text-gray-700">
+                                        <label
+                                            htmlFor="serie"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
                                             Serie
                                         </label>
                                         <input
@@ -95,11 +133,16 @@ export default function Books({ auth, books, libraries }) {
                                             type="text"
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.serie}
-                                            onChange={(e) => setData("serie", e.target.value)}
+                                            onChange={(e) =>
+                                                setData("serie", e.target.value)
+                                            }
                                         />
                                     </div>
                                     <div className="mb-4">
-                                        <label htmlFor="num_serie" className="block text-sm font-medium text-gray-700">
+                                        <label
+                                            htmlFor="num_serie"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
                                             Número de Serie
                                         </label>
                                         <input
@@ -107,11 +150,19 @@ export default function Books({ auth, books, libraries }) {
                                             type="number"
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.num_serie}
-                                            onChange={(e) => setData("num_serie", e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "num_serie",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                     </div>
                                     <div className="mb-4">
-                                        <label htmlFor="paginas" className="block text-sm font-medium text-gray-700">
+                                        <label
+                                            htmlFor="paginas"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
                                             Páginas
                                         </label>
                                         <input
@@ -119,36 +170,60 @@ export default function Books({ auth, books, libraries }) {
                                             type="number"
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.paginas}
-                                            onChange={(e) => setData("paginas", e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "paginas",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                     </div>
                                 </div>
                                 <div className="w-full md:w-[50%] flex flex-col gap-3">
                                     <div className="mb-4 h-full">
-                                        <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700">
+                                        <label
+                                            htmlFor="descripcion"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
                                             Descripción
                                         </label>
                                         <textarea
                                             id="descripcion"
                                             className="shadow appearance-none border rounded w-full h-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.descripcion}
-                                            onChange={(e) => setData("descripcion", e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "descripcion",
+                                                    e.target.value
+                                                )
+                                            }
                                         />
                                     </div>
                                     <div className="flex flex-col gap-4">
                                         <div className="mb-4">
-                                            <label htmlFor="portada" className="block text-sm font-medium text-gray-700">
+                                            <label
+                                                htmlFor="portada"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
                                                 Portada
                                             </label>
                                             <input
                                                 id="portada"
                                                 type="file"
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
-                                                onChange={(e) => setData("portada", e.target.files[0])}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "portada",
+                                                        e.target.files[0]
+                                                    )
+                                                }
                                             />
                                         </div>
                                         <div className="mb-4">
-                                            <label htmlFor="url_portada" className="block text-sm font-medium text-gray-700">
+                                            <label
+                                                htmlFor="url_portada"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
                                                 URL de la Portada
                                             </label>
                                             <input
@@ -156,22 +231,37 @@ export default function Books({ auth, books, libraries }) {
                                                 type="text"
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                                 value={data.url_portada}
-                                                onChange={(e) => setData("url_portada", e.target.value)}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "url_portada",
+                                                        e.target.value
+                                                    )
+                                                }
                                             />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex justify-end mt-4">
-                                <button type="button" onClick={() => setShowModal(false)} className="bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                    className="bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                >
                                     Cancelar
                                 </button>
-                                <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded">
+                                <button
+                                    type="submit"
+                                    className="bg-black text-white font-bold py-2 px-4 rounded"
+                                >
                                     Añadir Libro
                                 </button>
                             </div>
                         </form>
-                        <button onClick={() => setShowModal(false)} className="absolute top-0 right-0 p-4">
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className="absolute top-0 right-0 p-4"
+                        >
                             X
                         </button>
                     </div>

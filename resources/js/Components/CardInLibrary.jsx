@@ -4,8 +4,16 @@ import { Rating } from "@mui/material";
 import BasicRating from "./BasicRating";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import AddToLibraryModal from "./AddToLibraryModal";
 
-const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
+const CardInLibrary = ({
+    book,
+    librariesWithBookCount,
+    currentLibrary,
+    auth,
+}) => {
+
+    console.log("CardInLibrary", librariesWithBookCount);
     const [showModal, setShowModal] = useState(false);
 
     const handleDelete = async (bookId, libraryId) => {
@@ -28,25 +36,25 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
         }
     };
 
-    const handleAddToLibrary = async (libraryId) => {
-        try {
-            // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-            console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-            setShowModal(false); // Cierra la ventana modal después de añadir el libro
+    // const handleAddToLibrary = async (libraryId) => {
+    //     try {
+    //         // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
+    //         console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
+    //         setShowModal(false); // Cierra la ventana modal después de añadir el libro
 
-            await Inertia.post(
-                "/booktolibrary",
-                { book_id: book.id, library_id: libraryId },
-                {
-                    preserveScroll: true,
-                    preserveState: true,
-                }
-            );
-        } catch (error) {
-            // Manejo de errores
-            console.error("Error al añadir el libro a la biblioteca:", error);
-        }
-    };
+    //         await Inertia.post(
+    //             "/booktolibrary",
+    //             { book_id: book.id, library_id: libraryId },
+    //             {
+    //                 preserveScroll: true,
+    //                 preserveState: true,
+    //             }
+    //         );
+    //     } catch (error) {
+    //         // Manejo de errores
+    //         console.error("Error al añadir el libro a la biblioteca:", error);
+    //     }
+    // };
 
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
@@ -137,38 +145,43 @@ const CardInLibrary = ({ book, libraries, currentLibrary, auth }) => {
                 </div>
                 {/* Ventana modal para seleccionar biblioteca */}
                 {showModal && (
-                    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                        <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
-                            <div>
-                                <h2 className="text-xl font-semibold mb-4">
-                                    Selecciona una biblioteca
-                                </h2>
-                                <div className="grid gap-4">
-                                    {/* Lista de bibliotecas */}
-                                    {libraries.map((library) => (
-                                        <button
-                                            key={library.id}
-                                            className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded"
-                                            onClick={() =>
-                                                handleAddToLibrary(library.id)
-                                            }
-                                        >
-                                            {library.nombre}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            {/* Botón para cerrar la ventana modal */}
-                            <div className="w-full flex flex-col items-center">
-                                <button
-                                    className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
-                                    onClick={() => setShowModal(false)}
-                                >
-                                    Cerrar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <AddToLibraryModal
+                        book={book}
+                        librariesWithBookCount={librariesWithBookCount}
+                        setShowModal={setShowModal}
+                    />
+                    // <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
+                    //     <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
+                    //         <div>
+                    //             <h2 className="text-xl font-semibold mb-4">
+                    //                 Selecciona una biblioteca
+                    //             </h2>
+                    //             <div className="grid gap-4">
+                    //                 {/* Lista de bibliotecas */}
+                    //                 {libraries.map((library) => (
+                    //                     <button
+                    //                         key={library.id}
+                    //                         className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded"
+                    //                         onClick={() =>
+                    //                             handleAddToLibrary(library.id)
+                    //                         }
+                    //                     >
+                    //                         {library.nombre}
+                    //                     </button>
+                    //                 ))}
+                    //             </div>
+                    //         </div>
+                    //         {/* Botón para cerrar la ventana modal */}
+                    //         <div className="w-full flex flex-col items-center">
+                    //             <button
+                    //                 className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
+                    //                 onClick={() => setShowModal(false)}
+                    //             >
+                    //                 Cerrar
+                    //             </button>
+                    //         </div>
+                    //     </div>
+                    // </div>
                 )}
             </div>
         </div>

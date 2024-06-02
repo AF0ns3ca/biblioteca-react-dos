@@ -204,7 +204,7 @@ class BookController extends Controller
             'booksSerie' => $booksSerie,
             'booksAuthorCount' => $booksAuthorCount,
             'booksSerieCount' => $booksSerieCount,
-            'libraries' => $librariesWithBookCount,
+            'librariesWithBookCount' => $librariesWithBookCount,
             'dates' => $dates,
             'datesCount' => $datesCount,
             'auth' => [

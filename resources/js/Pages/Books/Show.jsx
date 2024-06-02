@@ -10,6 +10,7 @@ import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import TimerIcon from "@mui/icons-material/Timer";
 import ShowTab from "@/Components/ShowTab";
+import AddToLibraryModal from "@/Components/AddToLibraryModal";
 
 export default function Show({
     auth,
@@ -18,13 +19,13 @@ export default function Show({
     booksSerie,
     booksAuthorCount,
     booksSerieCount,
-    libraries,
+    librariesWithBookCount,
     dates,
     datesCount,
 }) {
     console.log(book);
     console.log(dates);
-    console.log(datesCount);
+    console.log(librariesWithBookCount);
 
     const bgColor = auth.user.role === "user" ? "#2C3E50" : "#512E5F";
     const bgColorBG = auth.user.role === "user" ? "bg-metal" : "bg-premium";
@@ -376,32 +377,37 @@ export default function Show({
             </div>
 
             {showModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-                    <div className="w-[90%] md:w-[50%] bg-white p-4 md:p-8 flex flex-col rounded-lg items-center justify-center">
-                        <h2 className="text-xl font-bold mb-4">Añadir a...</h2>
-                        <div className="w-full grid gap-4">
-                            {libraries.map((library) => (
-                                <button
-                                    key={library.id}
-                                    onClick={() =>
-                                        handleAddToLibrary(library.id)
-                                    }
-                                >
-                                    <CardLibraryModal
-                                        key={library.id}
-                                        library={library}
-                                    />
-                                </button>
-                            ))}
-                        </div>
-                        <button
-                            onClick={closeModal}
-                            className={`bg-red-700 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-500 text-center`}
-                        >
-                            Cerrar
-                        </button>
-                    </div>
-                </div>
+                <AddToLibraryModal 
+                book={book}
+                librariesWithBookCount={librariesWithBookCount}
+                setShowModal={setShowModal}
+            />
+                // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+                //     <div className="w-[90%] md:w-[50%] bg-white p-4 md:p-8 flex flex-col rounded-lg items-center justify-center">
+                //         <h2 className="text-xl font-bold mb-4">Añadir a...</h2>
+                //         <div className="w-full grid gap-4">
+                //             {libraries.map((library) => (
+                //                 <button
+                //                     key={library.id}
+                //                     onClick={() =>
+                //                         handleAddToLibrary(library.id)
+                //                     }
+                //                 >
+                //                     <CardLibraryModal
+                //                         key={library.id}
+                //                         library={library}
+                //                     />
+                //                 </button>
+                //             ))}
+                //         </div>
+                //         <button
+                //             onClick={closeModal}
+                //             className={`bg-red-700 text-white px-4 py-2 mt-4 rounded-md hover:bg-red-500 text-center`}
+                //         >
+                //             Cerrar
+                //         </button>
+                //     </div>
+                // </div>
             )}
             {showDateModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">

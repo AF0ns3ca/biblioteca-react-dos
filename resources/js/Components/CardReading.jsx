@@ -1,3 +1,4 @@
+// CardReading.js
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
@@ -7,19 +8,12 @@ import { red } from "@mui/material/colors";
 import BookStatusSelector from "./BookStatusSelector";
 import CardLibraryModal from "./CardLibraryModal";
 import BasicRating from "./BasicRating";
+import AddToLibraryModal from "./AddToLibraryModal";
 
 const CardReading = ({ book, auth, librariesWithBookCount }) => {
     const [showModal, setShowModal] = useState(false);
     const [reviewModal, setReviewModal] = useState(false);
     const [reviewContent, setReviewContent] = useState("");
-
-    const handleAddToLibrary = async (libraryId) => {
-        setShowModal(false);
-        await Inertia.post("/booktolibrary", { book_id: book.id, library_id: libraryId }, {
-            preserveScroll: true,
-            preserveState: true,
-        });
-    };
 
     const handleDeleteReading = async () => {
         let confirmMessage = "Ya no quieres leer este libro?";
@@ -164,80 +158,11 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                     </div>
                 </div>
                 {showModal && (
-                    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                        <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
-                            <div>
-                                <h2 className="text-xl font-semibold mb-4">
-                                    Selecciona una biblioteca
-                                </h2>
-                                <div className="grid gap-4">
-                                    {librariesWithBookCount.map((library) => (
-                                        <button
-                                            key={library.id}
-                                            onClick={() =>
-                                                handleAddToLibrary(library.id)
-                                            }
-                                        >
-                                            <CardLibraryModal
-                                                key={library.id}
-                                                library={library}
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="w-full flex flex-col items-center">
-                                <button
-                                    className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
-                                    onClick={() => setShowModal(false)}
-                                >
-                                    Cerrar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-                {reviewModal && (
-                    <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                        <div className="w-[90%] md:w-[40%] relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
-                            <form onSubmit={handleReviewSubmit} className="flex flex-col gap-3">
-                                <div>
-                                    <h2 className="text-xl font-semibold mb-4">
-                                        Escribe una reseña
-                                    </h2>
-                                    <div className="grid gap-4">
-                                        <textarea
-                                            name="review"
-                                            id="review"
-                                            cols="30"
-                                            rows="10"
-                                            className="w-full p-2 border border-gray-300 rounded"
-                                            placeholder="Escribe tu reseña aquí..."
-                                            value={reviewContent}
-                                            onChange={(e) =>
-                                                setReviewContent(e.target.value)
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                                <div className="w-full flex flex-row items-center gap-3">
-                                    <button
-                                        type="submit"
-                                        className="w-[50%] py-2 px-4 bg-[#2C3E50] text-white rounded"
-                                    >
-                                        Publicar
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
-                                        onClick={() => setReviewModal(false)}
-                                    >
-                                        Cerrar
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                    <AddToLibraryModal 
+                        book={book}
+                        librariesWithBookCount={librariesWithBookCount}
+                        setShowModal={setShowModal}
+                    />
                 )}
             </div>
         </div>

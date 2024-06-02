@@ -112,7 +112,7 @@ const CardBookAdmin = ({ book }) => {
                 <div
                     id="editar"
                     className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
-                    onClick={handleCloseModal}
+                    // onClick={handleCloseModal}
                 >
                     <div className="w-full max-w-4xl p-8 bg-white m-6 rounded shadow-lg mt-44 md:mt-10">
                         <form

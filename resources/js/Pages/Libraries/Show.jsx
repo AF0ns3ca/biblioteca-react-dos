@@ -45,7 +45,7 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
                             <CardInLibrary
                                 key={book.id}
                                 book={book}
-                                libraries={libraries}
+                                librariesWithBookCount={librariesWithBookCount}
                                 currentLibrary={currentLibrary}
                                 auth={auth}
                             />

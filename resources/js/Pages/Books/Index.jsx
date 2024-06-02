@@ -169,7 +169,7 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
                             {filteredBooks.map((book, index) => (
                                 <Card
                                     book={book}
-                                    libraries={librariesWithBookCount}
+                                    librariesWithBookCount={librariesWithBookCount}
                                     key={book.id}
                                     auth={auth}
                                     status={book.status}

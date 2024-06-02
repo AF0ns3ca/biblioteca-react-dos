@@ -6,28 +6,29 @@ import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlin
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import { styled } from '@mui/system';
+import AddToLibraryModal from "./AddToLibraryModal";
 
-const Card = ({ book, libraries, auth, isShown, status }) => {
+const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
     const [showModal, setShowModal] = useState(false);
 
-    const handleAddToLibrary = async (libraryId) => {
-        try {
-            console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
+    // const handleAddToLibrary = async (libraryId) => {
+    //     try {
+    //         console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
             
-            await Inertia.post(
-                "/booktolibrary",
-                { book_id: book.id, library_id: libraryId },
-                {
-                    preserveScroll: true,
-                    preserveState: true,
-                }
-            );
+    //         await Inertia.post(
+    //             "/booktolibrary",
+    //             { book_id: book.id, library_id: libraryId },
+    //             {
+    //                 preserveScroll: true,
+    //                 preserveState: true,
+    //             }
+    //         );
     
-            setShowModal(false);
-        } catch (error) {
-            console.error("Error al añadir el libro a la biblioteca:", error);
-        }
-    };
+    //         setShowModal(false);
+    //     } catch (error) {
+    //         console.error("Error al añadir el libro a la biblioteca:", error);
+    //     }
+    // };
 
     const closeModal = () => {
         setShowModal(false);
@@ -97,18 +98,23 @@ const Card = ({ book, libraries, auth, isShown, status }) => {
                     </button>
                 </div>
                 {showModal && (
-                    <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
-                        <div className="relative max-h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
-                            <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
-                            <div className="grid gap-4">
-                                {libraries.map((library) => (
-                                    <button key={library.id} onClick={() => handleAddToLibrary(library.id)}>
-                                        <CardLibraryModal key={library.id} library={library} />
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                    <AddToLibraryModal
+                    book={book}
+                    librariesWithBookCount={librariesWithBookCount}
+                    setShowModal={setShowModal}
+                />
+                    // <div id="modal-backdrop" className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center" onClick={handleClickOutside}>
+                    //     <div className="relative max-h-[600px] p-8 bg-white w-full max-w-md m-6 rounded shadow-lg overflow-auto modern-scrollbar">
+                    //         <h2 className="text-xl font-semibold mb-4">Selecciona una biblioteca</h2>
+                    //         <div className="grid gap-4">
+                    //             {libraries.map((library) => (
+                    //                 <button key={library.id} onClick={() => handleAddToLibrary(library.id)}>
+                    //                     <CardLibraryModal key={library.id} library={library} />
+                    //                 </button>
+                    //             ))}
+                    //         </div>
+                    //     </div>
+                    // </div>
                 )}
             </div>
         </div>
