@@ -28,21 +28,38 @@ export default function Books({ auth, books, libraries }) {
     };
 
     const { data, errors, setData, post } = useForm(initialValues);
+    const [formErrors, setFormErrors] = useState({});
+
+    const validate = () => {
+        const newErrors = {};
+        if (!data.titulo.trim()) newErrors.titulo = "El título es obligatorio.";
+        if (!data.autor.trim()) newErrors.autor = "El autor es obligatorio.";
+        if (!data.descripcion.trim())
+            newErrors.descripcion = "La descripción es obligatoria.";
+        if (!data.paginas) newErrors.paginas = "Las páginas son obligatorias.";
+        setFormErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validate()) return;
+
         await post("/store/books", data);
         setShowModal(false);
-        // Clear the form data after submission
         setData({ ...initialValues });
     };
 
     const handleCloseModal = (e) => {
-        if (e.target.id === "crear") {
-            setShowModal(false);
-            // Clear the form data when modal is closed
-            setData({ ...initialValues });
-        }
+        // if (e.target.id === "crear") {
+        //     setShowModal(false);
+        //     setData({ ...initialValues });
+        //     setFormErrors({});
+
+        // }
+        setShowModal(false);
+        setData({ ...initialValues });
+        setFormErrors({});
     };
 
     return (
@@ -74,7 +91,6 @@ export default function Books({ auth, books, libraries }) {
                 <div
                     id="crear"
                     className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
-                    // onClick={handleCloseModal}
                 >
                     <div className="w-full max-w-4xl p-8 bg-white m-6 rounded shadow-lg relative mt-44 md:mt-10">
                         <form
@@ -103,6 +119,11 @@ export default function Books({ auth, books, libraries }) {
                                                 )
                                             }
                                         />
+                                        {formErrors.titulo && (
+                                            <p className="text-red-500 text-xs italic">
+                                                {formErrors.titulo}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="mb-4">
                                         <label
@@ -120,6 +141,11 @@ export default function Books({ auth, books, libraries }) {
                                                 setData("autor", e.target.value)
                                             }
                                         />
+                                        {formErrors.autor && (
+                                            <p className="text-red-500 text-xs italic">
+                                                {formErrors.autor}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="mb-4">
                                         <label
@@ -177,6 +203,11 @@ export default function Books({ auth, books, libraries }) {
                                                 )
                                             }
                                         />
+                                        {formErrors.paginas && (
+                                            <p className="text-red-500 text-xs italic">
+                                                {formErrors.paginas}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="w-full md:w-[50%] flex flex-col gap-3">
@@ -198,6 +229,11 @@ export default function Books({ auth, books, libraries }) {
                                                 )
                                             }
                                         />
+                                        {formErrors.descripcion && (
+                                            <p className="text-red-500 text-xs italic text-end">
+                                                {formErrors.descripcion}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="flex flex-col gap-4">
                                         <div className="mb-4">
@@ -245,7 +281,7 @@ export default function Books({ auth, books, libraries }) {
                             <div className="flex justify-end mt-4">
                                 <button
                                     type="button"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={handleCloseModal}
                                     className="bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
                                 >
                                     Cancelar

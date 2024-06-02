@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -14,14 +14,45 @@ export default function Register() {
         password_confirmation: '',
     });
 
+    const [passwordError, setPasswordError] = useState('');
+
     useEffect(() => {
         return () => {
             reset('password', 'password_confirmation');
         };
     }, []);
 
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+    };
+
     const submit = (e) => {
         e.preventDefault();
+
+        // Clear previous password error
+        setPasswordError('');
+
+        // Basic field validation
+        let validationErrors = {};
+        if (!data.name) validationErrors.name = 'El nombre es obligatorio.';
+        if (!data.email) validationErrors.email = 'El correo es obligatorio.';
+        if (!data.password) validationErrors.password = 'La contraseña es obligatoria.';
+        if (!data.password_confirmation) validationErrors.password_confirmation = 'La confirmación de contraseña es obligatoria.';
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        if (!validatePassword(data.password)) {
+            setPasswordError('La Contraseña debe tener una mayúscula, una minúscula, un número y un caracter especial.');
+            return;
+        }
+
+        if (data.password !== data.password_confirmation) {
+            setPasswordError('Las contraseñas no coinciden.');
+            return;
+        }
 
         post(route('register'));
     };
@@ -79,6 +110,7 @@ export default function Register() {
                         required
                     />
 
+                    {passwordError && <InputError message={passwordError} className="mt-2" />}
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 

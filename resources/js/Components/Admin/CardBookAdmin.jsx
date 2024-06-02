@@ -7,6 +7,7 @@ import { red } from "@mui/material/colors";
 
 const CardBookAdmin = ({ book }) => {
     const [showModal, setShowModal] = useState(false);
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         // Almacenar la posición de desplazamiento actual al desmontar el componente
@@ -34,8 +35,22 @@ const CardBookAdmin = ({ book }) => {
 
     const { data, setData, patch } = useForm({ ...initialValues });
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!data.titulo) newErrors.titulo = "El título es obligatorio.";
+        if (!data.autor) newErrors.autor = "El autor es obligatorio.";
+        if (!data.paginas) newErrors.paginas = "El número de páginas es obligatorio.";
+        if (!data.descripcion) newErrors.descripcion = "La descripción es obligatoria.";
+        return newErrors;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
         await patch(`/update/books/${book.id}`, data, {
             preserveScroll: true,
             preserveState: true,
@@ -49,9 +64,15 @@ const CardBookAdmin = ({ book }) => {
     };
 
     const handleCloseModal = (e) => {
-        if (e.target.id === "editar") {
-            setShowModal(false);
-        }
+        // if (e.target.id === "crear") {
+        //     setShowModal(false);
+        //     setData({ ...initialValues });
+        //     setFormErrors({});
+
+        // }
+        setShowModal(false);
+        setData({ ...initialValues });
+        setFormErrors({});
     };
 
     return (
@@ -135,12 +156,14 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.titulo}
                                             onChange={(e) =>
-                                                setData(
-                                                    "titulo",
-                                                    e.target.value
-                                                )
+                                                setData("titulo", e.target.value)
                                             }
                                         />
+                                        {errors.titulo && (
+                                            <p className="text-red-500 text-xs mt-1">
+                                                {errors.titulo}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="mb-4">
                                         <label
@@ -158,6 +181,11 @@ const CardBookAdmin = ({ book }) => {
                                                 setData("autor", e.target.value)
                                             }
                                         />
+                                        {errors.autor && (
+                                            <p className="text-red-500 text-xs mt-1">
+                                                {errors.autor}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="mb-4">
                                         <label
@@ -189,10 +217,7 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.num_serie}
                                             onChange={(e) =>
-                                                setData(
-                                                    "num_serie",
-                                                    e.target.value
-                                                )
+                                                setData("num_serie", e.target.value)
                                             }
                                         />
                                     </div>
@@ -209,12 +234,14 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.paginas}
                                             onChange={(e) =>
-                                                setData(
-                                                    "paginas",
-                                                    e.target.value
-                                                )
+                                                setData("paginas", e.target.value)
                                             }
                                         />
+                                        {errors.paginas && (
+                                            <p className="text-red-500 text-xs mt-1">
+                                                {errors.paginas}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="w-full md:w-[50%] flex flex-col gap-3">
@@ -230,12 +257,14 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full h-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.descripcion}
                                             onChange={(e) =>
-                                                setData(
-                                                    "descripcion",
-                                                    e.target.value
-                                                )
+                                                setData("descripcion", e.target.value)
                                             }
                                         />
+                                        {errors.descripcion && (
+                                            <p className="text-red-500 text-xs mt-1">
+                                                {errors.descripcion}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="flex flex-col gap-4">
                                         <div className="mb-4">
@@ -250,10 +279,7 @@ const CardBookAdmin = ({ book }) => {
                                                 type="file"
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                                 onChange={(e) =>
-                                                    setData(
-                                                        "portada",
-                                                        e.target.files[0]
-                                                    )
+                                                    setData("portada", e.target.files[0])
                                                 }
                                             />
                                         </div>
@@ -270,10 +296,7 @@ const CardBookAdmin = ({ book }) => {
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                                 value={data.url_portada}
                                                 onChange={(e) =>
-                                                    setData(
-                                                        "url_portada",
-                                                        e.target.value
-                                                    )
+                                                    setData("url_portada", e.target.value)
                                                 }
                                             />
                                         </div>
@@ -283,7 +306,7 @@ const CardBookAdmin = ({ book }) => {
                             <div className="flex justify-end mt-4">
                                 <button
                                     type="button"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={handleCloseModal}
                                     className="bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
                                 >
                                     Cancelar

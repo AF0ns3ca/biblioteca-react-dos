@@ -2,22 +2,30 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
-import CardLibrary from "@/Components/CardLibrary";
+import CardLibraryExpand from "@/Components/CardLibraryExpand";
 import AddButton from "@/Components/AddButton";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import Alert from "@mui/material/Alert";
-import CheckIcon from "@mui/icons-material/Check";
-import CardLibraryExpand from "@/Components/CardLibraryExpand";
 
 export default function Index({ auth, librariesWithBookCount, role }) {
     const [showModal, setShowModal] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState("Fisica");
+    const [nombreError, setNombreError] = useState(""); // Nuevo estado para el error del nombre
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // enviar la informacion con Inertia y en caso de error, recibir un json convertirlo a string y mostrarlo en un alert
+        
+        // Validar el campo nombre
+        if (!nombre.trim()) {
+            setNombreError("El nombre es obligatorio.");
+            return;
+        } else {
+            setNombreError("");
+        }
+
+        // Enviar la información con Inertia y manejar los errores
         Inertia.post(
             "/libraries",
             { nombre, tipo },
@@ -33,9 +41,7 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                 },
                 onError: (errors) => {
                     // Si la petición falla, puedes mostrar los errores en un alert
-                    if (
-                        errors.error === "No puedes tener más de 5 bibliotecas."
-                    ) {
+                    if (errors.error === "No puedes tener más de 5 bibliotecas.") {
                         alert(errors.error);
                     } else {
                         alert(Object.values(errors).flat().join("\n"));
@@ -76,19 +82,19 @@ export default function Index({ auth, librariesWithBookCount, role }) {
             <div className="w-full mt-20 h-full flex flex-col justify-center items-center">
                 {librariesWithBookCount.length === 0 && (
                     <div className="flex flex-col items-center justify-center my-10">
-                    <h1 className="text-3xl mb-4">
-                        ¡Bienvenido a BookNest, {auth.user.name}!
-                    </h1>
-                    <p className="text-lg mb-4">
-                        Parece que aún no has creado ninguna biblioteca. Crea una para empezar a organizar tus libros y disfrutar de todas las funciones que ofrece BookNest.
-                    </p>
-                    <button
-                        className="bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        onClick={() => setShowModal(true)}
-                    >
-                        Crear biblioteca
-                    </button>
-                </div>
+                        <h1 className="text-3xl mb-4">
+                            ¡Bienvenido a BookNest, {auth.user.name}!
+                        </h1>
+                        <p className="text-lg mb-4">
+                            Parece que aún no has creado ninguna biblioteca. Crea una para empezar a organizar tus libros y disfrutar de todas las funciones que ofrece BookNest.
+                        </p>
+                        <button
+                            className="bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            onClick={() => setShowModal(true)}
+                        >
+                            Crear biblioteca
+                        </button>
+                    </div>
                 )}
                 {librariesWithBookCount.length > 0 && (
                     <>
@@ -134,10 +140,7 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                                 >
                                     <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg flex flex-col gap-5 font-serif text-lg">
                                         <p>
-                                            Has llegado al límite de
-                                            bibliotecas. Para crear más
-                                            bibliotecas, actualiza a una cuenta
-                                            premium.
+                                            Has llegado al límite de bibliotecas. Para crear más bibliotecas, actualiza a una cuenta premium.
                                         </p>
                                         <button>
                                             <WorkspacePremiumIcon
@@ -178,6 +181,9 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                                     value={nombre}
                                     onChange={(e) => setNombre(e.target.value)}
                                 />
+                                {nombreError && (
+                                    <p className="text-red-500 italic">{nombreError}</p>
+                                )}
                             </div>
                             <div className="mb-6">
                                 <label
