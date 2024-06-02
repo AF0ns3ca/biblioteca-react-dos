@@ -72,7 +72,7 @@ const CardBookAdmin = ({ book }) => {
         // }
         setShowModal(false);
         setData({ ...initialValues });
-        setFormErrors({});
+        setErrors({});
     };
 
     return (
