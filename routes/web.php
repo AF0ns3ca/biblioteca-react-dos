@@ -72,18 +72,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Renderiza la vista del dashboard y pasa las reseñas
         $reviews = Review::with([
             'book' => function ($query) {
-                // Subconsulta para obtener el user_id del libro que se ha reseñado
-                $query->select('books.*')
-                    ->leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
-                    ->leftJoin('rate', function ($join) {
+                // Cargar la relación 'rate' dentro de 'book'
+                $query->leftJoin('rate', function ($join) {
                     $join->on('books.id', '=', 'rate.book_id')
-                        ->whereRaw('rate.user_id = reviews.user_id');
+                        ->where('rate.user_id', auth()->id());
                 })
-                    ->select('books.*', \DB::raw('COALESCE(rate.rate, 0) as rate'));
+                ->select('books.*', 'rate.rate as rate');
             },
             'user'
         ])
-            ->get();
+        ->orderBy('updated_at', 'desc') // Primero ordena por fecha de modificación en orden descendente
+        ->orderBy('created_at', 'desc') // Luego ordena por fecha de creación en orden descendente
+        ->get();
 
         return Inertia::render('Dashboard', [
             'reviews' => $reviews,
@@ -104,7 +104,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');
 
     // -------------------------- Rutas de bibliotecas --------------------------
-    // Route::resource('libraries', 'App\Http\Controllers\LibraryController');
     Route::get('/libraries', [LibraryController::class, 'index'])->name('libraries.index');
     Route::post('/libraries', [LibraryController::class, 'store'])->name('libraries.store');
     Route::get('/libraries/{id}', [LibraryController::class, 'show'])->name('libraries.show');
@@ -142,13 +141,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/create-checkout-session', [PremiumController::class, 'createCheckoutSession'])->name('premium.checkout');
     Route::get('/update-subscription', [PremiumController::class, 'updateSubscription'])->name('premium.update');
 });
-
-
-
-
-
-
-
 
 
 

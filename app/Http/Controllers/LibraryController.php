@@ -155,9 +155,15 @@ class LibraryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Library $library)
+    public function update(Request $request, $id)
     {
         //
+
+        $library = Library::findOrFail($id);
+
+        $library->update($request->all());
+
+        return to_route('libraries.index');
     }
 
     /**

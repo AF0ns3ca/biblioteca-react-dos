@@ -176,6 +176,7 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                         book={book}
                         librariesWithBookCount={librariesWithBookCount}
                         setShowModal={setShowModal}
+                        auth={auth}
                     />
                 )}
                 {reviewModal && (

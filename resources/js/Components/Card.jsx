@@ -96,7 +96,7 @@ const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
                     </button>
                 </div>
                 {showModal && (
-                    <AddToLibraryModal book={book} librariesWithBookCount={librariesWithBookCount} setShowModal={setShowModal} />
+                    <AddToLibraryModal book={book} auth={auth} librariesWithBookCount={librariesWithBookCount} setShowModal={setShowModal} />
                 )}
             </div>
         </div>

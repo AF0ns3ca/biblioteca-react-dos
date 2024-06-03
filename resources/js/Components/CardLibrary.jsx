@@ -29,7 +29,7 @@ const CardLibrary = ({ library }) => {
                     </a>
                 ) : (
                     <div className="w-full">
-                        <h1 className="text-xl font-bold">{library.nombre}</h1>
+                        <h1 className="text-sm md:text-lg font-bold">{library.nombre}</h1>
                         <p className="text-gray-600">Vacía</p>
                     </div>
                 )}

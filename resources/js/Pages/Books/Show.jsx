@@ -396,6 +396,7 @@ export default function Show({
                     book={book}
                     librariesWithBookCount={librariesWithBookCount}
                     setShowModal={setShowModal}
+                    auth={auth}
                 />
                 // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
                 //     <div className="w-[90%] md:w-[50%] bg-white p-4 md:p-8 flex flex-col rounded-lg items-center justify-center">

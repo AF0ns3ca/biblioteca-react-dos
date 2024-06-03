@@ -150,6 +150,7 @@ const CardInLibrary = ({
                         book={book}
                         librariesWithBookCount={librariesWithBookCount}
                         setShowModal={setShowModal}
+                        auth={auth}
                     />
                     // <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
                     //     <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">

@@ -159,7 +159,7 @@ export default function Index({
                             </h3>
                         </div>
                         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-                            {readBooks.map((book) => (
+                            {filteredBooks.map((book) => (
                                 <div key={book.id}>
                                     <CardShow book={book} />
                                 </div>

@@ -26,12 +26,14 @@ class ReviewController extends Controller
                     $join->on('books.id', '=', 'rate.book_id')
                         ->where('rate.user_id', auth()->id());
                 })
-
-                    ->select('books.*', 'rate.rate as rate');
+                ->select('books.*', 'rate.rate as rate');
             },
             'user'
         ])
-            ->get();
+        ->orderBy('updated_at', 'desc') // Primero ordena por fecha de modificación en orden descendente
+        ->orderBy('created_at', 'desc') // Luego ordena por fecha de creación en orden descendente
+        ->get();
+        
 
         return Inertia::render('Dashboard', [
             'reviews' => $reviews,

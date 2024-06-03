@@ -8,6 +8,8 @@ import CardReview from "@/Components/CardReview";
 import Loading from "@/Components/Loading"; // Importa el componente de carga aquí
 
 export default function Index({ auth, reviews }) {
+
+    console.log(reviews);
     const [selectedSection, setSelectedSection] = useState(0);
     const [loading, setLoading] = useState(true); // Estado de carga
 

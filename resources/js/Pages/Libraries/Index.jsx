@@ -107,6 +107,7 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                                     <CardLibraryExpand
                                         key={library.id}
                                         library={library}
+                                        auth={auth}
                                     />
                                 ))}
                             </div>
@@ -205,7 +206,7 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                             <div className="w-full flex items-center justify-center gap-5">
                                 <button
                                     type="submit"
-                                    className="w-full bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className={`w-full ${bgColor} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                                 >
                                     Crear
                                 </button>
