@@ -99,7 +99,7 @@ export default function Show({
                 return (
                     <div className="w-full">
                         {datesCount > 0 ? (
-                            <div className="w-full flex flex-col items-center md:m-5 space-y-6">
+                            <div className="w-full flex flex-col items-center space-y-6">
                                 <p className="text-2xl font-semibold">
                                     {datesCount > 1
                                         ? `Has leído este libro ${datesCount} veces`
@@ -117,11 +117,11 @@ export default function Show({
 
                                     return (
                                         <div
-                                            className="w-[60%] p-6 border border-gray-300 rounded-lg shadow-md bg-white flex flex-row justify-between"
+                                            className="w-full md:w-[50%] p-4 border border-gray-300 rounded-lg shadow-md bg-white flex flex-col md:flex-row justify-between items-center"
                                             key={date.id}
                                         >
-                                            <div>
-                                                <div className="text-lg mb-2 flex items-center">
+                                            <div className="w-full">
+                                                <div className="text-lg mb-2 flex flex-row items-center">
                                                     <CalendarTodayIcon className="mr-2 text-metal" />
                                                     <div className="flex flex-row gap-2">
                                                         <span className="font-bold">
@@ -135,7 +135,7 @@ export default function Show({
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="text-lg mb-2 flex items-center">
+                                                <div className="text-lg mb-2 flex flex-row items-center">
                                                     <CalendarTodayIcon className="mr-2 text-green-500" />
                                                     <div className="flex flex-row gap-2">
                                                         <span className="font-bold">
@@ -149,7 +149,7 @@ export default function Show({
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div className="text-lg flex items-center">
+                                                <div className="text-lg flex flex-row items-center">
                                                     <TimerIcon className="mr-2 text-red-500" />
                                                     <div className="flex flex-row gap-2">
                                                         {diffDays > 0 ? (
@@ -172,40 +172,34 @@ export default function Show({
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="">
-                                                <div className="w-full flex flex-col md:flex-col gap-5">
-                                                    <button
-                                                        onClick={() => {
-                                                            setStartDate(
-                                                                startDate
-                                                            );
-                                                            setEndDate(endDate);
-                                                            setShowDateModal(
-                                                                true
-                                                            );
-                                                            handleSelectedReading(
-                                                                date.id,
-                                                                date.start_date,
-                                                                date.end_date
-                                                            );
-                                                        }}
-                                                        title="Editar fechas de lectura"
-                                                        className={`${bgColorBG} text-white px-4 py-2 rounded-md w-full`}
-                                                    >
-                                                        <EditIcon />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => {
-                                                            handleDeleteReading(
-                                                                date.id
-                                                            );
-                                                        }}
-                                                        title="Eliminar lectura"
-                                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full"
-                                                    >
-                                                        <DeleteForeverIcon />
-                                                    </button>
-                                                </div>
+                                            <div className="w-full md:w-[20%] flex flex-col gap-5 mt-4 md:mt-0">
+                                                <button
+                                                    onClick={() => {
+                                                        setStartDate(startDate);
+                                                        setEndDate(endDate);
+                                                        setShowDateModal(true);
+                                                        handleSelectedReading(
+                                                            date.id,
+                                                            date.start_date,
+                                                            date.end_date
+                                                        );
+                                                    }}
+                                                    title="Editar fechas de lectura"
+                                                    className={`${bgColorBG} text-white px-4 py-2 rounded-md w-full`}
+                                                >
+                                                    <EditIcon />
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        handleDeleteReading(
+                                                            date.id
+                                                        );
+                                                    }}
+                                                    title="Eliminar lectura"
+                                                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 w-full"
+                                                >
+                                                    <DeleteForeverIcon />
+                                                </button>
                                             </div>
                                         </div>
                                     );
@@ -239,6 +233,7 @@ export default function Show({
                         )}
                     </div>
                 );
+
             case 1:
                 return (
                     <div className="w-full">
@@ -247,7 +242,9 @@ export default function Show({
                                 {booksAuthor.map((bookauthor) => (
                                     <CardShow
                                         book={bookauthor}
-                                        librariesWithBookCount={librariesWithBookCount}
+                                        librariesWithBookCount={
+                                            librariesWithBookCount
+                                        }
                                         key={bookauthor.id}
                                         auth={auth}
                                     />
@@ -268,7 +265,9 @@ export default function Show({
                                 {booksSerie.map((bookauthor) => (
                                     <CardShow
                                         book={bookauthor}
-                                        librariesWithBookCount={librariesWithBookCount}
+                                        librariesWithBookCount={
+                                            librariesWithBookCount
+                                        }
                                         key={bookauthor.id}
                                         auth={auth}
                                     />
