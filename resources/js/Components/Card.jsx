@@ -4,6 +4,7 @@ import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import AddToLibraryModal from "./AddToLibraryModal";
+import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 
 const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
     const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,24 @@ const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
             });
         } catch (error) {
             console.error("Error al actualizar el estado de lectura:", error);
+        }
+    };
+
+    const handleDeleteReading = async () => {
+        let confirmMessage = "Ya no quieres leer este libro?";
+        if (book.status === "leyendo") {
+            confirmMessage = "¿Seguro que quieres cancelar tu lectura?";
+        } else if (book.status === "leido") {
+            confirmMessage = "¿Seguro que quieres eliminar tu registro de lectura?";
+        }
+
+        const confirmed = window.confirm(confirmMessage);
+        if (confirmed) {
+            await Inertia.delete("/deletereading", {
+                data: { user_id: auth.user.id, book_id: book.id, status: book.status },
+                preserveScroll: true,
+                preserveState: true,
+            });
         }
     };
 
@@ -44,13 +63,34 @@ const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
                     <p className="serie">{book.serie ? book.serie : "Standalone"} {book.numero ? `#${book.num_serie}` : ""}</p>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
-                    <button onClick={handleAddToWantToRead}>
+                    {/* <button onClick={handleAddToWantToRead}>
                         {status === "quiero_leer" ? (
                             <BookmarkIcon sx={{ fill: bgColor, fontSize: "35px" }} />
                         ) : (
                             <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
                         )}
-                    </button>
+                    </button> */}
+                    {(status !=="quiero_leer" && status !== "leyendo" && status !== "Leído")  && (
+                        <button onClick={handleAddToWantToRead}>
+                            <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
+                        </button>
+                    )}
+                    {status === "quiero_leer" && (
+                        <button onClick={handleDeleteReading}>
+                            <BookmarkIcon sx={{ fill: bgColor, fontSize: "35px" }} />
+                        </button>
+                        
+                    )}
+                    {status === "leyendo" && (
+                        <button onClick={
+                            () => {
+                                window.location.href = route("readings.index");
+                            }
+                        
+                        }>
+                            <LocalLibraryOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
+                        </button>
+                    )}
                     <button className="text-center py-2 transition duration-300 ease-in-out" onClick={() => setShowModal(true)}>
                         <LibraryAddOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
                     </button>

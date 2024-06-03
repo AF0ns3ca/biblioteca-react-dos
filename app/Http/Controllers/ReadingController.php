@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ReadingController extends Controller
 {
@@ -104,17 +105,30 @@ class ReadingController extends Controller
             ->whereIn('books.id', $readBooksId)
             ->get();
 
-        $readBooks->map(function ($book) {
-            $libraries = Library::select('libraries.id', 'libraries.nombre')
-                ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
-                ->where('book_to_libraries.book_id', $book->id)
-                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
-                ->get();
-
-            $book->libraries = $libraries;
-
-            return $book;
-        });
+            $readBooks->map(function ($book) {
+                // Obtener las bibliotecas asociadas al libro para el usuario autenticado
+                $libraries = Library::select('libraries.id', 'libraries.nombre')
+                    ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
+                    ->where('book_to_libraries.book_id', $book->id)
+                    ->where('libraries.user_id', auth()->id())
+                    ->get();
+            
+                // Obtener las fechas start_date y end_date desde la tabla readings
+                $reading = DB::table('readings')
+                    ->select('start_date', 'end_date')
+                    ->where('book_id', $book->id)
+                    ->where('user_id', auth()->id())
+                    ->first();
+            
+                // Agregar las bibliotecas al objeto del libro
+                $book->libraries = $libraries;
+            
+                // Agregar start_date y end_date al objeto del libro, si existen
+                $book->start_date = $reading ? $reading->start_date : null;
+                $book->end_date = $reading ? $reading->end_date : null;
+            
+                return $book;
+            });
 
         $readBooksCount = $readBooks->count();
 
@@ -135,6 +149,7 @@ class ReadingController extends Controller
         $librariesWithBookCount = Library::where('user_id', auth()->id())
             ->withCount('books')
             ->get();
+
 
         return Inertia::render('Readings/Index', [
             'auth' => [

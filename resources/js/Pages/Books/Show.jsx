@@ -247,7 +247,7 @@ export default function Show({
                                 {booksAuthor.map((bookauthor) => (
                                     <CardShow
                                         book={bookauthor}
-                                        libraries={libraries}
+                                        librariesWithBookCount={librariesWithBookCount}
                                         key={bookauthor.id}
                                         auth={auth}
                                     />
@@ -268,7 +268,7 @@ export default function Show({
                                 {booksSerie.map((bookauthor) => (
                                     <CardShow
                                         book={bookauthor}
-                                        libraries={libraries}
+                                        librariesWithBookCount={librariesWithBookCount}
                                         key={bookauthor.id}
                                         auth={auth}
                                     />

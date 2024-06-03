@@ -24,18 +24,20 @@ export default function BasicTab({ value, onChange, role, booksAuthorCount, book
           value={value}
           onChange={handleChange}
           centered
+          variant="scrollable"
+          scrollButtons="auto"
           sx={{
             '& .MuiTabs-indicator': {
-              backgroundColor: indicatorColor, // Color del indicador
+              backgroundColor: indicatorColor,
             },
             '& .MuiTab-root': {
-              color: textColor, // Color del texto de las pestañas no seleccionadas
+              color: textColor,
               '&:hover': {
-                color: hoverTextColor, // Color del texto al pasar el ratón por encima
+                color: hoverTextColor,
               },
             },
             '& .Mui-selected': {
-              color: selectedTextColor, // Color del texto de la pestaña seleccionada
+              color: selectedTextColor,
             },
           }}
         >

@@ -6,8 +6,8 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import { styled } from "@mui/system";
 
-const CardShow = ({ book, libraries, auth }) => {
-    const [showModal, setShowModal] = useState(false);
+const CardShow = ({ book, librariesWithBookCount, auth }) => {
+    // const [showModal, setShowModal] = useState(false);
 
     // const handleAddToLibrary = (libraryId) => {
     //     // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
@@ -17,40 +17,38 @@ const CardShow = ({ book, libraries, auth }) => {
     //     Inertia.post('/booktolibrary', {book_id: book.id, library_id: libraryId});
     // };
 
-    const handleAddToLibrary = async (libraryId) => {
-        // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-        console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-        setShowModal(false); // Cierra la ventana modal después de añadir el libro
+    // const handleAddToLibrary = async (libraryId) => {
+    //     // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
+    //     console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
+    //     setShowModal(false); // Cierra la ventana modal después de añadir el libro
 
-        await Inertia.post(
-            "/booktolibrary",
-            { book_id: book.id, library_id: libraryId },
-            {
-                preserveScroll: true,
-                preserveState: true,
-            }
-        );
-    };
+    //     await Inertia.post(
+    //         "/booktolibrary",
+    //         { book_id: book.id, library_id: libraryId },
+    //         {
+    //             preserveScroll: true,
+    //             preserveState: true,
+    //         }
+    //     );
+    // };
 
-    const closeModal = () => {
-        setShowModal(false);
-    };
+    // const closeModal = () => {
+    //     setShowModal(false);
+    // };
 
-    const handleClickOutside = (event) => {
-        if (event.target.id === "modal-backdrop") {
-            closeModal();
-        }
-    };
+    // const handleClickOutside = (event) => {
+    //     if (event.target.id === "modal-backdrop") {
+    //         closeModal();
+    //     }
+    // };
 
-    const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+    // const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
     return (
         <div
             className={`card flex flex-col gap-3 items-center justify-center p-3 `}
         >
             <div className="flex flex-col items-start justify-start min-w-[120px]">
-                {/* Contenido del libro */}
-                {/*  enlace a show del libro*/}
                 <a
                     href={route("books.show", book.id)}
                     key={book.id}
