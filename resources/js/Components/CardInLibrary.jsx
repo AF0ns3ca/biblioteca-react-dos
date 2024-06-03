@@ -5,6 +5,7 @@ import BasicRating from "./BasicRating";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import AddToLibraryModal from "./AddToLibraryModal";
+import { useMediaQuery } from "@mui/material";
 
 const CardInLibrary = ({
     book,
@@ -12,7 +13,6 @@ const CardInLibrary = ({
     currentLibrary,
     auth,
 }) => {
-
     console.log("CardInLibrary", librariesWithBookCount);
     const [showModal, setShowModal] = useState(false);
 
@@ -56,10 +56,11 @@ const CardInLibrary = ({
     //     }
     // };
 
+    const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
     return (
-        <div className="card w-full max-h-[250px] flex flex-col pb-5 rounded min-w-[263px] border-b-2">
+        <div className="card w-full h-[280px] md:h-[250px] flex flex-col flex-1 pb-5 rounded min-w-[263px] border-b-2">
             <div className="w-full max-h-[250px] flex flex-row items-center justify-start">
                 {/* Contenido del libro */}
                 {/*  enlace a show del libro*/}
@@ -117,13 +118,13 @@ const CardInLibrary = ({
 
                         {/* Botón "Añadir a" */}
                         <div className="w-full max-h-[250px] flex flex-row items-center gap-2">
-                            <div className="w-full flex flex-row items-end justify-end gap-5">
+                            <div className="w-full flex flex-row items-end justify-end text-[35px] gap-5">
                                 <button
                                     className=" text-center transition duration-300 ease-in-out"
                                     onClick={() => setShowModal(true)}
                                 >
                                     <LibraryAddOutlinedIcon
-                                        sx={{ fill: bgColor, fontSize: "35px" }}
+                                       sx={{ fill: bgColor, fontSize: isMobile ? "30px" : "35px" }} 
                                     />
                                 </button>
                                 <button
@@ -135,7 +136,7 @@ const CardInLibrary = ({
                                     <DeleteOutlineOutlinedIcon
                                         sx={{
                                             fill: "#EF4444",
-                                            fontSize: "35px",
+                                            fontSize: isMobile ? "30px" : "35px"
                                         }}
                                     />
                                 </button>

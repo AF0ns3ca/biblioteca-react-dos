@@ -18,32 +18,33 @@ const CardLibrary = ({ library }) => {
     return (
         <div className="w-full flex flex-row items-center justify-between bg-white shadow border p-3 min-w-[320px] hover:bg-slate-300 rounded-lg">
             {/* Columna izquierda para el tipo de biblioteca */}
-            <div className="flex flex-col items-start justify-center gap-1 p-2">
-                {library.tipo === "Fisica" ? <PhysicalLibraryIcon /> : <DigitalLibraryIcon />}
-            </div>
+            
             {/* Columna derecha para el nombre, conteo de libros y botón de eliminar */}
-            <div className="flex-1 flex flex-col items-start justify-center p-2">
+            <div className="w-[70%] flex-1 flex flex-col items-start justify-center p-2">
                 {/* Condiciona el enlace al método show basado en el conteo de libros */}
                 {library.books_count > 0 ? (
-                    <a href={route("libraries.show", library.id)} className="w-[50%] cursor-pointer flex flex-col items-start">
+                    <a href={route("libraries.show", library.id)} className="w-[full] cursor-pointer flex flex-col items-start">
                         <h1 className="text-sm md:text-lg font-bold">{library.nombre}</h1>
                         <p className="text-gray-600">{library.books_count} libros</p>
                     </a>
                 ) : (
-                    <>
+                    <div className="w-full">
                         <h1 className="text-xl font-bold">{library.nombre}</h1>
                         <p className="text-gray-600">Vacía</p>
-                    </>
+                    </div>
                 )}
             </div>
-            <div className="p-2">
+            <div className=" w-[30%] flex flex-col items-start justify-center gap-1 p-2">
+                {library.tipo === "Fisica" ? <PhysicalLibraryIcon /> : <DigitalLibraryIcon />}
+            </div>
+            {/* <div className="p-2">
                 <button
                     onClick={() => handleDelete(library.id)}
                     className="bg-red-500 text-white rounded p-2"
                 >
                     <DeleteIcon />
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 };

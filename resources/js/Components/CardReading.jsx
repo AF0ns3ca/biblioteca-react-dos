@@ -9,6 +9,7 @@ import BookStatusSelector from "./BookStatusSelector";
 import CardLibraryModal from "./CardLibraryModal";
 import BasicRating from "./BasicRating";
 import AddToLibraryModal from "./AddToLibraryModal";
+import { useMediaQuery } from "@mui/material";
 
 const CardReading = ({ book, auth, librariesWithBookCount }) => {
     const [showModal, setShowModal] = useState(false);
@@ -20,13 +21,18 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
         if (book.status === "leyendo") {
             confirmMessage = "¿Seguro que quieres cancelar tu lectura?";
         } else if (book.status === "leido") {
-            confirmMessage = "¿Seguro que quieres eliminar tu registro de lectura?";
+            confirmMessage =
+                "¿Seguro que quieres eliminar tu registro de lectura?";
         }
 
         const confirmed = window.confirm(confirmMessage);
         if (confirmed) {
             await Inertia.delete("/deletereading", {
-                data: { user_id: auth.user.id, book_id: book.id, status: book.status },
+                data: {
+                    user_id: auth.user.id,
+                    book_id: book.id,
+                    status: book.status,
+                },
                 preserveScroll: true,
                 preserveState: true,
             });
@@ -47,10 +53,12 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
         }
     };
 
-    const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+    const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
+    const color = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+    const bgColor = auth.user.role == "user" ? "bg-metal" : "bg-premium";
 
     return (
-        <div className="card w-full max-h-[250px] flex flex-col pb-5 rounded min-w-[263px] border-b-2">
+        <div className="card w-full h-[280px] md:h-[250px] flex flex-col flex-1 pb-5 rounded min-w-[263px] border-b-2">
             <div className="w-full max-h-[250px] flex flex-row items-center justify-start">
                 <div className="w-full flex flex-row gap-10">
                     <a
@@ -105,7 +113,7 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                             />
                         </div>
 
-                        <div className="max-h-[250px] flex flex-row items-center justify-between gap-2">
+                        <div className="max-h-[250px] flex flex-row items-end justify-between gap-2">
                             <div className="flex flex-row items-start justify-start">
                                 <BookStatusSelector
                                     initialStatus={book.status}
@@ -123,8 +131,10 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                     >
                                         <DrawOutlinedIcon
                                             sx={{
-                                                fill: bgColor,
-                                                fontSize: "35px",
+                                                fill: color,
+                                                fontSize: isMobile
+                                                    ? "30px"
+                                                    : "35px",
                                             }}
                                         />
                                     </button>
@@ -136,8 +146,10 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                 >
                                     <LibraryAddOutlinedIcon
                                         sx={{
-                                            fill: bgColor,
-                                            fontSize: "35px",
+                                            fill: color,
+                                            fontSize: isMobile
+                                                ? "30px"
+                                                : "35px",
                                         }}
                                     />
                                 </button>
@@ -149,7 +161,9 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                     <BookmarkRemoveOutlinedIcon
                                         sx={{
                                             fill: red[700],
-                                            fontSize: "35px",
+                                            fontSize: isMobile
+                                                ? "30px"
+                                                : "35px",
                                         }}
                                     />
                                 </button>
@@ -158,11 +172,47 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                     </div>
                 </div>
                 {showModal && (
-                    <AddToLibraryModal 
+                    <AddToLibraryModal
                         book={book}
                         librariesWithBookCount={librariesWithBookCount}
                         setShowModal={setShowModal}
                     />
+                )}
+                {reviewModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="w-full md:w-[30%] bg-white p-5 rounded-lg">
+                            <h1 className="text-2xl font-bold">
+                                Escribe tu reseña
+                            </h1>
+                            <form
+                                onSubmit={handleReviewSubmit}
+                                className="flex flex-col gap-3"
+                            >
+                                <textarea
+                                    className="w-full h-40 p-2 border rounded"
+                                    value={reviewContent}
+                                    onChange={(e) =>
+                                        setReviewContent(e.target.value)
+                                    }
+                                    placeholder="Escribe aquí tu reseña"
+                                ></textarea>
+                                <div className="w-full flex flex-row justify-around gap-5">
+                                    <button
+                                        type="submit"
+                                        className={`w-full ${bgColor} text-white p-2 rounded`}
+                                    >
+                                        Publicar
+                                    </button>
+                                    <button
+                                        onClick={() => setReviewModal(false)}
+                                        className="w-full bg-red-500 text-white p-2 rounded"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

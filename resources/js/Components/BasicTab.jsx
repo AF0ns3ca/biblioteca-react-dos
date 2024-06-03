@@ -23,7 +23,7 @@ export default function BasicTab({ value, onChange, role, want, reading, read })
         <Tabs
           value={value}
           onChange={handleChange}
-          centered
+          // centered
           variant="scrollable"
           scrollButtons="auto"
           sx={{

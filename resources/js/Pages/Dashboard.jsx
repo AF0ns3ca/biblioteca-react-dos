@@ -117,8 +117,8 @@ export default function Index({ auth, reviews }) {
                                     <h1 className="text-5xl text-center font-serif pb-5">
                                         Autores del momento
                                     </h1>
-                                    <div className="w-full flex flex-col sm:flex-row justify-center gap-3 text-center">
-                                        <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
+                                    <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+                                        <div className="w-[280px] h-[450px] bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                             <img
                                                 src="/images/authors/sanderson.jpg"
                                                 alt=""
@@ -133,7 +133,7 @@ export default function Index({ auth, reviews }) {
                                                 Brandon Sanderson
                                             </p>
                                         </div>
-                                        <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
+                                        <div className="w-[280px] h-[450px] bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                             <img
                                                 src="/images/authors/rebecca.jpg"
                                                 alt=""
@@ -148,7 +148,7 @@ export default function Index({ auth, reviews }) {
                                                 Rebecca Yarros
                                             </p>
                                         </div>
-                                        <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
+                                        <div className="w-[280px] h-[450px] bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                             <img
                                                 src="/images/authors/sally.jpg"
                                                 alt=""
@@ -163,7 +163,7 @@ export default function Index({ auth, reviews }) {
                                                 Sally Rooney
                                             </p>
                                         </div>
-                                        <div className="bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
+                                        <div className="w-[280px] h-[450px] bg-metaldark rounded p-2.5 text-white hover:bg-metal mb-5 sm:w-1/4">
                                             <img
                                                 src="/images/authors/king.jpg"
                                                 alt=""

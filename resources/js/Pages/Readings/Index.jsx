@@ -154,8 +154,8 @@ export default function Index({
                     <div className="w-full flex flex-col items-center bg-white p-4 rounded shadow-md">
                         <div className="flex flex-row">
                             <h3 className="text-xl font-semibold">
-                                Total de Libros Leídos en {selectedYear}:{" "}
-                                {totalBooks}
+                                Has leído {totalBooks} libros en {selectedYear}
+                                
                             </h3>
                         </div>
                         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
@@ -169,7 +169,7 @@ export default function Index({
                     <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         <div className="w-full flex flex-col items-center gap-4 bg-white p-4 rounded shadow-md">
                             <h3 className="text-xl font-semibold">
-                                Libro Más Largo
+                                Libro más largo
                             </h3>
                             <img
                                 src={`${longestBook.portada}`}
@@ -183,7 +183,7 @@ export default function Index({
                         </div>
                         <div className="w-full flex flex-col items-center gap-4 bg-white p-4 rounded shadow-md">
                             <h3 className="text-xl font-semibold">
-                                Libro Más Corto
+                                Libro más corto
                             </h3>
                             <img
                                 src={`${shortestBook.portada}`}
@@ -197,7 +197,7 @@ export default function Index({
                         </div>
                         <div className="w-full flex flex-col items-center gap-4 bg-white p-4 rounded shadow-md">
                             <h3 className="text-xl font-semibold">
-                                Libro Más Popular
+                                Libro más popular
                             </h3>
                             <img
                                 src={`${mostPopularBook.portada}`}
