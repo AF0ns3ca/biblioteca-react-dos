@@ -203,16 +203,14 @@ export default function Index({
                                 alt=""
                                 className="rounded w-[200px] h-[300px]"
                             />
-                            <p>
-                                {mostPopularBook?.titulo || "N/A"} (
-                                {mostPopularBook?.rate || 0} estrellas)
-                            </p>
-                            <p>
-                                <BasicRating
-                                    initialRating={averageRating}
-                                    size={"large"}
-                                    readonly={true}
-                                />
+                            <p className="w-full flex flex-col items-center">
+                                {mostPopularBook?.titulo || "N/A"}
+                                <p className="w-full flex items-center justify-center">
+                                    <BasicRating
+                                        initialRating={averageRating}
+                                        readonly={true}
+                                    />
+                                </p>
                             </p>
                         </div>
                     </div>
