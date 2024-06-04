@@ -155,7 +155,6 @@ export default function Index({
                         <div className="flex flex-row">
                             <h3 className="text-xl font-semibold">
                                 Has leído {totalBooks} libros en {selectedYear}
-                                
                             </h3>
                         </div>
                         <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
@@ -206,24 +205,31 @@ export default function Index({
                             />
                             <p>
                                 {mostPopularBook?.titulo || "N/A"} (
-                                {mostPopularBook?.rate || 0} rating)
+                                {mostPopularBook?.rate || 0} estrellas)
+                            </p>
+                            <p>
+                                <BasicRating
+                                    initialRating={averageRating}
+                                    size={"large"}
+                                    readonly={true}
+                                />
                             </p>
                         </div>
                     </div>
                     <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                         <div className="bg-white p-4 rounded shadow-md">
                             <h3 className="text-xl font-semibold">
-                                Total de Páginas
+                                Total de páginas leídas
                             </h3>
                             <p className="text-2xl">{totalPages}</p>
                         </div>
                         <div className="bg-white p-4 rounded shadow-md">
                             <h3 className="text-xl font-semibold">
-                                Rating Medio
+                                Valoración Media
                             </h3>
                             <p className="text-2xl">
                                 <BasicRating
-                                    initialRating={averageRating}   
+                                    initialRating={averageRating}
                                     size={"large"}
                                     readonly={true}
                                 />

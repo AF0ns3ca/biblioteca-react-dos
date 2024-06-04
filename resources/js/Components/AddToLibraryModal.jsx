@@ -3,7 +3,12 @@ import CardLibraryModal from "./CardLibraryModal";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react"; // Importa Link de Inertia
 
-function AddToLibraryModal({ book, auth, librariesWithBookCount, setShowModal }) {
+function AddToLibraryModal({
+    book,
+    auth,
+    librariesWithBookCount,
+    setShowModal,
+}) {
     const [error, setError] = useState(null);
 
     const isBookInLibrary = (libraryId) => {
@@ -83,12 +88,15 @@ function AddToLibraryModal({ book, auth, librariesWithBookCount, setShowModal })
                     )}
                 </div>
                 <div className="w-full flex flex-col items-center gap-4">
-                    <Link
-                        href={route("libraries.index")}
-                        className={`w-[50%] py-2 px-4 ${bgColor} text-white rounded text-center`}
-                    >
-                        Ver Bibliotecas
-                    </Link>
+                    {librariesWithBookCount.length === 0 && (
+                        <Link
+                            href={route("libraries.index")}
+                            className={`w-[50%] py-2 px-4 ${bgColor} text-white rounded text-center`}
+                        >
+                            Ver Bibliotecas
+                        </Link>
+                    )}
+
                     <button
                         className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
                         onClick={() => setShowModal(false)}
