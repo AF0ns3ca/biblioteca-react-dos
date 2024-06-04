@@ -64,6 +64,7 @@ export default function Index({ auth, librariesWithBookCount, role }) {
     };
 
     const handleCloseLibrary = () => {
+        Inertia.visit("/premium");
         setShowAlert(false);
     };
 
