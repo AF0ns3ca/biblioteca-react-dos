@@ -104,6 +104,7 @@ export default function Index({
                 book.rate !== undefined &&
                 book.rate !== ""
         );
+        console.log("Rated Books: ", ratedBooks);
         const averageRating =
             ratedBooks.reduce((sum, book) => sum + parseFloat(book.rate), 0) /
                 ratedBooks.length || 0;
@@ -207,7 +208,7 @@ export default function Index({
                                 {mostPopularBook?.titulo || "N/A"}
                                 <p className="w-full flex items-center justify-center">
                                     <BasicRating
-                                        initialRating={averageRating}
+                                        initialRating={mostPopularBook.rate}
                                         readonly={true}
                                     />
                                 </p>

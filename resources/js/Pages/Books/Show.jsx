@@ -351,6 +351,7 @@ export default function Show({
                                 ) : (
                                     <p className="text-lg">Libro único</p>
                                 )}
+                                <p>{book.paginas} páginas</p>
                                 <div>
                                     <BasicRating
                                         book={book}
