@@ -240,7 +240,7 @@ export default function Index({
                                 Tiempo Medio de Lectura por Libro
                             </h3>
                             <p className="text-2xl">
-                                {averageReadingTime} Días
+                                {averageReadingTime.toFixed(2)} Días
                             </p>
                         </div>
                     </div>
