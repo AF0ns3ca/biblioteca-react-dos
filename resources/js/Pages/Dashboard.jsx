@@ -57,6 +57,13 @@ export default function Index({ auth, reviews }) {
         }
     };
 
+    // Ordenamos las resenas por fecha de ultima actualizacion si la hay o por fecha de creacion
+    reviews.sort((a, b) => {
+        const dateA = a.updated_at ? new Date(a.updated_at) : new Date(a.created_at);
+        const dateB = b.updated_at ? new Date(b.updated_at) : new Date(b.created_at);
+        return dateB - dateA;
+    });
+
     const renderSelectedSection = () => {
         switch (selectedSection) {
             case 0:

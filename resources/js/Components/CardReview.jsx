@@ -67,6 +67,9 @@ const CardReview = ({ review, auth }) => {
                         </p>
                         <p className="text-sm text-gray-500">
                             {formatDate(review.created_at)}
+                            {review.updated_at !== review.created_at &&
+                                ` (editado el ${formatDate(review.updated_at)})`
+                            }
                         </p>
                         <div className="pt-3">
                             <BasicRating
