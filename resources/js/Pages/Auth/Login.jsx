@@ -38,7 +38,7 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Correo Electrónico" />
 
                     <TextInput
                         id="email"
@@ -55,7 +55,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="Contraseña" />
 
                     <TextInput
                         id="password"
@@ -80,7 +80,7 @@ export default function Login({ status, canResetPassword }) {
                             }
                         />
                         <span className="ms-2 text-sm text-gray-600">
-                            Remember me
+                            Recordarme
                         </span>
                     </label>
                 </div>
@@ -91,7 +91,7 @@ export default function Login({ status, canResetPassword }) {
                             href={route("password.request")}
                             className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-metal"
                         >
-                            Forgot your password?
+                            ¿Has olvidado tu contraseña?
                         </Link>
                     )}
 
@@ -99,11 +99,11 @@ export default function Login({ status, canResetPassword }) {
                         href={route("register")}
                         className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-metal"
                     >
-                        Don't have an account?
+                        ¿No tienes una cuenta?
                     </Link>
 
                     <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
+                        Iniciar Sesion
                     </PrimaryButton>
                 </div>
             </form>
