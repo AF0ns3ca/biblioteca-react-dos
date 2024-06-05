@@ -168,7 +168,7 @@ const CardReview = ({ review, auth }) => {
                                     type="submit"
                                     className={`w-[50%] py-2 px-4 bg-${color} text-white rounded`}
                                 >
-                                    Guardar Cambios
+                                    Guardar
                                 </button>
                                 <button
                                     type="button"

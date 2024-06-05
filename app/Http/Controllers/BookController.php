@@ -17,16 +17,22 @@ use App\Models\Reading;
 class BookController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Función para mostrar todos los libros, ordenados por título y con su estado de lectura y bibliotecas asociadas al usuario autenticado en la aplicación. También se puede filtrar por autor. 
+     *
+     * @param Request $request
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
 
+        // Obtén el usuario autenticado con su rol
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
+        // Inicializar la variable para determinar si la página es la primera
         $pageOne = false;
 
+        // Obtener el autor de la solicitud
         $autor = $request->query('autor');
 
         if ($autor) {
@@ -65,19 +71,6 @@ class BookController extends Controller
             return $book;
         });
 
-        // Añadir a cada libro un array con las bibliotecas en las que se encuentra y que pertenecen al usuario autenticado
-
-        // $books->map(function ($book) {
-        //     $libraries = Library::select('libraries.id', 'libraries.nombre')
-        //         ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
-        //         ->where('book_to_libraries.book_id', $book->id)
-        //         ->get();
-
-        //     $book->libraries = $libraries;
-
-        //     return $book;
-        // });
-
         $books->map(function ($book) {
             $libraries = Library::select('libraries.id', 'libraries.nombre')
                 ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
@@ -89,8 +82,6 @@ class BookController extends Controller
 
             return $book;
         });
-
-
 
         return Inertia::render('Books/Index', [
             'auth' => [
