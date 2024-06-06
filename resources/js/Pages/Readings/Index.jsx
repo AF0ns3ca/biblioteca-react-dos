@@ -171,11 +171,17 @@ export default function Index({
                             <h3 className="text-xl font-semibold">
                                 Libro más largo
                             </h3>
-                            <img
-                                src={`${longestBook.portada}`}
-                                alt=""
-                                className="rounded w-[200px] h-[300px]"
-                            />
+                            <a
+                                href={route("books.show", longestBook.id)}
+                                key={longestBook.id}
+                                className="cursor-pointer"
+                            >
+                                <img
+                                    src={`${longestBook.portada}`}
+                                    alt=""
+                                    className="rounded w-[200px] h-[300px]"
+                                />
+                            </a>
                             <p>
                                 {longestBook?.titulo || "N/A"} (
                                 {longestBook?.paginas || 0} páginas)
@@ -185,11 +191,17 @@ export default function Index({
                             <h3 className="text-xl font-semibold">
                                 Libro más corto
                             </h3>
-                            <img
-                                src={`${shortestBook.portada}`}
-                                alt=""
-                                className="rounded w-[200px] h-[300px]"
-                            />
+                            <a
+                                href={route("books.show", shortestBook.id)}
+                                key={shortestBook.id}
+                                className="cursor-pointer"
+                            >
+                                <img
+                                    src={`${shortestBook.portada}`}
+                                    alt=""
+                                    className="rounded w-[200px] h-[300px]"
+                                />
+                            </a>
                             <p>
                                 {shortestBook?.titulo || "N/A"} (
                                 {shortestBook?.paginas || 0} páginas)
@@ -199,11 +211,17 @@ export default function Index({
                             <h3 className="text-xl font-semibold">
                                 Libro más popular
                             </h3>
-                            <img
-                                src={`${mostPopularBook.portada}`}
-                                alt=""
-                                className="rounded w-[200px] h-[300px]"
-                            />
+                            <a
+                                href={route("books.show", mostPopularBook.id)}
+                                key={mostPopularBook.id}
+                                className="cursor-pointer"
+                            >
+                                <img
+                                    src={`${mostPopularBook.portada}`}
+                                    alt=""
+                                    className="rounded w-[200px] h-[300px]"
+                                />
+                            </a>
                             <p className="w-full flex flex-col items-center">
                                 {mostPopularBook?.titulo || "N/A"}
                                 <p className="w-full flex items-center justify-center">
