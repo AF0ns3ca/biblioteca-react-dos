@@ -16,6 +16,8 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
     const [reviewModal, setReviewModal] = useState(false);
     const [reviewContent, setReviewContent] = useState("");
 
+    console.log(book);
+
     const handleDeleteReading = async () => {
         let confirmMessage = "Ya no quieres leer este libro?";
         if (book.status === "leyendo") {
@@ -40,17 +42,36 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
     };
 
     const handleReviewSubmit = async (e) => {
+        // Si el libro tiene has_review en true la reseña se envia con patch
+        // Si no, se envia con post
         e.preventDefault();
-        try {
-            await Inertia.post("/reviews/store", {
+        if (book.has_review) {
+            await Inertia.patch(`/reviews/update/${book.review_id}`, {
                 book_id: book.id,
                 user_id: auth.user.id,
                 review: reviewContent,
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    // Actualizar la URL sin recargar la página
+                    const currentUrl = window.location.href;
+                    history.replaceState(null, null, currentUrl);
+                },
             });
             setReviewModal(false);
-        } catch (error) {
-            console.error("Error al enviar la reseña:", error);
+        } else {
+            try {
+                await Inertia.post("/reviews/store", {
+                    book_id: book.id,
+                    user_id: auth.user.id,
+                    review: reviewContent,
+                });
+                setReviewModal(false);
+            } catch (error) {
+                console.error("Error al enviar la reseña:", error);
+            }
         }
+        setReviewModal(false);
     };
 
     const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
@@ -107,7 +128,9 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                 </span>
                             </p>
                             <p className="serie text-sm md:text-lg">
-                                {(book.serie || book.serie!==null) ? book.serie : "Libro Único"}{" "}
+                                {book.serie || book.serie !== null
+                                    ? book.serie
+                                    : "Libro Único"}{" "}
                                 {book.num_serie ? `#${book.num_serie}` : ""}
                             </p>
                             <BasicRating
@@ -188,7 +211,9 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="w-full md:w-[30%] bg-white p-5 rounded-lg">
                             <h1 className="text-2xl font-bold">
-                                Escribe tu reseña
+                                {book.has_review
+                                    ? "Este libro ya tiene una reseña, escribe otra para sobreescribirla"
+                                    : "Escribe aquí tu reseña"}
                             </h1>
                             <form
                                 onSubmit={handleReviewSubmit}
@@ -200,7 +225,11 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                     onChange={(e) =>
                                         setReviewContent(e.target.value)
                                     }
-                                    placeholder="Escribe aquí tu reseña"
+                                    placeholder={
+                                        book.has_review
+                                            ? "Este libro ya tiene una reseña, escribe otra para sobreescribirla"
+                                            : "Escribe aquí tu reseña"
+                                    }
                                 ></textarea>
                                 <div className="w-full flex flex-row justify-around gap-5">
                                     <button

@@ -7,6 +7,7 @@ use App\Models\Library;
 use App\Models\Book;
 use App\Models\BookToLibrary;
 use App\Models\Rate;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -126,6 +127,17 @@ class ReadingController extends Controller
                 // Agregar start_date y end_date al objeto del libro, si existen
                 $book->start_date = $reading ? $reading->start_date : null;
                 $book->end_date = $reading ? $reading->end_date : null;
+
+                // Añadir true si el libro tiene una reseña hecha del usuario autenticado
+                $book->has_review = Review::where('book_id', $book->id)
+                    ->where('user_id', auth()->id())
+                    ->exists();
+                
+                // Añadir el id de esa reseña si existe
+                $book->review_id = Review::where('book_id', $book->id)
+                    ->where('user_id', auth()->id())
+                    ->value('id');
+
             
                 return $book;
             });

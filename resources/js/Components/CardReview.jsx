@@ -38,12 +38,14 @@ const CardReview = ({ review, auth }) => {
     };
 
     const handleDeleteReview = () => {
-        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer.');
+        const confirmed = window.confirm(
+            "¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer."
+        );
         if (confirmed) {
             destroy(`/reviews/${review.id}`, {
                 preserveScroll: true,
                 onSuccess: () => {
-                    console.log('Review deleted successfully');
+                    console.log("Review deleted successfully");
                 },
             });
         }
@@ -74,8 +76,9 @@ const CardReview = ({ review, auth }) => {
                         <p className="text-sm text-gray-500">
                             {formatDate(review.created_at)}
                             {review.updated_at !== review.created_at &&
-                                ` (editado el ${formatDate(review.updated_at)})`
-                            }
+                                ` (editado el ${formatDate(
+                                    review.updated_at
+                                )})`}
                         </p>
                         <div className="pt-3">
                             <BasicRating
@@ -85,8 +88,9 @@ const CardReview = ({ review, auth }) => {
                             />
                         </div>
                     </div>
-                    {auth.id === review.user.id && (
-                        <div className="flex flex-row gap-5">
+
+                    <div className="flex flex-row gap-5">
+                        {auth.id === review.user.id && (
                             <button
                                 className={`text-${color} text-sm font-semibold`}
                                 onClick={() => setReviewModal(true)}
@@ -94,6 +98,9 @@ const CardReview = ({ review, auth }) => {
                             >
                                 <EditIcon sx={{ color: colorbtn }} />
                             </button>
+                        )}
+                        {(auth.id === review.user.id ||
+                            auth.role === "admin") && (
                             <button
                                 className="text-red-500 text-sm font-semibold"
                                 onClick={handleDeleteReview}
@@ -101,8 +108,8 @@ const CardReview = ({ review, auth }) => {
                             >
                                 <DeleteForeverIcon sx={{ color: red[500] }} />
                             </button>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
                 <div className="w-full flex flex-col gap-3">
                     <div className="w-full md:p-5">

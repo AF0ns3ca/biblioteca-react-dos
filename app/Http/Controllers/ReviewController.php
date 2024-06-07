@@ -99,6 +99,7 @@ class ReviewController extends Controller
      */
     public function update(Request $request, string $id)
 {
+
     $validatedData = $request->validate([
         'review' => 'required',
     ]);
