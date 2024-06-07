@@ -52,17 +52,6 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
     }
 
-    // protected function redirectBasedOnRole()
-    // {
-    //     $user = Auth::user();
-
-    //     if ($user->roles->pluck('role')->contains('admin')) {
-    //         return redirect()->route('admin.index');
-    //     }
-
-    //     return redirect()->route('dashboard');
-    // }
-
     protected function redirectBasedOnRole()
     {
         $user = Auth::user()->load('roles');

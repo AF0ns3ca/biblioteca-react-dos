@@ -39,26 +39,6 @@ Route::middleware(['auth', 'verified', 'check.role:admin'])->group(function () {
     Route::post('/store/books', [BookController::class, 'store'])->name('books.store');
     Route::patch('/update/books/{id}', [BookController::class, 'update'])->name('books.update');
     Route::delete('/books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
-    // Route::get('/dashboard', function () {  
-    //     $user = Auth::user()->load('roles');
-    //     $userRole = $user->roles->first()->role;        
-    //     $reviews = Review::with(['book' => function ($query) {
-    //         $query->select('books.*')
-    //               ->leftJoin('reviews', 'books.id', '=', 'reviews.book_id')
-    //               ->leftJoin('rate', function ($join) {
-    //                   $join->on('books.id', '=', 'rate.book_id')
-    //                        ->whereRaw('rate.user_id = reviews.user_id');
-    //               })
-    //               ->select('books.*', \DB::raw('COALESCE(rate.rate, 0) as rate'));
-    //     }, 'user'])
-    //     ->get();
-    //     return Inertia::render('Dashboard', [
-    //         'reviews' => $reviews,
-    //         'auth' => [
-    //             'user' => array_merge($user->toArray(), ['role' => $userRole]),
-    //         ],
-    //     ]);
-    // })->name('dashboard');
 });
 
 

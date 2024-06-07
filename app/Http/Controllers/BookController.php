@@ -107,7 +107,7 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        //
+
         $validatedData = $request->validate([
             'titulo' => 'required|max:255',
             'autor' => 'required|max:255',
@@ -119,8 +119,10 @@ class BookController extends Controller
 
         ]);
 
+
         if ($request->hasFile('portada')) {
-            $path = $request->file('portada')->store('public/photos');
+            $portada = $request->file('portada');
+            $path = $portada->store('public/photos');
             $validatedData['portada'] = $path;
         } elseif ($request->has('url_portada')) {
             // Obtener la URL de la portada desde la solicitud
@@ -259,7 +261,12 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+
+        $book = Book::findOrFail($id);  
+
+
+        
         $validatedData = $request->validate([
             'titulo' => 'required|max:255',
             'autor' => 'required|max:255',
@@ -267,11 +274,14 @@ class BookController extends Controller
             'num_serie' => 'numeric|nullable',
             'descripcion' => 'nullable',
             'paginas' => 'required|numeric',
+            'portada' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ]);
 
+
         if ($request->hasFile('portada')) {
-            $path = $request->file('portada')->store('public/photos');
+            $portada = $request->file('portada');
+            $path = $portada->store('public/photos');
             $validatedData['portada'] = $path;
         } elseif ($request->has('url_portada')) {
             // Obtener la URL de la portada desde la solicitud
@@ -282,18 +292,17 @@ class BookController extends Controller
                 // Asignar la URL como la portada
                 $validatedData['portada'] = $url;
             } else {
-                // En caso de que la URL no sea válida, mantener la portada actual
-                $book = Book::findOrFail($id);
-                $validatedData['portada'] = $book->portada;
+                // En caso de que la URL no sea válida, asignar la portada base.jpg local
+                $validatedData['portada'] = null;
             }
         } else {
-            // Si no se proporciona ni un archivo ni una URL, si la portada ya existe, mantenerla
-            $book = Book::findOrFail($id);
+            // Si no se proporciona ni un archivo ni una URL, asignar la portada null
             $validatedData['portada'] = $book->portada;
-
         }
 
-        Book::whereId($id)->update($validatedData);
+       
+
+        $book->update($validatedData);
         // return to_route('admin.books');
     }
 

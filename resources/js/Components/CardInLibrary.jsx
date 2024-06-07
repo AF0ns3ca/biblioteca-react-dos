@@ -36,28 +36,14 @@ const CardInLibrary = ({
         }
     };
 
-    // const handleAddToLibrary = async (libraryId) => {
-    //     try {
-    //         // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-    //         console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-    //         setShowModal(false); // Cierra la ventana modal después de añadir el libro
-
-    //         await Inertia.post(
-    //             "/booktolibrary",
-    //             { book_id: book.id, library_id: libraryId },
-    //             {
-    //                 preserveScroll: true,
-    //                 preserveState: true,
-    //             }
-    //         );
-    //     } catch (error) {
-    //         // Manejo de errores
-    //         console.error("Error al añadir el libro a la biblioteca:", error);
-    //     }
-    // };
-
     const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+
+    const realPortada = book.portada
+        ? book.portada.startsWith("http")
+            ? book.portada
+            : book.portada.replace(/^public\//, "/storage/")
+        : null;
 
     return (
         <div className="card w-full h-[280px] md:h-[250px] flex flex-col flex-1 pb-5 rounded min-w-[263px] border-b-2">
@@ -73,7 +59,7 @@ const CardInLibrary = ({
                         <div className="w-[140px] h-[215px]">
                             {book.portada ? (
                                 <img
-                                    src={book.portada}
+                                    src={realPortada}
                                     alt={book.titulo}
                                     className="w-full h-full rounded"
                                 />

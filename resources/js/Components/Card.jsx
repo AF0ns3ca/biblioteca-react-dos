@@ -43,13 +43,19 @@ const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
 
     const bgColor = auth.user.role === "user" ? "#2C3E50" : "#512E5F";
 
+    const realPortada = book.portada
+        ? book.portada.startsWith("http")
+            ? book.portada
+            : book.portada.replace(/^public\//, "/storage/")
+        : null;
+
     return (
         <div className={`card flex flex-col gap-3 items-center justify-center p-3 rounded min-w-[263px] ${!isShown ? 'hidden' : ''}`}>
             <div className="flex flex-col items-center justify-center">
                 <a href={route("books.show", book.id)} key={book.id} className="cursor-pointer">
                     <div>
                         {book.portada ? (
-                            <img src={book.portada} alt={book.titulo} className="w-[240px] h-[380px] rounded" loading="lazy" />
+                            <img src={realPortada} alt={book.titulo} className="w-[240px] h-[380px] rounded" loading="lazy" />
                         ) : (
                             <div className="w-[240px] h-[380px] bg-gray-300 flex items-center justify-center text-center rounded-lg">
                                 <span className="text-2xl font-bold text-gray-600">{book.titulo}</span>

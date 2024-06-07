@@ -7,42 +7,12 @@ import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import { styled } from "@mui/system";
 
 const CardShow = ({ book, librariesWithBookCount, auth }) => {
-    // const [showModal, setShowModal] = useState(false);
-
-    // const handleAddToLibrary = (libraryId) => {
-    //     // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-    //     console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-    //     setShowModal(false); // Cierra la ventana modal después de añadir el libro
-
-    //     Inertia.post('/booktolibrary', {book_id: book.id, library_id: libraryId});
-    // };
-
-    // const handleAddToLibrary = async (libraryId) => {
-    //     // Aquí puedes realizar la lógica para añadir el libro a la biblioteca seleccionada
-    //     console.log(`Añadir libro ${book.id} a la biblioteca ${libraryId}`);
-    //     setShowModal(false); // Cierra la ventana modal después de añadir el libro
-
-    //     await Inertia.post(
-    //         "/booktolibrary",
-    //         { book_id: book.id, library_id: libraryId },
-    //         {
-    //             preserveScroll: true,
-    //             preserveState: true,
-    //         }
-    //     );
-    // };
-
-    // const closeModal = () => {
-    //     setShowModal(false);
-    // };
-
-    // const handleClickOutside = (event) => {
-    //     if (event.target.id === "modal-backdrop") {
-    //         closeModal();
-    //     }
-    // };
-
-    // const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
+    
+    const realPortada = book.portada
+        ? book.portada.startsWith("http")
+            ? book.portada
+            : book.portada.replace(/^public\//, "/storage/")
+        : null;
 
     return (
         <div
@@ -57,7 +27,7 @@ const CardShow = ({ book, librariesWithBookCount, auth }) => {
                     <div>
                         {book.portada ? (
                             <img
-                                src={book.portada}
+                                src={realPortada}
                                 alt={book.titulo}
                                 className="w-[120px] h-[190px] rounded"
                             />

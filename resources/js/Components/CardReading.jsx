@@ -56,6 +56,11 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
     const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
     const color = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
     const bgColor = auth.user.role == "user" ? "bg-metal" : "bg-premium";
+    const realPortada = book.portada
+        ? book.portada.startsWith("http")
+            ? book.portada
+            : book.portada.replace(/^public\//, "/storage/")
+        : null;
 
     return (
         <div className="card w-full h-[280px] md:h-[250px] flex flex-col flex-1 pb-5 rounded min-w-[263px] border-b-2">
@@ -69,7 +74,7 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                         <div className="w-[140px] h-[215px]">
                             {book.portada ? (
                                 <img
-                                    src={book.portada}
+                                    src={realPortada}
                                     alt={book.titulo}
                                     className="w-full h-full rounded"
                                 />
@@ -102,7 +107,7 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
                                 </span>
                             </p>
                             <p className="serie text-sm md:text-lg">
-                                {book.serie ? book.serie : "Libro Único"}{" "}
+                                {(book.serie || book.serie!==null) ? book.serie : "Libro Único"}{" "}
                                 {book.num_serie ? `#${book.num_serie}` : ""}
                             </p>
                             <BasicRating

@@ -7,7 +7,7 @@ import { red } from "@mui/material/colors";
 
 const CardBookAdmin = ({ book }) => {
     const [showModal, setShowModal] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
         // Almacenar la posición de desplazamiento actual al desmontar el componente
@@ -29,18 +29,24 @@ const CardBookAdmin = ({ book }) => {
         num_serie: book.num_serie,
         descripcion: book.descripcion,
         paginas: book.paginas,
-        portada: book.portada ? book.portada : "",
-        url_portada: book.url_portada ? book.url_portada : "",
+        portada: "",
+        url_portada: "",
     };
 
-    const { data, setData, patch } = useForm({ ...initialValues });
+    const { data, setData, post } = useForm({ ...initialValues });
 
     const validateForm = () => {
         const newErrors = {};
         if (!data.titulo) newErrors.titulo = "El título es obligatorio.";
         if (!data.autor) newErrors.autor = "El autor es obligatorio.";
-        if (!data.paginas) newErrors.paginas = "El número de páginas es obligatorio.";
-        if (!data.descripcion) newErrors.descripcion = "La descripción es obligatoria.";
+        if (!data.descripcion)
+            newErrors.descripcion = "La descripción es obligatoria.";
+        if (!data.portada && !data.url_portada) {
+            // Si no hay portada ni URL de portada, se excluye la validación del campo de las páginas
+            if (!data.paginas) {
+                newErrors.paginas = "El número de páginas es obligatorio.";
+            }
+        }
         return newErrors;
     };
 
@@ -48,10 +54,30 @@ const CardBookAdmin = ({ book }) => {
         e.preventDefault();
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
-            setErrors(formErrors);
+            setFormErrors(formErrors);
             return;
         }
-        await patch(`/update/books/${book.id}`, data, {
+
+        // Crea un nuevo objeto FormData para enviar los datos del formulario, incluyendo el archivo
+        const formData = new FormData();
+        formData.append("_method", "PATCH"); // Simula un envío PUT
+        formData.append("titulo", data.titulo.trim() !== "" ? data.titulo : "");
+        formData.append("autor", data.autor.trim() !== "" ? data.autor : "");
+        formData.append("serie", data.serie != null ? data.serie : "");
+        formData.append(
+            "num_serie",
+            data.num_serie != null ? data.num_serie : ""
+        );
+        formData.append(
+            "descripcion",
+            data.descripcion.trim() !== "" ? data.descripcion : ""
+        );
+        formData.append("paginas", data.paginas != null ? data.paginas : "");
+        formData.append("portada", data.portada);
+        formData.append("url_portada", data.url_portada);
+
+        console.log(data);
+        await Inertia.post(route("books.update", book.id), formData, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
@@ -61,19 +87,37 @@ const CardBookAdmin = ({ book }) => {
             },
         });
         setShowModal(false);
+        setData({ ...initialValues });
+        setFormErrors({});
     };
 
-    const handleCloseModal = (e) => {
-        // if (e.target.id === "crear") {
-        //     setShowModal(false);
-        //     setData({ ...initialValues });
-        //     setFormErrors({});
-
-        // }
+    const handleCloseModal = () => {
         setShowModal(false);
         setData({ ...initialValues });
-        setErrors({});
+        setFormErrors({});
     };
+
+    const handleClearPortada = () => {
+        setData("portada", ""); // Limpiar el campo de la imagen
+    };
+
+    const handleClearUrlPortada = () => {
+        setData("url_portada", "");
+    };
+
+    const handlePortadaChange = (e) => {
+        setData("portada", e.target.files[0]);
+    };
+
+    const handleUrlPortadaChange = (e) => {
+        setData("url_portada", e.target.value);
+    };
+
+    const realPortada = book.portada
+        ? book.portada.startsWith("http")
+            ? book.portada
+            : book.portada.replace(/^public\//, "/storage/")
+        : null;
 
     return (
         <>
@@ -87,7 +131,7 @@ const CardBookAdmin = ({ book }) => {
                         <div>
                             {book.portada ? (
                                 <img
-                                    src={book.portada}
+                                    src={realPortada}
                                     alt={book.titulo}
                                     className="w-[240px] h-[380px] rounded"
                                 />
@@ -131,11 +175,10 @@ const CardBookAdmin = ({ book }) => {
             </div>
             {showModal && (
                 <div
-                    id="editar"
+                    id="crear"
                     className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center"
-                    // onClick={handleCloseModal}
                 >
-                    <div className="w-full max-w-4xl p-8 bg-white m-6 rounded shadow-lg mt-44 md:mt-10">
+                    <div className="w-full max-w-4xl p-8 bg-white m-6 rounded shadow-lg relative mt-44 md:mt-10">
                         <form
                             onSubmit={handleSubmit}
                             encType="multipart/form-data"
@@ -156,12 +199,15 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.titulo}
                                             onChange={(e) =>
-                                                setData("titulo", e.target.value)
+                                                setData(
+                                                    "titulo",
+                                                    e.target.value
+                                                )
                                             }
                                         />
-                                        {errors.titulo && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                {errors.titulo}
+                                        {formErrors.titulo && (
+                                            <p className="text-red-500 text-xs italic">
+                                                {formErrors.titulo}
                                             </p>
                                         )}
                                     </div>
@@ -181,9 +227,9 @@ const CardBookAdmin = ({ book }) => {
                                                 setData("autor", e.target.value)
                                             }
                                         />
-                                        {errors.autor && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                {errors.autor}
+                                        {formErrors.autor && (
+                                            <p className="text-red-500 text-xs italic">
+                                                {formErrors.autor}
                                             </p>
                                         )}
                                     </div>
@@ -217,7 +263,10 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.num_serie}
                                             onChange={(e) =>
-                                                setData("num_serie", e.target.value)
+                                                setData(
+                                                    "num_serie",
+                                                    e.target.value
+                                                )
                                             }
                                         />
                                     </div>
@@ -234,12 +283,15 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.paginas}
                                             onChange={(e) =>
-                                                setData("paginas", e.target.value)
+                                                setData(
+                                                    "paginas",
+                                                    e.target.value
+                                                )
                                             }
                                         />
-                                        {errors.paginas && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                {errors.paginas}
+                                        {formErrors.paginas && (
+                                            <p className="text-red-500 text-xs italic">
+                                                {formErrors.paginas}
                                             </p>
                                         )}
                                     </div>
@@ -257,12 +309,15 @@ const CardBookAdmin = ({ book }) => {
                                             className="shadow appearance-none border rounded w-full h-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
                                             value={data.descripcion}
                                             onChange={(e) =>
-                                                setData("descripcion", e.target.value)
+                                                setData(
+                                                    "descripcion",
+                                                    e.target.value
+                                                )
                                             }
                                         />
-                                        {errors.descripcion && (
-                                            <p className="text-red-500 text-xs mt-1">
-                                                {errors.descripcion}
+                                        {formErrors.descripcion && (
+                                            <p className="text-red-500 text-xs italic text-end">
+                                                {formErrors.descripcion}
                                             </p>
                                         )}
                                     </div>
@@ -274,14 +329,26 @@ const CardBookAdmin = ({ book }) => {
                                             >
                                                 Portada
                                             </label>
-                                            <input
-                                                id="portada"
-                                                type="file"
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
-                                                onChange={(e) =>
-                                                    setData("portada", e.target.files[0])
-                                                }
-                                            />
+                                            <div className="flex flex-row gap-2 justify-center items-center">
+                                                <input
+                                                    id="portada"
+                                                    type="file"
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
+                                                    onChange={
+                                                        handlePortadaChange
+                                                    }
+                                                    disabled={
+                                                        data.url_portada !== ""
+                                                    }
+                                                />
+                                                <button
+                                                    type="reset"
+                                                    onClick={handleClearPortada}
+                                                    className="bg-red-500 text-white font-bold py-1 px-2 rounded"
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="mb-4">
                                             <label
@@ -290,15 +357,29 @@ const CardBookAdmin = ({ book }) => {
                                             >
                                                 URL de la Portada
                                             </label>
-                                            <input
-                                                id="url_portada"
-                                                type="text"
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
-                                                value={data.url_portada}
-                                                onChange={(e) =>
-                                                    setData("url_portada", e.target.value)
-                                                }
-                                            />
+                                            <div className="flex flex-row gap-2 justify-center items-center">
+                                                <input
+                                                    id="url_portada"
+                                                    type="text"
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
+                                                    value={data.url_portada}
+                                                    onChange={
+                                                        handleUrlPortadaChange
+                                                    }
+                                                    disabled={
+                                                        data.portada !== ""
+                                                    }
+                                                />
+                                                <button
+                                                    type="reset"
+                                                    onClick={
+                                                        handleClearUrlPortada
+                                                    }
+                                                    className="bg-red-500 text-white font-bold py-1 px-2 rounded"
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -319,6 +400,12 @@ const CardBookAdmin = ({ book }) => {
                                 </button>
                             </div>
                         </form>
+                        <button
+                            onClick={() => setShowModal(false)}
+                            className="absolute top-0 right-0 p-4"
+                        >
+                            X
+                        </button>
                     </div>
                 </div>
             )}

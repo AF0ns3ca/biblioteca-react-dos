@@ -5,12 +5,16 @@ import { Inertia } from "@inertiajs/inertia";
 import CardBookAdmin from "@/Components/Admin/CardBookAdmin";
 import AddButton from "@/Components/AddButton";
 import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
+import Loading from "@/Components/Loading";
 
 export default function Books({ auth, books, libraries }) {
     const [view, setView] = useState(
         () => localStorage.getItem("view") || "cards"
     );
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         localStorage.setItem("view", view);
@@ -30,6 +34,13 @@ export default function Books({ auth, books, libraries }) {
     const { data, errors, setData, post } = useForm(initialValues);
     const [formErrors, setFormErrors] = useState({});
 
+    useEffect(() => {
+        // Simulación de carga de datos asincrónica
+        setTimeout(() => {
+            setLoading(false); // Cambiar el estado de carga cuando los datos estén listos
+        }, 2000); // Simula una carga de datos de 2 segundos
+    }, []);
+
     const validate = () => {
         const newErrors = {};
         if (!data.titulo.trim()) newErrors.titulo = "El título es obligatorio.";
@@ -37,6 +48,10 @@ export default function Books({ auth, books, libraries }) {
         if (!data.descripcion.trim())
             newErrors.descripcion = "La descripción es obligatoria.";
         if (!data.paginas) newErrors.paginas = "Las páginas son obligatorias.";
+        if (!data.portada && !data.url_portada) {
+            // Si no hay portada ni URL de portada, no se valida el campo de la portada
+            delete newErrors.portada;
+        }
         setFormErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -62,31 +77,53 @@ export default function Books({ auth, books, libraries }) {
         setFormErrors({});
     };
 
+    const handleClearPortada = () => {
+        setData("portada", ""); // Limpiar el campo de la imagen
+    };
+
+    const handleClearUrlPortada = () => {
+        setData("url_portada", "");
+    };
+
+    const handlePortadaChange = (e) => {
+        setData("portada", e.target.files[0]);
+    };
+
+    const handleUrlPortadaChange = (e) => {
+        setData("url_portada", e.target.value);
+    };
+
     return (
         <AdminLayout user={auth.user}>
             <Head title="Gestionar Libros" />
-            <div
-                id="cards"
-                className={`w-full ${
-                    view === "cards" ? "flex" : "hidden"
-                } pt-24 flex-col items-center justify-center pb-3 bg-white`}
-            >
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
-                    {books.map((book) => (
-                        <CardBookAdmin
-                            book={book}
-                            libraries={libraries}
-                            key={book.id}
+            {loading ? ( // Mostrar el componente de carga si los datos aún se están cargando
+                    <div className="w-full h-screen flex items-center justify-center">
+                        <Loading />
+                    </div>
+                ) : (
+                <div
+                    id="cards"
+                    className={`w-full ${
+                        view === "cards" ? "flex" : "hidden"
+                    } pt-24 flex-col items-center justify-center pb-3 bg-white`}
+                >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
+                        {books.map((book) => (
+                            <CardBookAdmin
+                                book={book}
+                                libraries={libraries}
+                                key={book.id}
+                            />
+                        ))}
+                    </div>
+                    <div className="fixed bottom-10 right-10 rounded-full">
+                        <AddButton
+                            color={"bg-black"}
+                            onClick={() => setShowModal(true)}
                         />
-                    ))}
+                    </div>
                 </div>
-                <div className="fixed bottom-10 right-10 rounded-full">
-                    <AddButton
-                        color={"bg-black"}
-                        onClick={() => setShowModal(true)}
-                    />
-                </div>
-            </div>
+            )}
             {showModal && (
                 <div
                     id="crear"
@@ -243,17 +280,26 @@ export default function Books({ auth, books, libraries }) {
                                             >
                                                 Portada
                                             </label>
-                                            <input
-                                                id="portada"
-                                                type="file"
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "portada",
-                                                        e.target.files[0]
-                                                    )
-                                                }
-                                            />
+                                            <div className="flex flex-row gap-2 justify-center items-center">
+                                                <input
+                                                    id="portada"
+                                                    type="file"
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
+                                                    onChange={
+                                                        handlePortadaChange
+                                                    }
+                                                    disabled={
+                                                        data.url_portada !== ""
+                                                    }
+                                                />
+                                                <button
+                                                    type="reset"
+                                                    onClick={handleClearPortada}
+                                                    className="bg-red-500 text-white font-bold py-1 px-2 rounded"
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
                                         </div>
                                         <div className="mb-4">
                                             <label
@@ -262,18 +308,29 @@ export default function Books({ auth, books, libraries }) {
                                             >
                                                 URL de la Portada
                                             </label>
-                                            <input
-                                                id="url_portada"
-                                                type="text"
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
-                                                value={data.url_portada}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "url_portada",
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
+                                            <div className="flex flex-row gap-2 justify-center items-center">
+                                                <input
+                                                    id="url_portada"
+                                                    type="text"
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-black focus:outline-none focus:ring-2 focus:ring-metal"
+                                                    value={data.url_portada}
+                                                    onChange={
+                                                        handleUrlPortadaChange
+                                                    }
+                                                    disabled={
+                                                        data.portada !== ""
+                                                    }
+                                                />
+                                                <button
+                                                    type="reset"
+                                                    onClick={
+                                                        handleClearUrlPortada
+                                                    }
+                                                    className="bg-red-500 text-white font-bold py-1 px-2 rounded"
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

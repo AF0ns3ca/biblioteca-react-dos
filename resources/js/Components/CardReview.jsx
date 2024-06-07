@@ -52,6 +52,12 @@ const CardReview = ({ review, auth }) => {
     const color = auth.role === "user" ? "metal" : "premium";
     const colorbtn = auth.role === "user" ? "#34495E" : "#602F6B";
 
+    const realPortada = review.book.portada
+        ? review.book.portada.startsWith("http")
+            ? review.book.portada
+            : review.book.portada.replace(/^public\//, "/storage/")
+        : null;
+
     return (
         <div className="w-full flex flex-col gap-4 border-b-2 pb-5">
             <div className="flex flex-col gap-2">
@@ -113,7 +119,7 @@ const CardReview = ({ review, auth }) => {
                             <div>
                                 {review.book.portada ? (
                                     <img
-                                        src={review.book.portada}
+                                        src={realPortada}
                                         alt={review.book.titulo}
                                         className="min-w-[70px] h-[110px] rounded"
                                     />

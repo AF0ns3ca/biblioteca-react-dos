@@ -185,8 +185,7 @@ class ReadingController extends Controller
             ->latest()
             ->first();
 
-        // Crear un nuevo registro si no existe uno existente
-        // o si el registro existente no cumple con las condiciones para ser actualizado
+        // Crear un nuevo registro si no existe uno existente o si el registro existente no cumple con las condiciones para ser actualizado
         if (!$existingReading || ($existingReading->want_to_read === 0 && $existingReading->start_date && $existingReading->end_date)) {
             $reading = new Reading();
             $reading->user_id = $userId;
