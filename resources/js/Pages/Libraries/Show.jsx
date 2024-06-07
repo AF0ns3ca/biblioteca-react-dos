@@ -15,7 +15,6 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
         }).format(date);
     };
 
-    console.log("Libros:", books);
 
     return (
         <AuthenticatedLayout user={auth.user}>

@@ -16,7 +16,6 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
     const [reviewModal, setReviewModal] = useState(false);
     const [reviewContent, setReviewContent] = useState("");
 
-    console.log(book);
 
     const handleDeleteReading = async () => {
         let confirmMessage = "Ya no quieres leer este libro?";

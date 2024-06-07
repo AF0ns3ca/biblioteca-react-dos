@@ -39,7 +39,6 @@ function AddToLibraryModal({
         }
     };
 
-    console.log("Libro:", book);
     librariesWithBookCount.forEach((library) => {
         console.log(
             `El libro ${book.id} ${

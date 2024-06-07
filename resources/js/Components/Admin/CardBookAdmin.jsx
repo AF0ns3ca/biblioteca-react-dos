@@ -76,7 +76,6 @@ const CardBookAdmin = ({ book }) => {
         formData.append("portada", data.portada);
         formData.append("url_portada", data.url_portada);
 
-        console.log(data);
         await Inertia.post(route("books.update", book.id), formData, {
             preserveScroll: true,
             preserveState: true,

@@ -14,7 +14,6 @@ export default function Admin({ user, header, children }) {
         useState(false);
 
     const url = usePage().url;
-    console.log(url);
 
     function checkUrl(url) {
         // Esto verifica si la URL es exactamente '/books' o sigue el patrón '/libraries/[algún número]'

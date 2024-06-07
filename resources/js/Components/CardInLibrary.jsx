@@ -13,7 +13,6 @@ const CardInLibrary = ({
     currentLibrary,
     auth,
 }) => {
-    console.log("CardInLibrary", librariesWithBookCount);
     const [showModal, setShowModal] = useState(false);
 
     const handleDelete = async (bookId, libraryId) => {

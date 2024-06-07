@@ -44,7 +44,6 @@ export default function Index({
             (book) => new Date(book.end_date).getFullYear() === selectedYear
         );
 
-        console.log("Filtered Books: ", filteredBooks);
 
         if (filteredBooks.length === 0) {
             return (
@@ -104,7 +103,7 @@ export default function Index({
                 book.rate !== undefined &&
                 book.rate !== ""
         );
-        console.log("Rated Books: ", ratedBooks);
+        
         const averageRating =
             ratedBooks.reduce((sum, book) => sum + parseFloat(book.rate), 0) /
                 ratedBooks.length || 0;

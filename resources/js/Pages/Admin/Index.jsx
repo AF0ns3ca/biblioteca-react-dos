@@ -12,11 +12,6 @@ export default function Index({
     ratesCount,
     reviewsCount
 }) {
-    console.log(auth);
-    console.log(booksCount);
-    console.log(librariesCount);
-    console.log(usersCount);
-    console.log(ratesCount);
 
     return (
         <AdminLayout user={auth.user}>

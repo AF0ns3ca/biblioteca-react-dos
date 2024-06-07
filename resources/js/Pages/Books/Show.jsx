@@ -25,9 +25,6 @@ export default function Show({
     dates,
     datesCount,
 }) {
-    console.log("Libro:", book);
-
-    console.log("Fechas:", dates);
 
     const bgColor = auth.user.role === "user" ? "#2C3E50" : "#512E5F";
     const bgColorBG = auth.user.role === "user" ? "bg-metal" : "bg-premium";
@@ -45,9 +42,6 @@ export default function Show({
         setSelectedReadingId(readingId);
         setStartDateModal(startDateModal);
         setEndDateModal(endDateModal);
-        console.log(readingId);
-        console.log(startDateModal);
-        console.log(endDateModal);
     };
 
     const openModal = () => {

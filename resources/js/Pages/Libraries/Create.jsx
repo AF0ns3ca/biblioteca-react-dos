@@ -7,7 +7,6 @@ export default function LibraryForm(auth) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(nombre, tipo);
         
         // Enviar los datos del formulario al servidor
         Inertia.post("/libraries", {
