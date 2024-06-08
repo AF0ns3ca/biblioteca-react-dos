@@ -40,9 +40,22 @@ export default function Index({
     };
 
     const renderReadingSummary = () => {
-        const filteredBooks = readBooks.filter(
-            (book) => new Date(book.end_date).getFullYear() === selectedYear
-        );
+        console.log(readBooks);
+        // const filteredBooks = readBooks.filter(
+        //     (book) => new Date(book.end_date).getFullYear() === selectedYear
+        // );
+        const filteredBooks = readBooks.filter((book) => {
+            // Filtrar las lecturas del libro por el año seleccionado
+            const readingsInSelectedYear = book.readings.filter((reading) => {
+                return (
+                    new Date(reading.end_date).getFullYear() === selectedYear
+                );
+            });
+            // Incluir el libro si tiene al menos una lectura en el año seleccionado
+            return readingsInSelectedYear.length > 0;
+        });
+
+        console.log(filteredBooks);
 
         if (filteredBooks.length === 0) {
             return (
@@ -112,24 +125,42 @@ export default function Index({
         var mostPopularBook = {};
         if (ratedBooks.length === 0) {
             mostPopularBook = null;
-            console.log(mostPopularBook);
         } else if (ratedBooks.length > 0) {
-            mostPopularBook = ratedBooks.reduce((mostPopular, book) =>
+            mostPopularBook = filteredBooks.reduce((mostPopular, book) =>
                 parseFloat(book.rate) > parseFloat(mostPopular.rate)
                     ? book
                     : mostPopular
             );
+            console.log(mostPopularBook.rate);
         }
 
         // Calcular el tiempo medio de lectura por libro
         const totalReadingTime = filteredBooks.reduce((total, book) => {
-            const startDate = new Date(book.start_date);
-            const endDate = new Date(book.end_date);
-            const timeDifference = Math.abs(endDate - startDate);
-            const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-            return total + days;
+            // Filtrar las lecturas por el año seleccionado
+            const readingsForSelectedYear = book.readings.filter((reading) => {
+                const endDate = new Date(reading.end_date);
+                return endDate.getFullYear() === selectedYear;
+            });
+
+            // Sumar el tiempo de lectura de todas las lecturas del libro para el año seleccionado
+            const bookTotalReadingTime = readingsForSelectedYear.reduce(
+                (bookTotal, reading) => {
+                    const startDate = new Date(reading.start_date);
+                    const endDate = new Date(reading.end_date);
+                    const timeDifference = Math.abs(endDate - startDate);
+                    const days = Math.ceil(
+                        timeDifference / (1000 * 60 * 60 * 24)
+                    );
+                    return bookTotal + days;
+                },
+                0
+            );
+
+            return total + bookTotalReadingTime;
         }, 0);
         const averageReadingTime = totalReadingTime / totalBooks || 0;
+
+        const mostPopularBookRate = mostPopularBook.rate;
 
         return (
             <div className="w-full flex flex-col items-center gap-4">
@@ -236,7 +267,8 @@ export default function Index({
                                         <p className="text-gray-500 mt-2 text-center">
                                             ¡Anímate a puntuar tus libros
                                             favoritos y ayudar a otros lectores!
-                                            ¡Accede a tu página de libros leídos y puntúa!
+                                            ¡Accede a tu página de libros leídos
+                                            y puntúa!
                                         </p>
                                     </div>
                                 </div>
@@ -263,9 +295,7 @@ export default function Index({
                                         {mostPopularBook?.titulo || "N/A"}
                                         <p className="w-full flex items-center justify-center">
                                             <BasicRating
-                                                initialRating={
-                                                    mostPopularBook.rate
-                                                }
+                                                initialRating={mostPopularBookRate}
                                                 readonly={true}
                                             />
                                         </p>

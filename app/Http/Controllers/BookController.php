@@ -11,9 +11,6 @@ use App\Models\Rate;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Reading;
 
-
-
-
 class BookController extends Controller
 {
     /**
@@ -105,6 +102,9 @@ class BookController extends Controller
         return view('books.store');
     }
 
+    /**
+     * Almacena un recurso recién creado en el almacenamiento.
+     */
     public function store(Request $request)
     {
 
@@ -147,7 +147,7 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el recurso especificado.
      */
     public function show(string $id)
     {
@@ -293,15 +293,13 @@ class BookController extends Controller
                 $validatedData['portada'] = $url;
             } else {
                 // En caso de que la URL no sea válida, asignar la portada base.jpg local
-                $validatedData['portada'] = null;
+                $validatedData['portada'] = $book->portada;
             }
-        } else {
-            // Si no se proporciona ni un archivo ni una URL, asignar la portada null
+        } elseif ($validatedData['portada'] === null) {
+            // Si no se proporciona ni un archivo ni una URL, asignar la portada que ya tenia el libro
             $validatedData['portada'] = $book->portada;
         }
-
-       
-
+        
         $book->update($validatedData);
         // return to_route('admin.books');
     }

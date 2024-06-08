@@ -28,24 +28,29 @@ class BookToLibraryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'book_id' => 'required',
-        'library_id' => 'required'
-    ]);
+    {
+        // Validar los datos de la solicitud
+        $validatedData = $request->validate([
+            'book_id' => 'required',
+            'library_id' => 'required'
+        ]);
 
-    $bookAlreadyInLibrary = BookToLibrary::where('book_id', $request->book_id)
-        ->where('library_id', $request->library_id)
-        ->exists();
+        // Verificar si el libro ya está en la biblioteca
+        $bookAlreadyInLibrary = BookToLibrary::where('book_id', $request->book_id)
+            ->where('library_id', $request->library_id)
+            ->exists();
 
-    if ($bookAlreadyInLibrary) {
-        return back()->withErrors(['error' => 'Este libro ya está en la biblioteca.']);
+        // Si el libro ya está en la biblioteca, mostrar un mensaje de error
+        if ($bookAlreadyInLibrary) {
+            return back()->withErrors(['error' => 'Este libro ya está en la biblioteca.']);
+        }
+
+        // Crear la relación entre el libro y la biblioteca
+        BookToLibrary::create($validatedData);
+
+        // Redireccionar de vuelta
+        return redirect()->back();
     }
-
-    BookToLibrary::create($validatedData);
-
-    return redirect()->back();
-}
 
     /**
      * Display the specified resource.
@@ -76,6 +81,7 @@ class BookToLibraryController extends Controller
      */
     public function destroy($bookId, $libraryId)
     {
+        // Eliminar la relación entre el libro y la biblioteca
         BookToLibrary::where('book_id', $bookId)->where('library_id', $libraryId)->delete();
     }
 }

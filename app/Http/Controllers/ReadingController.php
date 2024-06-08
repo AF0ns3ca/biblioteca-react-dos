@@ -119,15 +119,21 @@ class ReadingController extends Controller
                     ->select('start_date', 'end_date')
                     ->where('book_id', $book->id)
                     ->where('user_id', auth()->id())
-                    ->first();
+                    // ->first();
+                    ->get();
             
                 // Agregar las bibliotecas al objeto del libro
                 $book->libraries = $libraries;
             
                 // Agregar start_date y end_date al objeto del libro, si existen
-                $book->start_date = $reading ? $reading->start_date : null;
-                $book->end_date = $reading ? $reading->end_date : null;
-
+                // $book->start_date = $reading ? $reading->start_date : null;
+                // $book->end_date = $reading ? $reading->end_date : null;
+                $book->readings = $reading->map(function ($reading) {
+                    return [
+                        'start_date' => $reading->start_date,
+                        'end_date' => $reading->end_date,
+                    ];
+                });
                 // Añadir true si el libro tiene una reseña hecha del usuario autenticado
                 $book->has_review = Review::where('book_id', $book->id)
                     ->where('user_id', auth()->id())

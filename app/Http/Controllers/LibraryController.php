@@ -17,18 +17,16 @@ class LibraryController extends Controller
      */
     public function index()
     {
-
+        // Cargar información del usuario autenticado
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
-        //Devolver a vista con todas las bibliotecas que tengan el mismo id que el usuario logueado con inertia
-        // return Inertia::render('Libraries/Index', [
-        //     'libraries' => Library::where('user_id', auth()->id())->get()
-        // ]);
-
+        
+        // Obtener todas las bibliotecas del usuario con el recuento de libros para cada una
         $librariesWithBookCount = Library::where('user_id', auth()->id())
-            ->withCount('books') // Contar el número de libros para cada biblioteca
+            ->withCount('books')
             ->get();
 
+        // Renderizar la vista de índice con Inertia
         return Inertia::render('Libraries/Index', [
             'auth' => [
                 'user' => array_merge($user->toArray(), ['role' => $userRole]),
@@ -36,8 +34,6 @@ class LibraryController extends Controller
             'librariesWithBookCount' => $librariesWithBookCount,
             "role" => $user->roles()->pluck('role')->first()
         ]);
-
-
     }
 
     /**
@@ -45,7 +41,7 @@ class LibraryController extends Controller
      */
     public function create()
     {
-        //redirige a la pagina de creacion de libraries con inertia
+        // Renderizar la vista de creación con Inertia
         return Inertia::render('Libraries/Create');
     }
 
@@ -55,54 +51,44 @@ class LibraryController extends Controller
     public function store(Request $request)
     {
         try {
+            // Obtener el usuario autenticado
             $user = auth()->user();
 
-            // Verificar el tipo de usuario y su límite de bibliotecas
+            // Verificar el límite de bibliotecas para usuarios normales
             if ($user->roles->pluck('role')->join(', ') === 'user' && $user->libraries()->count() >= 5) {
-                // retornar con mensaje de error e inertia render para mostrar el mensaje y no recargar la pagina
-
+                // Retornar con un mensaje de error si se alcanza el límite
                 return to_route(('libraries.index'));
             }
 
+            // Agregar el ID de usuario a los datos validados
             $request->merge(['user_id' => $user->id]);
-
             $validatedData = $request->validate([
                 'nombre' => 'required',
                 'tipo' => 'required',
                 'user_id' => 'required'
             ]);
 
+            // Crear la biblioteca con los datos validados
             Library::create($validatedData);
 
             return to_route(('libraries.index'));
         } catch (\Exception $e) {
+            // Manejar cualquier excepción y devolver un mensaje de error
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-
-
-        // $books = Book::join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
-        //     ->where('book_to_libraries.library_id', $id)
-        //     ->get();
-
-        // $books = Book::select('books.*') // Seleccionar todos los campos de la tabla books
-        //     ->join('book_to_libraries', 'books.id', '=', 'book_to_libraries.book_id')
-        //     ->where('book_to_libraries.library_id', $id)
-        //     ->get();
-
+        // Obtener información del usuario autenticado
         $user = Auth::user()->load('roles');
         $userRole = $user->roles->first()->role;
 
-        // Quiero obtener los libros con todos sus datos, su rate (que sea del usuario que esta logeado) y su library id que estén en la biblioteca con el id que se pasa por parametro
-        $books = Book::select('books.*', 'rate.rate as rate', 'book_to_libraries.library_id as library
-        ')
+        // Obtener libros asociados a la biblioteca específica
+        $books = Book::select('books.*', 'rate.rate as rate', 'book_to_libraries.library_id as library')
             ->leftJoin('rate', function ($join) {
                 $join->on('books.id', '=', 'rate.book_id')
                     ->where('rate.user_id', auth()->id());
@@ -111,11 +97,12 @@ class LibraryController extends Controller
             ->where('book_to_libraries.library_id', $id)
             ->get();
 
+        // Mapear las bibliotecas para cada libro
         $books->map(function ($book) {
             $libraries = Library::select('libraries.id', 'libraries.nombre')
                 ->join('book_to_libraries', 'libraries.id', '=', 'book_to_libraries.library_id')
                 ->where('book_to_libraries.book_id', $book->id)
-                ->where('libraries.user_id', auth()->id()) // Filtrar por el usuario autenticado
+                ->where('libraries.user_id', auth()->id())
                 ->get();
 
             $book->libraries = $libraries;
@@ -123,17 +110,16 @@ class LibraryController extends Controller
             return $book;
         });
 
-        // obtener la biblioteca con el id que se pasa por parametro
+        // Obtener la biblioteca actual
         $currentLibrary = Library::find($id);
 
+        // Obtener bibliotecas con el recuento de libros para cada una
         $librariesWithBookCount = Library::where('user_id', auth()->id())
-            ->withCount('books') // Contar el número de libros para cada biblioteca
+            ->withCount('books')
             ->get();
 
-
-        //mandar a la vista de show con inertia la biblioteca con el id que se pasa por parametro y los libros que tiene
+        // Renderizar la vista de detalle con Inertia
         return Inertia::render('Libraries/Show', [
-            // 'library' => Library::find($id),
             'books' => $books,
             'libraries' => Library::where('user_id', auth()->id())->get(),
             'currentLibrary' => $currentLibrary,
@@ -149,7 +135,8 @@ class LibraryController extends Controller
      */
     public function edit(Library $library)
     {
-        //
+        // Esta función podría implementarse si se desea permitir la edición de bibliotecas.
+        // Por ahora, no se ha implementado ninguna lógica aquí.
     }
 
     /**
@@ -157,12 +144,13 @@ class LibraryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-
+        // Encontrar la biblioteca a actualizar
         $library = Library::findOrFail($id);
 
+        // Actualizar la biblioteca con los datos del formulario
         $library->update($request->all());
 
+        // Redireccionar al índice de bibliotecas después de la actualización
         return to_route('libraries.index');
     }
 
@@ -171,19 +159,13 @@ class LibraryController extends Controller
      */
     public function destroy(string $id)
     {
-        // Encuentra el libro
+        // Encontrar la biblioteca a eliminar
         $library = Library::findOrFail($id);
 
-        // Verifica si el libro tiene una foto y si no es "base.jpg"
-        // if ($book->portada && $book->portada !== 'public/photos/base.jpg') {
-        //     // Si tiene una foto y no es "base.jpg", elimínala
-        //     Storage::delete($book->portada);
-        // }
-
-        // Elimina el libro
+        // Eliminar la biblioteca
         $library->delete();
 
+        // Redireccionar al índice de bibliotecas después de la eliminación
         return to_route('libraries.index');
-
     }
 }
