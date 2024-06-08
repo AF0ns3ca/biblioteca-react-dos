@@ -42,7 +42,7 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
         // Simulación de carga de datos asincrónica
         setTimeout(() => {
             setLoading(false); // Cambiar el estado de carga cuando los datos estén listos
-        }, 2000); // Simula una carga de datos de 2 segundos
+        }, 1000); // Simula una carga de datos de 2 segundos
     }, []); // El efecto se ejecuta solo una vez al montar el componente
 
     useEffect(() => {

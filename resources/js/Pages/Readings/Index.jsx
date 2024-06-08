@@ -44,7 +44,6 @@ export default function Index({
             (book) => new Date(book.end_date).getFullYear() === selectedYear
         );
 
-
         if (filteredBooks.length === 0) {
             return (
                 <div className="w-full flex flex-col items-center gap-4">
@@ -103,17 +102,24 @@ export default function Index({
                 book.rate !== undefined &&
                 book.rate !== ""
         );
-        
+
         const averageRating =
             ratedBooks.reduce((sum, book) => sum + parseFloat(book.rate), 0) /
                 ratedBooks.length || 0;
 
+        console.log(ratedBooks.length);
         // Encontrar el libro más popular
-        const mostPopularBook = ratedBooks.reduce((mostPopular, book) =>
-            parseFloat(book.rate) > parseFloat(mostPopular.rate)
-                ? book
-                : mostPopular
-        );
+        var mostPopularBook = {};
+        if (ratedBooks.length === 0) {
+            mostPopularBook = null;
+            console.log(mostPopularBook);
+        } else if (ratedBooks.length > 0) {
+            mostPopularBook = ratedBooks.reduce((mostPopular, book) =>
+                parseFloat(book.rate) > parseFloat(mostPopular.rate)
+                    ? book
+                    : mostPopular
+            );
+        }
 
         // Calcular el tiempo medio de lectura por libro
         const totalReadingTime = filteredBooks.reduce((total, book) => {
@@ -207,29 +213,65 @@ export default function Index({
                             </p>
                         </div>
                         <div className="w-full flex flex-col items-center gap-4 bg-white p-4 rounded shadow-md">
-                            <h3 className="text-xl font-semibold">
-                                Libro más popular
-                            </h3>
-                            <a
-                                href={route("books.show", mostPopularBook.id)}
-                                key={mostPopularBook.id}
-                                className="cursor-pointer"
-                            >
-                                <img
-                                    src={`${mostPopularBook.portada}`}
-                                    alt=""
-                                    className="rounded w-[200px] h-[300px]"
-                                />
-                            </a>
-                            <p className="w-full flex flex-col items-center">
-                                {mostPopularBook?.titulo || "N/A"}
-                                <p className="w-full flex items-center justify-center">
-                                    <BasicRating
-                                        initialRating={mostPopularBook.rate}
-                                        readonly={true}
-                                    />
-                                </p>
-                            </p>
+                            {mostPopularBook === null ? (
+                                <div className="w-full flex flex-col items-center justify-center gap-4 bg-white p-6 rounded">
+                                    <div className="flex flex-col items-center">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-16 w-16 text-yellow-400"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            strokeWidth={2}
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M12 2 l2 6 h6 l-5 4 2 6-5-4-5 4 2-6-5-4 h6 z"
+                                            />
+                                        </svg>
+                                        <h3 className="text-xl font-semibold text-gray-700 mt-4">
+                                            No hay libros puntuados
+                                        </h3>
+                                        <p className="text-gray-500 mt-2 text-center">
+                                            ¡Anímate a puntuar tus libros
+                                            favoritos y ayudar a otros lectores!
+                                            ¡Accede a tu página de libros leídos y puntúa!
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <h3 className="text-xl font-semibold">
+                                        Libro más popular
+                                    </h3>
+                                    <a
+                                        href={route(
+                                            "books.show",
+                                            mostPopularBook.id
+                                        )}
+                                        key={mostPopularBook.id}
+                                        className="cursor-pointer"
+                                    >
+                                        <img
+                                            src={`${mostPopularBook.portada}`}
+                                            alt=""
+                                            className="rounded w-[200px] h-[300px]"
+                                        />
+                                    </a>
+                                    <p className="w-full flex flex-col items-center">
+                                        {mostPopularBook?.titulo || "N/A"}
+                                        <p className="w-full flex items-center justify-center">
+                                            <BasicRating
+                                                initialRating={
+                                                    mostPopularBook.rate
+                                                }
+                                                readonly={true}
+                                            />
+                                        </p>
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="w-full mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -243,13 +285,13 @@ export default function Index({
                             <h3 className="text-xl font-semibold">
                                 Valoración Media
                             </h3>
-                            <p className="text-2xl">
+                            <p className="text-2xl flex flex-row gap-4">
+                                {averageRating.toFixed(2)}
                                 <BasicRating
                                     initialRating={averageRating}
                                     size={"large"}
                                     readonly={true}
                                 />
-                                {averageRating.toFixed(2)}
                             </p>
                         </div>
 

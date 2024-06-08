@@ -16,10 +16,20 @@ export default function Index({ auth, librariesWithBookCount, role }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         // Validar el campo nombre
         if (!nombre.trim()) {
             setNombreError("El nombre es obligatorio.");
+            return;
+        } else {
+            setNombreError("");
+        }
+
+        const libraryExists = librariesWithBookCount.some(
+            (library) => library.nombre === nombre
+        );
+        if (libraryExists) {
+            setNombreError("Ya existe una biblioteca con ese nombre.");
             return;
         } else {
             setNombreError("");
@@ -41,7 +51,9 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                 },
                 onError: (errors) => {
                     // Si la petición falla, puedes mostrar los errores en un alert
-                    if (errors.error === "No puedes tener más de 5 bibliotecas.") {
+                    if (
+                        errors.error === "No puedes tener más de 5 bibliotecas."
+                    ) {
                         alert(errors.error);
                     } else {
                         alert(Object.values(errors).flat().join("\n"));
@@ -87,7 +99,10 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                             ¡Bienvenido a BookNest, {auth.user.name}!
                         </h1>
                         <p className="text-lg mb-4">
-                            Parece que aún no has creado ninguna biblioteca. Crea una para empezar a organizar tus libros y disfrutar de todas las funciones que ofrece BookNest.
+                            Parece que aún no has creado ninguna biblioteca.
+                            Crea una para empezar a organizar tus libros y
+                            disfrutar de todas las funciones que ofrece
+                            BookNest.
                         </p>
                         <button
                             className="bg-metal text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -142,7 +157,10 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                                 >
                                     <div className="relative p-8 bg-white w-full max-w-md m-6 rounded shadow-lg flex flex-col gap-5 font-serif text-lg">
                                         <p>
-                                            Has llegado al límite de bibliotecas. Para crear más bibliotecas, actualiza a una cuenta premium.
+                                            Has llegado al límite de
+                                            bibliotecas. Para crear más
+                                            bibliotecas, actualiza a una cuenta
+                                            premium.
                                         </p>
                                         <button>
                                             <WorkspacePremiumIcon
@@ -184,7 +202,9 @@ export default function Index({ auth, librariesWithBookCount, role }) {
                                     onChange={(e) => setNombre(e.target.value)}
                                 />
                                 {nombreError && (
-                                    <p className="text-red-500 italic">{nombreError}</p>
+                                    <p className="text-red-500 italic">
+                                        {nombreError}
+                                    </p>
                                 )}
                             </div>
                             <div className="mb-6">

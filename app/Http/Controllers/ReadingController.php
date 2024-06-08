@@ -228,7 +228,7 @@ class ReadingController extends Controller
         $reading->end_date = $endDate;
         $reading->save();
 
-        return redirect()->back()->with('success', 'Book status updated successfully.');
+        // return redirect()->back()->with('success', 'Book status updated successfully.');
     }
 
     /**
