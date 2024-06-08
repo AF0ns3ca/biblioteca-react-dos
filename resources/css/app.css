@@ -4,3 +4,56 @@
 
 
 
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* Internet Explorer y Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari y Opera */
+}
+
+/* styles.css */
+/* Estilizando el contenedor de la barra de desplazamiento */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 12px;  /* o cualquier tamaño que desees */
+    height: 12px;  /* para barras horizontales */
+}
+
+/* Estilizando la parte de la pista (track) */
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;  /* color de fondo de la pista */
+    border-radius: 6px;  /* bordes redondeados */
+}
+
+/* Estilizando el control deslizante (thumb) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;  /* color del control deslizante */
+    border-radius: 6px;  /* bordes redondeados */
+    border: 3px solid #f1f1f1;  /* borde en la misma tonalidad que el track */
+}
+
+/* Cambiar el color del thumb al pasar el mouse */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;  /* color cuando el mouse está sobre el thumb */
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 5s ease-in-out; /* Duración más larga */
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out; /* Duración más larga */
+}
+
+.z-infinity {
+    z-index: 9999;
+  }
+
+
+
+
+
+
