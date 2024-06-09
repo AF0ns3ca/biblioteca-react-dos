@@ -1,11 +1,9 @@
 import React from 'react';
 
-// Acepta props onClick
 export default function AddButton({ onClick, color, ...props }) {
-    // Prevent default behavior and execute provided function
     const handleClick = (e) => {
-        e.preventDefault();  // Previene la navegación estándar del enlace
-        onClick();           // Ejecuta la función pasada a través de props
+        e.preventDefault(); 
+        onClick();
     };
 
     return (

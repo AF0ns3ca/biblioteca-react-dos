@@ -22,12 +22,6 @@ export default function Authenticated({ user, header, children }) {
         return url === "/books" || /^\/libraries\/\d+$/.test(url);
     }
 
-    // let bgColor = "bg-white"; // Valor por defecto
-    // let textColor = "text-gray-800"; // Valor por defecto
-
-    // bgColor = "bg-metal";
-    // textColor = "text-blue-200";
-
     //Se pone el color de fondo en "metal" si el usuario es user, "premium" si es premmium_user
     const bgColor = user.role == "user" ? "bg-metal" : "bg-premium";
     const textColor = user.role == "user" ? "text-blue-200" : "text-purple-200";
@@ -42,7 +36,6 @@ export default function Authenticated({ user, header, children }) {
                         <div className="flex flex-row items-center justify-center gap-3 md:gap-2">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/dashboard">
-                                    {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" /> */}
                                     <div className="text-white text-3xl font-serif">
                                         Book
                                         <span
@@ -51,13 +44,6 @@ export default function Authenticated({ user, header, children }) {
                                             Nest
                                         </span>
                                     </div>
-                                    {/* <img
-                                        src="/images/logo/logo.svg"
-                                        alt="BookNest"
-                                        width={150}
-                                        height={50}
-
-                                    /> */}
                                 </Link>
                             </div>
                             <div>
@@ -80,7 +66,6 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            {/* {url === ("/books" || "/libraries/[id]") && ( */}
                             
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">

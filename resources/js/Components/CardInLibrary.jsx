@@ -35,7 +35,7 @@ const CardInLibrary = ({
         }
     };
 
-    const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
+    const isMobile = useMediaQuery("(max-width:600px)"); // Definimos el ancho máximo para dispositivos móviles
     const bgColor = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
 
     const realPortada = book.portada
@@ -48,7 +48,6 @@ const CardInLibrary = ({
         <div className="card w-full h-[280px] md:h-[250px] flex flex-col flex-1 pb-5 rounded min-w-[263px] border-b-2">
             <div className="w-full max-h-[250px] flex flex-row items-center justify-start">
                 {/* Contenido del libro */}
-                {/*  enlace a show del libro*/}
                 <div className="w-full flex flex-row gap-10">
                     <a
                         href={route("books.show", book.id)}
@@ -137,38 +136,6 @@ const CardInLibrary = ({
                         setShowModal={setShowModal}
                         auth={auth}
                     />
-                    // <div className="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75 flex items-center justify-center">
-                    //     <div className="relative bg-white p-8 max-w-md mx-auto rounded shadow-lg flex flex-col gap-4">
-                    //         <div>
-                    //             <h2 className="text-xl font-semibold mb-4">
-                    //                 Selecciona una biblioteca
-                    //             </h2>
-                    //             <div className="grid gap-4">
-                    //                 {/* Lista de bibliotecas */}
-                    //                 {libraries.map((library) => (
-                    //                     <button
-                    //                         key={library.id}
-                    //                         className="w-full text-left py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded"
-                    //                         onClick={() =>
-                    //                             handleAddToLibrary(library.id)
-                    //                         }
-                    //                     >
-                    //                         {library.nombre}
-                    //                     </button>
-                    //                 ))}
-                    //             </div>
-                    //         </div>
-                    //         {/* Botón para cerrar la ventana modal */}
-                    //         <div className="w-full flex flex-col items-center">
-                    //             <button
-                    //                 className="w-[50%] py-2 px-4 bg-red-500 text-white rounded"
-                    //                 onClick={() => setShowModal(false)}
-                    //             >
-                    //                 Cerrar
-                    //             </button>
-                    //         </div>
-                    //     </div>
-                    // </div>
                 )}
             </div>
         </div>

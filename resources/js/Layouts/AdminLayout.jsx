@@ -28,7 +28,6 @@ export default function Admin({ user, header, children }) {
                         <div className="flex flex-row items-center justify-center gap-5">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/admin">
-                                    {/* <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" /> */}
                                     <div className="text-white text-3xl font-serif">
                                         Book
                                         <span className="font-bold text-gray-200">

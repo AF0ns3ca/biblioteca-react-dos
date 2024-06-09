@@ -28,25 +28,10 @@ const CardLibraryExpand = ({ auth, library }) => {
         setTipo(library.tipo);
     }, [library]);
 
-    // const handleUpdateLibrary = async (id) => {
-    //     await Inertia.put(
-    //         route("libraries.update", { id }),
-    //         {
-    //             nombre: libraryName,
-    //             tipo: libraryType,
-    //         },
-    //         {
-    //             onSuccess: () => {
-    //                 setShowModal(false);
-    //             },
-    //         }
-    //     );
-    // };
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validar el campo nombre
+        // Validamos el campo nombre
         if (!nombre.trim()) {
             setNombreError("El nombre es obligatorio.");
             return;
@@ -54,7 +39,7 @@ const CardLibraryExpand = ({ auth, library }) => {
             setNombreError("");
         }
 
-        // Enviar la información con Inertia y manejar los errores
+        // Enviamos la información con Inertia y manejar los errores
         Inertia.put(
             route("libraries.update", { id: library.id }),
             { nombre, tipo },

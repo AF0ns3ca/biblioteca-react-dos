@@ -35,10 +35,10 @@ export default function Books({ auth, books, libraries }) {
     const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
-        // Simulación de carga de datos asincrónica
+        
         setTimeout(() => {
-            setLoading(false); // Cambiar el estado de carga cuando los datos estén listos
-        }, 2000); // Simula una carga de datos de 2 segundos
+            setLoading(false);
+        }, 2000);
     }, []);
 
     const validate = () => {
@@ -66,19 +66,13 @@ export default function Books({ auth, books, libraries }) {
     };
 
     const handleCloseModal = (e) => {
-        // if (e.target.id === "crear") {
-        //     setShowModal(false);
-        //     setData({ ...initialValues });
-        //     setFormErrors({});
-
-        // }
         setShowModal(false);
         setData({ ...initialValues });
         setFormErrors({});
     };
 
     const handleClearPortada = () => {
-        setData("portada", ""); // Limpiar el campo de la imagen
+        setData("portada", "");
     };
 
     const handleClearUrlPortada = () => {
@@ -96,7 +90,7 @@ export default function Books({ auth, books, libraries }) {
     return (
         <AdminLayout user={auth.user}>
             <Head title="Gestionar Libros" />
-            {loading ? ( // Mostrar el componente de carga si los datos aún se están cargando
+            {loading ? (
                     <div className="w-full h-screen flex items-center justify-center">
                         <Loading />
                     </div>

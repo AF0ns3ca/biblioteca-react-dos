@@ -73,7 +73,7 @@ const CardReading = ({ book, auth, librariesWithBookCount }) => {
         setReviewModal(false);
     };
 
-    const isMobile = useMediaQuery("(max-width:600px)"); // Define el ancho máximo para dispositivos móviles
+    const isMobile = useMediaQuery("(max-width:600px)"); // Se define el ancho máximo para dispositivos móviles
     const color = auth.user.role == "user" ? "#2C3E50" : "#512E5F";
     const bgColor = auth.user.role == "user" ? "bg-metal" : "bg-premium";
     const realPortada = book.portada

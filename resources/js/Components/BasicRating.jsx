@@ -8,7 +8,6 @@ export default function BasicRating({ book, initialRating, size, readonly }) {
     const [value, setValue] = useState(initialRatingNumber);
    
 
-    // Establecer el valor de la calificación solo si no está en modo de solo lectura
     useEffect(() => {
             setValue(parseFloat(initialRating) || 0);
         

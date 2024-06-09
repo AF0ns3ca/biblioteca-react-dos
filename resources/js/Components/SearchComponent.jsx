@@ -11,17 +11,17 @@ export default function SearchComponent() {
 
             const searchTerm = searchInput.value.toLowerCase();
 
-            // Verificar si el campo de búsqueda está vacío
+            // Verificamos si el campo de búsqueda está vacío
             if (searchTerm === "") {
-                // Restablecer la visibilidad de todos los libros y filas de la tabla
+                // Restablecemos la visibilidad de todos los libros y filas de la tabla
                 books.forEach((book) => {
-                    book.style.display = ""; // Mostrar todos los libros
+                    book.style.display = ""; // Mostramos todos los libros
                 });
                 tableRows.forEach((row) => {
-                    row.style.display = ""; // Mostrar todas las filas
+                    row.style.display = ""; // Mostramos todas las filas
                 });
             } else {
-                // Procesar la búsqueda solo si hay un término para buscar
+                // Procesamos la búsqueda solo si hay un término para buscar
                 books.forEach(function (book) {
                     const titleElement = book.querySelector(".titulo");
                     const authorElement = book.querySelector(".autor");
@@ -51,21 +51,21 @@ export default function SearchComponent() {
                 tableRows.forEach(function (row) {
                     const rowData = row.textContent.toLowerCase();
                     if (rowData.includes(searchTerm)) {
-                        row.style.display = ""; // Mostrar la fila
+                        row.style.display = ""; // Mostramos la fila
                     } else {
-                        row.style.display = "none"; // Ocultar la fila
+                        row.style.display = "none"; // Ocultamos la fila
                     }
                 });
             }
         };
 
-        // Agregar un evento de entrada al campo de búsqueda
+        // Agregamos un evento de entrada al campo de búsqueda
         const searchInput = document.getElementById("searchInput");
         if (searchInput) {
             searchInput.addEventListener("input", handleSearch);
         }
 
-        // Eliminar el evento al desmontar el componente
+        // Eliminamos el evento al desmontar el componente
         return () => {
             if (searchInput) {
                 searchInput.removeEventListener("input", handleSearch);

@@ -85,9 +85,9 @@ export default function Show({
 
     useEffect(() => {
         if (showDateModal && dates.length > 0) {
-            // Obtener la primera fecha del array de fechas
+            // Obtenemos la primera fecha del array de fechas
             const firstDate = dates[0];
-            // Establecer las fechas por defecto en los estados startDate y endDate
+            // Establecemos las fechas por defecto en los estados startDate y endDate
             setStartDate(firstDate.start_date);
             setEndDate(firstDate.end_date);
         }

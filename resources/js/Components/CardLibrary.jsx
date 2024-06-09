@@ -37,14 +37,6 @@ const CardLibrary = ({ library }) => {
             <div className=" w-[30%] flex flex-col items-start justify-center gap-1 p-2">
                 {library.tipo === "Fisica" ? <PhysicalLibraryIcon /> : <DigitalLibraryIcon />}
             </div>
-            {/* <div className="p-2">
-                <button
-                    onClick={() => handleDelete(library.id)}
-                    className="bg-red-500 text-white rounded p-2"
-                >
-                    <DeleteIcon />
-                </button>
-            </div> */}
         </div>
     );
 };

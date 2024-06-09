@@ -69,13 +69,7 @@ const Card = ({ book, librariesWithBookCount, auth, isShown, status }) => {
                     <p className="serie">{book.serie ? book.serie : "Standalone"} {book.numero ? `#${book.num_serie}` : ""}</p>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center gap-5 px-3">
-                    {/* <button onClick={handleAddToWantToRead}>
-                        {status === "quiero_leer" ? (
-                            <BookmarkIcon sx={{ fill: bgColor, fontSize: "35px" }} />
-                        ) : (
-                            <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
-                        )}
-                    </button> */}
+                    
                     {(status !=="quiero_leer" && status !== "leyendo" && status !== "Leído")  && (
                         <button onClick={handleAddToWantToRead}>
                             <BookmarkBorderOutlinedIcon sx={{ fill: bgColor, fontSize: "35px" }} />
