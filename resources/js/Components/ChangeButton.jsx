@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function ChangeButton({ setView, view }) {
-    // Función para cambiar entre vistas
+    
     const handleChangeView = () => {
         setView(prevView => (prevView === 'cards' ? 'table' : 'cards'));
     };

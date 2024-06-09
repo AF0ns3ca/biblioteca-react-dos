@@ -29,7 +29,7 @@ const CardReview = ({ review, auth }) => {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-                // Actualizar la URL sin recargar la página
+                
                 const currentUrl = window.location.href;
                 history.replaceState(null, null, currentUrl);
             },

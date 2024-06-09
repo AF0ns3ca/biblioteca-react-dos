@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CardLibraryModal from "./CardLibraryModal";
 import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/inertia-react"; // Importa Link de Inertia
+import { Link } from "@inertiajs/inertia-react";
 
 function AddToLibraryModal({
     book,

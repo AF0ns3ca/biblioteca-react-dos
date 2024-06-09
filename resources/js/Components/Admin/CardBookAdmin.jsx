@@ -10,7 +10,7 @@ const CardBookAdmin = ({ book }) => {
     const [formErrors, setFormErrors] = useState({});
 
     useEffect(() => {
-        // Almacenar la posición de desplazamiento actual al desmontar el componente
+        // Almacenamos la posición de desplazamiento actual al desmontar el componente
         return () => {
             localStorage.setItem("scrollPosition", window.scrollY.toString());
         };
@@ -80,7 +80,7 @@ const CardBookAdmin = ({ book }) => {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-                // Actualizar la URL sin recargar la página
+                // Se actualiza la URL sin recargar la página
                 const currentUrl = window.location.href;
                 history.replaceState(null, null, currentUrl);
             },
@@ -97,7 +97,7 @@ const CardBookAdmin = ({ book }) => {
     };
 
     const handleClearPortada = () => {
-        setData("portada", ""); // Limpiar el campo de la imagen
+        setData("portada", "");
     };
 
     const handleClearUrlPortada = () => {

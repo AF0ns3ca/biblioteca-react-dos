@@ -8,7 +8,6 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
 const Filters = (books, sortField) => {
-    // const [sortField, setSortField] = useState(null);
     const [sortDirection, setSortDirection] = useState("asc");
     const handleChangePage = (event, value) => {
         setPage(value);
@@ -39,41 +38,6 @@ const Filters = (books, sortField) => {
         }
         return null;
     };
-
-    // const filteredBooks = sortField
-    //     ? [...books].sort((a, b) => {
-    //           if (sortField === "serie") {
-    //               const fieldA = a[sortField]?.toUpperCase() || "ZZZZZZZZZZ";
-    //               const fieldB = b[sortField]?.toUpperCase() || "ZZZZZZZZZZ";
-
-    //               // Ordenar por serie primero
-    //               const serieComparison = fieldA.localeCompare(fieldB);
-    //               if (serieComparison !== 0) {
-    //                   return sortDirection === "desc"
-    //                       ? serieComparison * -1
-    //                       : serieComparison;
-    //               }
-
-    //               // Si las series son iguales, ordenar por num_serie
-    //               const numSerieA = parseInt(a["num_serie"]) || 0;
-    //               const numSerieB = parseInt(b["num_serie"]) || 0;
-    //               return sortDirection === "desc"
-    //                   ? numSerieB - numSerieA
-    //                   : numSerieA - numSerieB;
-    //           }
-
-    //           // Ordenar por otros campos
-    //           const fieldA = a[sortField].toUpperCase();
-    //           const fieldB = b[sortField].toUpperCase();
-    //           let comparison = 0;
-    //           if (fieldA > fieldB) {
-    //               comparison = 1;
-    //           } else if (fieldA < fieldB) {
-    //               comparison = -1;
-    //           }
-    //           return sortDirection === "desc" ? comparison * -1 : comparison;
-    //       })
-    //     : books;
 
     return (
         <div className="w-[50%] pb-5 flex flex-row items-center text-center justify-center gap-10">

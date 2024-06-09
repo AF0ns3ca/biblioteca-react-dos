@@ -17,13 +17,13 @@ const CardUser = ({ user }) => {
     const getBgColor = (role) => {
         switch (role) {
             case 'admin':
-                return "bg-black"; // Clase para fondo negro
+                return "bg-black";
             case 'user':
-                return "bg-metal"; // Clase para fondo metal (asegúrate de tener esta clase en tu CSS)
+                return "bg-metal";
             case 'premium_user':
-                return "bg-premium"; // Clase para fondo premium (asegúrate de tener esta clase en tu CSS)
+                return "bg-premium";
             default:
-                return "bg-white"; // Clase por defecto para otros casos
+                return "bg-white";
         }
     };
 
