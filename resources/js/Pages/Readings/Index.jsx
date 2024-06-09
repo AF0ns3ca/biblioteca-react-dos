@@ -273,7 +273,7 @@ export default function Index({
                                     </div>
                                 </div>
                             ) : (
-                                <div>
+                                <div className="text-center flex flex-col gap-4">
                                     <h3 className="text-xl font-semibold">
                                         Libro más popular
                                     </h3>
@@ -291,7 +291,7 @@ export default function Index({
                                             className="rounded w-[200px] h-[300px]"
                                         />
                                     </a>
-                                    <p className="w-full flex flex-col items-center">
+                                    <p className="w-full flex flex-col items-center justify-center">
                                         {mostPopularBook?.titulo || "N/A"}
                                         <p className="w-full flex items-center justify-center">
                                             <BasicRating
