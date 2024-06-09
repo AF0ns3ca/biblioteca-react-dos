@@ -5,7 +5,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { Head } from "@inertiajs/react";
 import InitTab from "@/Components/InitTab";
 import CardReview from "@/Components/CardReview";
-import Loading from "@/Components/Loading"; // Importa el componente de carga aquí
+import Loading from "@/Components/Loading";
 
 export default function Index({ auth, reviews }) {
 
@@ -20,11 +20,10 @@ export default function Index({ auth, reviews }) {
     }, []);
 
     useEffect(() => {
-        // Simula la carga de reseñas (puede reemplazar esto con una llamada real a la API)
         setTimeout(() => {
-            setLoading(false); // Cambia el estado de carga a falso después de cargar las reseñas
-        }, 2000); // Simula una carga de datos de 2 segundos
-    }, []); // El efecto se ejecuta solo una vez al montar el componente
+            setLoading(false);
+        }, 2000);
+    }, []);
 
     const handleSectionChange = (sectionIndex) => {
         setSelectedSection(sectionIndex);
@@ -223,7 +222,7 @@ export default function Index({ auth, reviews }) {
                         className="opacity-100 transition-opacity ease-in-out w-[80%] items-center justify-center flex flex-col gap-10"
                         key={1}
                     >
-                        {loading ? ( // Mostrar componente de carga si los datos están cargando
+                        {loading ? ( // Se muestra componente de carga si los datos están cargando
                             <div className="w-full h-screen flex items-center justify-center">
                                 <Loading />
                             </div>

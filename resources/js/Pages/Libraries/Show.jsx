@@ -21,7 +21,6 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
             <Head title="Discover Books" />
 
             <div className="flex flex-col lg:flex-row w-full justify-center items-start pt-10 md:pt-20 px-10 md:px-0">
-                {/* Panel Izquierdo para Detalles de la Biblioteca - Ocupará 100% del ancho en dispositivos pequeños y 35% en dispositivos grandes */}
                 <div className="lg:w-1/5 lg:pr-4 pt-10">
                     <div className="bg-white shadow rounded p-4">
                         <h2 className="text-xl font-semibold mb-2">{currentLibrary.nombre}</h2>
@@ -39,7 +38,6 @@ export default function Show({ auth, libraries, books, currentLibrary, libraries
                     </div>
                 </div>
 
-                {/* Panel Derecho para Mostrar Libros - Ocupará 100% del ancho en dispositivos pequeños y 65% en dispositivos grandes */}
                 <div className="lg:w-2/3 lg:pl-10 pt-10">
                     <div className="w-full flex flex-col gap-10">
                         {books.map((book) => (

@@ -17,7 +17,7 @@ export default function Index({ auth, librariesWithBookCount, role }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validar el campo nombre
+        // Validamos el campo nombre
         if (!nombre.trim()) {
             setNombreError("El nombre es obligatorio.");
             return;
@@ -35,22 +35,22 @@ export default function Index({ auth, librariesWithBookCount, role }) {
             setNombreError("");
         }
 
-        // Enviar la información con Inertia y manejar los errores
+        // Enviamos la información con Inertia y manejar los errores
         Inertia.post(
             "/libraries",
             { nombre, tipo },
             {
                 preserveScroll: true,
                 onSuccess: (response) => {
-                    // Si la petición tiene éxito, puedes procesar los datos aquí
+                    // Si la petición tiene éxito, se procesan procesar los datos aquí
                     console.log("Respuesta del servidor:", response);
 
-                    // Por ejemplo, actualizar el estado de tu aplicación
+                    
                     setNombre("");
                     setTipo("Fisica");
                 },
                 onError: (errors) => {
-                    // Si la petición falla, puedes mostrar los errores en un alert
+                    // Si la petición falla, nos muestra los errores en un alert
                     if (
                         errors.error === "No puedes tener más de 5 bibliotecas."
                     ) {

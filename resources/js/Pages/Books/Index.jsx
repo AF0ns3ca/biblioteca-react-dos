@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import Card from "@/Components/Card";
-import Loading from "@/Components/Loading"; // Importa el componente de carga aquí
+import Loading from "@/Components/Loading";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Pagination from "@mui/material/Pagination";
@@ -20,8 +20,8 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
         parseInt(localStorage.getItem("currentPage")) || 1
     );
     const [shouldClearLocalStorage, setShouldClearLocalStorage] =
-        useState(false); // Track if local storage should be cleared
-    const [loading, setLoading] = useState(true); // Estado para controlar la carga de datos
+        useState(false);
+    const [loading, setLoading] = useState(true);
     const booksPerPage = 12;
 
     useEffect(() => {
@@ -33,17 +33,16 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
             localStorage.removeItem("currentPage");
             setShouldClearLocalStorage(false);
         } else {
-            // Update local storage with the current page when it changes
+            
             localStorage.setItem("currentPage", page);
         }
     }, [page, shouldClearLocalStorage]);
 
     useEffect(() => {
-        // Simulación de carga de datos asincrónica
         setTimeout(() => {
-            setLoading(false); // Cambiar el estado de carga cuando los datos estén listos
-        }, 1000); // Simula una carga de datos de 2 segundos
-    }, []); // El efecto se ejecuta solo una vez al montar el componente
+            setLoading(false);
+        }, 1000);
+    }, []);
 
     useEffect(() => {
         if (pageOne) {
@@ -54,7 +53,7 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
 
     const handleChangePage = (event, value) => {
         setPage(value);
-        setShouldClearLocalStorage(true); // Set shouldClearLocalStorage to true when page changes
+        setShouldClearLocalStorage(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
@@ -90,7 +89,7 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
                   const fieldA = a[sortField]?.toUpperCase() || "ZZZZZZZZZZ";
                   const fieldB = b[sortField]?.toUpperCase() || "ZZZZZZZZZZ";
 
-                  // Ordenar por serie primero
+                  // Se ordena por serie primero
                   const serieComparison = fieldA.localeCompare(fieldB);
                   if (serieComparison !== 0) {
                       return sortDirection === "desc"
@@ -125,7 +124,7 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
         <AuthenticatedLayout user={auth.user}>
             <Head title="Discover Books" />
             <>
-                {loading ? ( // Mostrar el componente de carga si los datos aún se están cargando
+                {loading ? (
                     <div className="w-full h-screen flex items-center justify-center">
                         <Loading />
                     </div>
@@ -136,10 +135,6 @@ export default function Index({ auth, books, librariesWithBookCount, pageOne }) 
                             view === "cards" ? "flex" : "hidden"
                         } pt-24 flex-col items-center justify-center pb-3 bg-white`}
                     >
-                        {/* Idea Poner barra busqueda debajo del layout cuando se esta en movil */}
-                        {/* <div className="md:hidden">
-                            <SearchComponent />
-                        </div> */}
 
                         <div className="w-[50%] pb-5 flex flex-row items-center text-center justify-center gap-10">
                             <div className="">

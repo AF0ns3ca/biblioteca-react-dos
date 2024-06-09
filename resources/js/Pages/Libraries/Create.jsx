@@ -8,15 +8,15 @@ export default function LibraryForm(auth) {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // Enviar los datos del formulario al servidor
+        // Enviamos los datos del formulario al servidor
         Inertia.post("/libraries", {
             nombre: nombre,
             tipo: tipo,
         });
 
-        // Limpiar los campos del formulario después del envío
+        // Limpiamos los campos del formulario después del envío
         setNombre("");
-        setTipo("Fisica"); // Restablecer a "Fisica" tras enviar
+        setTipo("Fisica"); // Restablecemos a "Fisica" tras enviar
     };
 
     return (

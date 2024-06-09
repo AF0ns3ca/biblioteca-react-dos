@@ -40,10 +40,7 @@ export default function Index({
     };
 
     const renderReadingSummary = () => {
-        console.log(readBooks);
-        // const filteredBooks = readBooks.filter(
-        //     (book) => new Date(book.end_date).getFullYear() === selectedYear
-        // );
+
         const filteredBooks = readBooks.filter((book) => {
             // Filtrar las lecturas del libro por el año seleccionado
             const readingsInSelectedYear = book.readings.filter((reading) => {
@@ -120,8 +117,6 @@ export default function Index({
             ratedBooks.reduce((sum, book) => sum + parseFloat(book.rate), 0) /
                 ratedBooks.length || 0;
 
-        console.log(ratedBooks.length);
-        // Encontrar el libro más popular
         var mostPopularBook = {};
         if (ratedBooks.length === 0) {
             mostPopularBook = null;
@@ -134,15 +129,15 @@ export default function Index({
             console.log(mostPopularBook.rate);
         }
 
-        // Calcular el tiempo medio de lectura por libro
+        // Se calcula el tiempo medio de lectura por libro
         const totalReadingTime = filteredBooks.reduce((total, book) => {
-            // Filtrar las lecturas por el año seleccionado
+            // Se filtran las lecturas por el año seleccionado
             const readingsForSelectedYear = book.readings.filter((reading) => {
                 const endDate = new Date(reading.end_date);
                 return endDate.getFullYear() === selectedYear;
             });
 
-            // Sumar el tiempo de lectura de todas las lecturas del libro para el año seleccionado
+            // Se suma el tiempo de lectura de todas las lecturas del libro para el año seleccionado
             const bookTotalReadingTime = readingsForSelectedYear.reduce(
                 (bookTotal, reading) => {
                     const startDate = new Date(reading.start_date);
@@ -458,7 +453,7 @@ export default function Index({
                             want={wantToReadBooksCount}
                             reading={readingBooksCount}
                             read={readBooksCount}
-                            summary={true} // Añadido para la pestaña de resumen
+                            summary={true}
                         />
                     </div>
                     {renderselectedSectionReading()}

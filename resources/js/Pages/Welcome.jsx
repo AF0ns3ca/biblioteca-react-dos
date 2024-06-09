@@ -7,35 +7,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
         <>
             <Head title="Welcome" />
             <div className="h-full bg-white">
-                {/* <nav className=" w-full bg-metal border-b border-gray-100 top-0 fixed">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between h-16">
-                            {auth.user ? (
-                                <Link
-                                    href={route("dashboard")}
-                                    className="rounded-md px-3 py-2 text-metal ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-metal"
-                                >
-                                    Dashboard
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link
-                                        href={route("login")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-metal"
-                                    >
-                                        Log in
-                                    </Link>
-                                    <Link
-                                        href={route("register")}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-metal"
-                                    >
-                                        Register
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </nav> */}
 
                 <main className="">
                     <Head title="Inicio" />
@@ -50,10 +21,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 height: "100%",
                             }}
                         >
-                            {/* Div para el color semitransparente */}
                             <div
                                 style={{
-                                    backgroundColor: "rgba(93, 109, 126, 0.5)", // Ajusta la opacidad aquí
+                                    backgroundColor: "rgba(93, 109, 126, 0.5)", // Se ajusta la opacidad aquí
                                     width: "100%",
                                     height: "100%",
                                     position: "absolute",
@@ -61,7 +31,6 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                     left: 0,
                                 }}
                             />
-                            {/* Texto centrado */}
                             <div className="w-[90%] md:w-[80%] lg:w-[60%] xl:w-[50%] h-[70%] md:h-[60%] flex flex-col md:flex-row items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center bg-gray-50 rounded">
                                 <div className="w-full md:w-[50%] h-full flex flex-col justify-center items-center gap-5 p-5">
                                     <div className="w-[80%] bg-metal text-white text-2xl md:text-3xl font-serif p-3 rounded">
