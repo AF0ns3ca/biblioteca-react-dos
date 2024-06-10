@@ -155,7 +155,12 @@ export default function Index({
         }, 0);
         const averageReadingTime = totalReadingTime / totalBooks || 0;
 
-        const mostPopularBookRate = mostPopularBook.rate;
+        var mostPopularBookRate;
+        if (mostPopularBook === null){
+            mostPopularBookRate = 0;
+        } else {
+            mostPopularBookRate = mostPopularBook.rate;
+        }
 
         return (
             <div className="w-full flex flex-col items-center gap-4">
@@ -310,14 +315,18 @@ export default function Index({
                             <h3 className="text-xl font-semibold">
                                 Valoración Media
                             </h3>
-                            <p className="text-2xl flex flex-row gap-4">
-                                {averageRating.toFixed(2)}
-                                <BasicRating
-                                    initialRating={averageRating}
-                                    size={"large"}
-                                    readonly={true}
-                                />
-                            </p>
+                            {averageRating === 0 ? (
+                                <p className="text-xl text-gray-700">Aun no hay libros puntuados</p>
+                            ) : (
+                                <p className="text-2xl flex flex-row gap-4">
+                                    {averageRating.toFixed(2)}
+                                    <BasicRating
+                                        initialRating={averageRating}
+                                        size={"large"}
+                                        readonly={true}
+                                    />
+                                </p>
+                            )}
                         </div>
 
                         <div className="bg-white p-4 rounded shadow-md">
