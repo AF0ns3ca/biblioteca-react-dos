@@ -46,14 +46,14 @@ export default function Admin({ user, header, children }) {
                                     <SupervisedUserCircleOutlinedIcon fontSize="large" />
                                 </button>
                             </div>
-                        </div>
-
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
                             {checkUrl(url) && (
-                                <div className="hidden sm:flex sm:items-center sm:ms-6">
+                                <div className="w-[130px] md:w-full sm:flex sm:items-center sm:ms-6">
                                     <SearchComponent />
                                 </div>
                             )}
+                        </div>
+
+                        <div className="hidden sm:flex sm:items-center sm:ms-6">
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
